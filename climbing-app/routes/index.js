@@ -15,6 +15,16 @@ router.get("/users", function(req, res, next) {
     .catch(err => res.status(500).send(err));
 });
 
+router.get("users/:id", async function(req, res, next) {
+  try {
+    let results = await db(
+      `SELECT * FROM user_info where id = ${req.params.id} ORDER BY id ASC;`
+    );
+    res.status(200).send(results.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 module.exports = router;
 
