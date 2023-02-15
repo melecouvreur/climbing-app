@@ -9,3 +9,4 @@ router.get('/', function(req, res, next) {
 module.exports = router;
 
 //removed render and index l6
+//here you specify apis 
