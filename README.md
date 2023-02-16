@@ -16,19 +16,18 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 
 - User can create, edit and delete climber profile containing:
 
-- Name
-- Email
-- User name
-- Pronouns
-- Profile pic (optional)
-- Bio
+  - Name
+  - Email
+  - User name
+  - Pronouns
+  - Profile pic (optional)
+  - Bio
 
 - User can edit match preferences/filters containing:
-
-- Location
-- Climbing category i.e. top rope & lead
-- Skill level
-- Schedule
+  - Location
+  - Climbing category i.e. top rope & lead
+  - Skill level
+  - Schedule
   - Days
   - Time of Day  i.e. morning, lunch, afternoon, evening
 
@@ -54,6 +53,10 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 - User can follow/bookmark other climbers until user decides to send contact request
 - User gets notification when other user interacts i.e. send contact request, new message
 - User can choose to allow/disable notifications
+
+## API Routes
+
+## Database
 
 ## Userflow
 
