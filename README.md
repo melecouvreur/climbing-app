@@ -56,50 +56,50 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 
 ## API Routes
 
-URL: "/users"
-METHOD: GET
-Description: Gets all users
-Req Body: N/A
-Res Obj: { ID: integer, firstname: string, lastname: string, email: string,
+- URL: "/users"
+- METHOD: GET
+- Description: Gets all users
+- Req Body: N/A
+- Res Obj: { ID: integer, firstname: string, lastname: string, email: string,
+username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: Boolean, skill_level: string, days: string, time: string }
+
+- URL: "/users/:id"
+- METHOD: GET
+- Description: Gets user info by id. Shows info from matched climbers when click-through to their profile from matched list.
+- Req Body: N/A
+- Res Obj: { ID: integer, firstname: string, lastname: string, email: string,
 username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string }
 
-URL: "/users/:id"
-METHOD: GET
-Description: Gets user info by id. Shows info from matched climbers when click-through to their profile from matched list.
-Req Body: N/A
-Res Obj: { ID: integer, firstname: string, lastname: string, email: string,
-username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string }
-
-URL: "/users/create"
-METHOD: POST
-Description: Adds new user
-Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
-Res Obj {
+- URL: "/users/create"
+- METHOD: POST
+- Description: Adds new user
+- Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
+- Res Obj {
 }
 
-URL: "/users/my-profile"
-METHOD: GET
-Description: Gets active user info → displays info on myProfile + account + preferences
-Req Body: N/A
-Res Obj:
+- URL: "/users/my-profile"
+- METHOD: GET
+- Description: Gets active user info → displays info on myProfile + account + preferences
+- Req Body: N/A
+- Res Obj:
 
-URL: "/users/my-profile"
-MEHTHOD: PUT
-Description: Edits active user info. Allows user to edit account + preferences
-Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
-Res Obj:
+- URL: "/users/my-profile"
+- MEHTHOD: PUT
+- Description: Edits active user info. Allows user to edit account + preferences
+- Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
+- Res Obj:
 
-URL: "/users/my-profile"
-METHOD: POST
-Description: Adds active user data (not needed for now)
-Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
-Res Object:
+- URL: "/users/my-profile"
+- METHOD: POST
+- Description: Adds active user data (not needed for now)
+- Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string,top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
+- Res Obj:
 
-URL: "/users/recommend"
-METHOD: POST
-Description: Gets recommended users based on matching criteria
-Req Body: {location, top-rope, lead-rope, skill_level, days, time }
-Res Obj: {username: string, username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
+- URL: "/users/recommend"
+- METHOD: POST
+- Description: Gets recommended users based on matching criteria
+- Req Body: {location, top-rope, lead-rope, skill_level, days, time }
+- Res Obj: {username: string, username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
 
 ## Database
 
