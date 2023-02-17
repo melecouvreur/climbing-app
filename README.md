@@ -56,12 +56,16 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 
 ## API Routes
 
+### Route 1
+
 - URL: "/users"
 - METHOD: GET
 - Description: Gets all users
 - Req Body: N/A
 - Res Obj: { ID: integer, firstname: string, lastname: string, email: string,
 username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: Boolean, skill_level: string, days: string, time: string }
+
+### Route 2
 
 - URL: "/users/:id"
 - METHOD: GET
@@ -70,6 +74,8 @@ username: string, pronouns: string, profile_img: url, bio: string, location: str
 - Res Obj: { ID: integer, firstname: string, lastname: string, email: string,
 username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string }
 
+### Route 3
+
 - URL: "/users/create"
 - METHOD: POST
 - Description: Adds new user
@@ -77,11 +83,15 @@ username: string, pronouns: string, profile_img: url, bio: string,  location: st
 - Res Obj {
 }
 
+### Route 4
+
 - URL: "/users/my-profile"
 - METHOD: GET
 - Description: Gets active user info → displays info on myProfile + account + preferences
 - Req Body: N/A
 - Res Obj:
+
+### Route 5
 
 - URL: "/users/my-profile"
 - MEHTHOD: PUT
@@ -89,11 +99,15 @@ username: string, pronouns: string, profile_img: url, bio: string,  location: st
 - Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
 - Res Obj:
 
+### Route 6
+
 - URL: "/users/my-profile"
 - METHOD: POST
 - Description: Adds active user data (not needed for now)
 - Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string,top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
 - Res Obj:
+
+### Route 7
 
 - URL: "/users/recommend"
 - METHOD: POST
