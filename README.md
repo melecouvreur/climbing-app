@@ -117,6 +117,22 @@ username: string, pronouns: string, profile_img: url, bio: string,  location: st
 
 ## Database
 
+USER_INFO
+ID	INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
+firstname	VARCHAR() NOT NULL; String
+lastname	VARCHAR() NOT NULL; String
+email	VARCHAR() NOT NULL; String
+username	VARCHAR() NOT NULL; String
+pronouns	VARCHAR() NOT NULL; String
+profile_img	VARCHAR(); String
+bio	VARCHAR(); String
+location	VARCHAR() NOT NULL; String
+top	BINARY(); Boolean
+lead	BINARY(); Boolean
+grade	SET(val1, val2, val3, ...); String Obj
+days	SET(val1, val2, val3, ...); String Obj
+time	SET(val1, val2, val3, ...); String Obj
+
 ## Userflow
 
 ![This is an image](/BelayMe%20UserFlow.png)
