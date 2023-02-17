@@ -105,20 +105,13 @@ USER_INFO
 - location VARCHAR() NOT NULL; String
 - top BINARY(); Boolean
 - lead BINARY(); Boolean
-- beginner BINARY(); Boolean
-- intermediate BINARY(); Boolean
-- advanced BINARY(); Boolean
+- level VARCHAR(); NOT NULL; String
 
 DAYS
 
 - dID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
-- mon uID INT NOT NULL FOREIGN KEY; Number
-- tue ''
-- wed ''
-- thu ''
-- fri ''
-- sat ''
-- sun ''
+- uID INT NOT NULL FOREIGN KEY; Number
+- day VARCHAR(20)
 
 ## Userflow
 
