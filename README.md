@@ -26,8 +26,7 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 - User can edit match preferences/filters containing:
   - Location
   - Climbing category i.e. top rope & lead
-  - Skill level
-  - Schedule
+  - Skill level/Grade
   - Days
   - Time of Day  i.e. morning, lunch, afternoon, evening
 
