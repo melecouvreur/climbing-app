@@ -63,7 +63,7 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 - Description: Gets all users
 - Req Body: N/A
 - Res Obj: { ID: integer, firstname: string, lastname: string, email: string,
-username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: Boolean, skill_level: string, days: string, time: string }
+username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: Boolean, grade: string obj, days: string obj, time: string obj }
 
 ### Route 2
 
@@ -79,7 +79,7 @@ username: string, pronouns: string, profile_img: url, bio: string,  location: st
 - URL: "/users/create"
 - METHOD: POST
 - Description: Adds new user
-- Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
+- Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, grade: string obj, days: string obj, time: string obj}
 - Res Obj {
 }
 
@@ -96,7 +96,7 @@ username: string, pronouns: string, profile_img: url, bio: string,  location: st
 - URL: "/users/my-profile"
 - MEHTHOD: PUT
 - Description: Edits active user info. Allows user to edit account + preferences
-- Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
+- Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, grade: string obj, days: string obj, time: string obj}
 - Res Obj:
 
 ### Route 6
@@ -104,7 +104,7 @@ username: string, pronouns: string, profile_img: url, bio: string,  location: st
 - URL: "/users/my-profile"
 - METHOD: POST
 - Description: Adds active user data (not needed for now)
-- Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string,top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
+- Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string,top-rope: Boolean, lead-top: boolean, grade: string obj, days: string obj, time: string obj}
 - Res Obj:
 
 ### Route 7
@@ -113,7 +113,7 @@ username: string, pronouns: string, profile_img: url, bio: string,  location: st
 - METHOD: POST
 - Description: Gets recommended users based on matching criteria
 - Req Body: {location, top-rope, lead-rope, skill_level, days, time }
-- Res Obj: {username: string, username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: boolean, skill_level: string, days: string, time: string}
+- Res Obj: {username: string, username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: boolean, grade: string obj, days: string obj, time: string obj}
 
 ## Database
 
