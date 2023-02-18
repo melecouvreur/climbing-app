@@ -75,7 +75,7 @@ username: string, pronouns: string, profile_img: url, bio: string,  location: st
 
 ### Route 3
 
-- URL: "/users/create"
+- URL: "/users"
 - METHOD: POST
 - Description: Adds new user
 - Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, beginner: Boolean, intermediate: Boolean, advanced: Boolean}
@@ -87,7 +87,7 @@ username: string, pronouns: string, profile_img: url, bio: string,  location: st
 - URL: "/users/recommend"
 - METHOD: POST
 - Description: Gets recommended users based on matching criteria
-- Req Body: {location, top-rope, lead-rope, skill_level, days, time }
+- Req Body: {location, top-rope, lead-rope, skill_level, days }
 - Res Obj: {username: string, username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: boolean, beginner: Boolean, intermediate: Boolean, advanced: Boolean}
 
 ## Database
@@ -112,6 +112,36 @@ DAYS
 - dID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
 - uID INT NOT NULL FOREIGN KEY; Number
 - day VARCHAR(20)
+
+MY SQL COMMANDS
+
+SETTING UP USER DATABASE:
+
+`CREATE TABLE user_info (
+uID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+firstname VARCHAR(40) NOT NULL,
+lastname VARCHAR(40) NOT NULL,
+username VARCHAR(40),
+email VARCHAR(40),
+pronouns VARCHAR(40),a
+avatar VARCHAR(5000),
+bio VARCHAR(5000),
+location VARCHAR(500),
+level VARCHAR(200);
+top TINYINT(1),
+lead TINYINT(1));`
+
+*TODO - add lead column! Can't seem to add.
+
+SETTING UP DAYS DATABASE
+
+`CREATE TABLE days (
+dID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+day VARCHAR(20),
+uID INT REFERENCES user_info(uID)
+SET CONNECTION TO user_info TABLE);`
+
+*TODO - check commands again on blank database
 
 ## Userflow
 
