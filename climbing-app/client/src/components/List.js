@@ -23,6 +23,7 @@ async function featureUser(id) {
   return (
     <div className="justify-content">
       <h2> My Recommendations </h2>
+      
       <ul>
       {recommendations.map(user => (
         <li

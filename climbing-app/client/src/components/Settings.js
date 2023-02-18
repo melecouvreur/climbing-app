@@ -1,25 +1,7 @@
 import React, { useState} from "react";
 
-function Settings() {
+function Settings( {settings, setSettings, isChecked, setIsChecked, handleChangeView}) {
 
-const uID = 0
-const [isChecked, setIsChecked] = useState(false)
-
-const [settings, setSettings] = useState({
-   uID: uID,
-   firstName: "",
-   lastName: "",
-   userName: "",
-   email: "",
-   pronouns: "",
-   bio: "",
-   img: "",
-   location: "",
-   typeOne: isChecked,
-   typeTwo: isChecked,
-   days: "",
-  }
-)
 
 const handleInputChange = (event) => {
   const value = event.target.value
@@ -39,6 +21,8 @@ const handleCheck = () => {
 const handleSubmit = (e) => {
   e.preventDefault();
   console.log(settings);
+  handleChangeView("Profile")
+
 }
 
   return (
