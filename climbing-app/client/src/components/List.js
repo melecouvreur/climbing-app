@@ -23,11 +23,11 @@ async function featureUser(id) {
   return (
     <div className="justify-content">
       <h2> My Recommendations </h2>
-      
+
       <ul>
       {recommendations.map(user => (
         <li
-        key={user.uID}>
+         key={user.uID}>
 
           <span
           onClick={() => featureUser(user.uID)}>

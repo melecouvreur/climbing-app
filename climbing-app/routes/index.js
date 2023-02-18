@@ -74,7 +74,9 @@ router.get("/days", async function(req, res, next) {
 /*GET/recommended users based on match criteria ( = testing route. remove later)*/
 router.get("/recommend", async function(req, res, next) {
       try {
-        let results = await db(`SELECT * FROM user_info LEFT JOIN days ON user_info.uID = days.uID WHERE days.day = "Saturday" AND user_info.location = "London";`)
+        let days = ["Tuesday","Monday"]
+        let queryList = "('" + days.join("','") + "')"
+        let results = await db(`SELECT * FROM user_info LEFT JOIN days ON user_info.uID = days.uID WHERE days.day in ${queryList} AND user_info.location = "London";`)
         res.status(200).send(results.data);
       } catch (err) {
         res.status(500).send(err); 
@@ -83,9 +85,10 @@ router.get("/recommend", async function(req, res, next) {
 
 /*POSTS/recommends users based on matching days & location*/
 router.post("/recommend", async function(req, res, next) {
-      const {day, location} = req.body
+      const {days, location} = req.body
+      let queryList = "('" + days.join("','") + "')"
             try {
-              let results = await db(`SELECT * FROM user_info LEFT JOIN days ON user_info.uID = days.uID WHERE days.day = "${day}" AND user_info.location = "${location}";`)
+              let results = await db(`SELECT * FROM user_info LEFT JOIN days ON user_info.uID = days.uID WHERE days.day in ${queryList} AND user_info.location = "${location}";`)
               res.status(200).send(results.data);
             } catch (err) {
               res.status(500).send(err); 

@@ -22,10 +22,10 @@ function App() {
     pronouns: "",
     bio: "",
     img: "",
-    location: "Sheffield",
+    location: "London",
     typeOne: isChecked,
     typeTwo: isChecked,
-    days: "",
+    days: ["Monday", "Saturday"],
    }
  )
 
@@ -56,7 +56,7 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location: settings.location, day: "Saturday"})
+        body: JSON.stringify({ location: settings.location, days: settings.days })
       });
       let users = await results.json();
       console.log(users)
