@@ -11,6 +11,8 @@ function App() {
 
   const uID = 0
   const [isChecked, setIsChecked] = useState(false)
+  const [isTop, setIsTop] = useState(true)
+  const [isLead, setIsLead] = useState(false)
 
   //"Active user" default settings. Move to settings comp later
   const [settings, setSettings] = useState({ 
@@ -23,8 +25,8 @@ function App() {
     bio: "",
     img: "",
     location: "London",
-    typeOne: isChecked,
-    typeTwo: isChecked,
+    top: isTop,
+    lead: isLead,
     days: ["Monday", "Saturday"],
    }
  )
@@ -98,6 +100,8 @@ function App() {
         isChecked={isChecked}
         setIsChecked={setIsChecked}
         handleChangeView={handleChangeView}
+        isTop={isTop}
+        setIsTop={setIsTop}
         />)}
       </div>
 

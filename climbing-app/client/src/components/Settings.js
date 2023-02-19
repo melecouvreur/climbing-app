@@ -1,12 +1,32 @@
 import React, { useState} from "react";
 
-function Settings( {settings, setSettings, isChecked, setIsChecked, handleChangeView}) {
+function Settings( {settings, setSettings, isChecked, setIsChecked, isTop, isLead, setIsTop, setIsLead, handleChangeView}) {
 
+const [days, setDays] = useState([])
+
+
+const [daysOfWeek, setDaysOfWeek] = useState(
+  [
+    {checked: false,
+     name: "Monday"},
+    {checked: false,
+     name: "Tuesday"},
+    {checked: false,
+     name: "Wednesday"},
+     {checked: false,
+     name: "Thursday"},
+     {checked: false,
+      name: "Friday"},
+     {checked: false,
+      name: "Saturday"},
+     {checked: false,
+      name: "Sunday"}
+    ]
+)
 
 const handleInputChange = (event) => {
   const value = event.target.value
   const name = event.target.name;
-
   setSettings((state) => ({
     ...state,
     [name]: value,}
@@ -18,11 +38,23 @@ const handleCheck = () => {
   console.log(isChecked)
 }
 
+const handleDaysChange = (e) => {
+  console.log(daysOfWeek)
+  //let selectedDays = daysOfWeek.filter((day) => day.checked)
+  setDays((state) => ([
+    ...state,
+    e.target.value,
+  ]
+  ))
+  console.log(days)
+}
+
+console.log(days)
+
 const handleSubmit = (e) => {
   e.preventDefault();
   console.log(settings);
   handleChangeView("Profile")
-
 }
 
   return (
@@ -126,7 +158,7 @@ const handleSubmit = (e) => {
             type="text"
             name="level"
             value={settings.level}
-            placeholder="Set location"
+            placeholder="Set level"
             onChange={(e) => handleInputChange(e)}
             >
             <option> Beginner </option>
@@ -143,13 +175,12 @@ const handleSubmit = (e) => {
            type="checkbox" 
            className="custom-control-input" 
            name="typeOne"
-           value={settings.typeOne}
-           checked={isChecked}
-           onChange={handleCheck}
+           value={settings.top}
+           checked={isTop}
+           onChange={()=> setIsTop(!isTop)}
            />
           </div>
 
-       
 
           <div className="custom-control custom-checkbox">
            <label className="custom-control-label"> Lead </label>
@@ -158,26 +189,79 @@ const handleSubmit = (e) => {
            type="checkbox" 
            className="custom-control-input" 
            name="typeTwo"
-           value={settings.typeTwo}
-           checked={isChecked}
+           value={settings.lead}
+           //checked={!isChecked}
            onChange={handleCheck}
            />
            
           </div>
           </div>
-        
+        {/*
+         {daysOfWeek.map((day) => (
+          <div 
+          className="row p-3"
+          key={day.name}>
+          <label> {day.name} </label>
+          <input
+          type="radio"
+          name="days"
+          value={day.name}
+          //checked={day.checked}
+          className="control-input"
+          onChange={handleDaysChange}
+          //onChange={(e) => setDays(e.target.value)}
+          />
+          </div>))}
+         */}
+       
           <div className="row p-3">
-           <label> Days </label>
+           <label> Days</label>
+           
+           <label> Monday </label>
+           <input 
+           className="control-input"
+           type="radio" 
+           name="days" 
+           value="Monday"
+           //checked={daysOfWeek[0].checked}
+           onChange={handleDaysChange}
+           ></input>
+          
+           <label> Tuesday </label>
+           <input 
+           className="control-input"
+           type="radio" 
+           name="days" 
+           value="Tuesday"
+           //checked={daysOfWeek[1].checked}
+           onChange={handleDaysChange}
+           ></input>
+           
+           <label> Wednesday </label>
+           <input 
+           type="radio" 
+           name="days" 
+           value="Wednesday"
+           onChange={handleDaysChange}
+           ></input>
+          
+          <label> Thursday </label>
+           <input 
+           type="radio" 
+           name="days" 
+           value="Thursday"
+           onChange={handleDaysChange}>
+           </input>
+           
+           <label> Friday </label>
            <input
-            type="text"
-            name="days"
-            value={settings.days}
-            placeholder="Set location"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-           />
-          </div>
-
+           type="radio" 
+           name="days" 
+           value="Friday"
+           onChange={handleDaysChange}
+           ></input>
+          </div> 
+         
         </div>
        
 

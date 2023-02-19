@@ -27,7 +27,7 @@ async function featureUser(id) {
       <ul>
       {recommendations.map(user => (
         <li
-         key={user.uID}>
+         key={user.dID}>
 
           <span
           onClick={() => featureUser(user.uID)}>
