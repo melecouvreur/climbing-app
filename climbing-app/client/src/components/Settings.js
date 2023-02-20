@@ -27,6 +27,11 @@ const handleInputChange = (event) => {
 const handleCheck = (e) => {
   console.log(e.target.value)
   console.log(e.target.name)
+
+  setSettings((state) => ({
+    ... state,
+   [e.target.name]: !e.target.value,
+  }))
 }
 
 //handles checked status for days
