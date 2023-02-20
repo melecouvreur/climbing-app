@@ -10,9 +10,7 @@ function App() {
   const [recommendations, setRecommendations] = useState([]) // Sets list of recommended climbers based on match criteria
 
   const uID = 0
-  const [isChecked, setIsChecked] = useState(false)
-  const [isTop, setIsTop] = useState(true)
-  const [isLead, setIsLead] = useState(false)
+  const [days, setDays] = useState([])
 
   //"Active user" default settings. Move to settings comp later
   const [settings, setSettings] = useState({ 
@@ -25,9 +23,10 @@ function App() {
     bio: "",
     img: "",
     location: "London",
-    top: isTop,
-    lead: isLead,
-    days: ["Monday", "Saturday"],
+    top: false,
+    lead: false,
+    days: ["Saturday","Sunday", "Tuesday"],
+    //to insert days state var
    }
  )
 
@@ -50,7 +49,7 @@ function App() {
   };
   */
 
-  // generates list of recommended climbers based on match criteria 
+// generates list of recommended climbers based on match criteria 
   const getRecommendations = async () => {
     try {
       let results = await fetch("/recommend", {
@@ -77,8 +76,6 @@ function App() {
 
     <div className="justify-content-md-start">
 
-      {settings.location}
-
       <nav>
         <button
         onClick={() => handleChangeView("Settings")}
@@ -97,11 +94,9 @@ function App() {
         (<Settings
         settings={settings}
         setSettings={setSettings}
-        isChecked={isChecked}
-        setIsChecked={setIsChecked}
         handleChangeView={handleChangeView}
-        isTop={isTop}
-        setIsTop={setIsTop}
+        days={days}
+        setDays={setDays}
         />)}
       </div>
 

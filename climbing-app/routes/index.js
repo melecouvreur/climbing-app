@@ -84,6 +84,7 @@ router.get("/recommend", async function(req, res, next) {
     })
 
 /*POSTS/recommends users based on matching days & location*/
+//change to GET
 router.post("/recommend", async function(req, res, next) {
       const {days, location} = req.body
       let queryList = "('" + days.join("','") + "')"

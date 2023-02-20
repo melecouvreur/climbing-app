@@ -1,29 +1,19 @@
 import React, { useState} from "react";
 
-function Settings( {settings, setSettings, isChecked, setIsChecked, isTop, isLead, setIsTop, setIsLead, handleChangeView}) {
-
-const [days, setDays] = useState([])
-
+function Settings( {settings, setSettings, handleChangeView, days, setDays }) {
 
 const [daysOfWeek, setDaysOfWeek] = useState(
   [
-    {checked: false,
-     name: "Monday"},
-    {checked: false,
-     name: "Tuesday"},
-    {checked: false,
-     name: "Wednesday"},
-     {checked: false,
-     name: "Thursday"},
-     {checked: false,
-      name: "Friday"},
-     {checked: false,
-      name: "Saturday"},
-     {checked: false,
-      name: "Sunday"}
-    ]
-)
+    {checked: false, name: "Monday"} ,
+    {checked: false, name: "Tuesday"} ,
+    {checked: false, name: "Wednesday"} ,
+    {checked: false, name: "Thursday"} ,
+    {checked: false, name: "Friday"} ,
+    {checked: false, name: "Saturday"} ,
+    {checked: false, name: "Sunday"}
+  ])
 
+//handles form input for fields != checkbox
 const handleInputChange = (event) => {
   const value = event.target.value
   const name = event.target.name;
@@ -33,27 +23,34 @@ const handleInputChange = (event) => {
   ))
   }
 
-const handleCheck = () => {
-  setIsChecked(!isChecked)
-  console.log(isChecked)
+//handles true/false status for top and rope fields
+const handleCheck = (e) => {
+  console.log(e.target.value)
+  console.log(e.target.name)
 }
 
-const handleDaysChange = (e) => {
+//handles checked status for days
+const handleDaysChange = (d) => {
   console.log(daysOfWeek)
-  //let selectedDays = daysOfWeek.filter((day) => day.checked)
-  setDays((state) => ([
-    ...state,
-    e.target.value,
-  ]
-  ))
+  console.log(d.name)
+  console.log(d.checked)
+
+  let index = daysOfWeek.findIndex((day) => day.name === d.name)
+  console.log(index)
+  setDaysOfWeek(daysOfWeek[index].checked = !daysOfWeek[index].checked) 
+  console.log(d.checked)
+
   console.log(days)
 }
 
-console.log(days)
+//handles form submit and updates settings state var on parent. 
+//selected days only passed to settings state var once submitted
 
 const handleSubmit = (e) => {
   e.preventDefault();
   console.log(settings);
+  let selectedDays = daysOfWeek.filter((day) => day.checked === true)
+  setDays(selectedDays)
   handleChangeView("Profile")
 }
 
@@ -64,7 +61,7 @@ const handleSubmit = (e) => {
 
       <form onSubmit={handleSubmit}>
       <div className="grid p-3 text-center">
-        <div className="row">
+      <div className="row">
 
           <div className="row p-3">
           <label> First name </label>
@@ -167,112 +164,62 @@ const handleSubmit = (e) => {
           </select>
           </div>
 
-          <div className="row p-3">
-           <label> Type </label>
+        <div className="row p-3">
+           
            <div className="custom-control custom-checkbox">
            <label className="custom-control-label"> Top-rope </label>
            <input 
            type="checkbox" 
            className="custom-control-input" 
-           name="typeOne"
+           name="top"
            value={settings.top}
-           checked={isTop}
-           onChange={()=> setIsTop(!isTop)}
+           //checked={settings.top === true }
+           onChange={(e) => handleCheck(e)}
            />
           </div>
 
 
           <div className="custom-control custom-checkbox">
            <label className="custom-control-label"> Lead </label>
-
            <input 
            type="checkbox" 
            className="custom-control-input" 
-           name="typeTwo"
+           name="lead"
            value={settings.lead}
-           //checked={!isChecked}
-           onChange={handleCheck}
+           //checked={settings.lead === true}
+           onChange={(e) => handleCheck(e)}
            />
-           
           </div>
-          </div>
-        {/*
-         {daysOfWeek.map((day) => (
-          <div 
-          className="row p-3"
-          key={day.name}>
-          <label> {day.name} </label>
-          <input
-          type="radio"
-          name="days"
-          value={day.name}
-          //checked={day.checked}
-          className="control-input"
-          onChange={handleDaysChange}
-          //onChange={(e) => setDays(e.target.value)}
-          />
-          </div>))}
-         */}
-       
-          <div className="row p-3">
-           <label> Days</label>
-           
-           <label> Monday </label>
-           <input 
-           className="control-input"
-           type="radio" 
-           name="days" 
-           value="Monday"
-           //checked={daysOfWeek[0].checked}
-           onChange={handleDaysChange}
-           ></input>
-          
-           <label> Tuesday </label>
-           <input 
-           className="control-input"
-           type="radio" 
-           name="days" 
-           value="Tuesday"
-           //checked={daysOfWeek[1].checked}
-           onChange={handleDaysChange}
-           ></input>
-           
-           <label> Wednesday </label>
-           <input 
-           type="radio" 
-           name="days" 
-           value="Wednesday"
-           onChange={handleDaysChange}
-           ></input>
-          
-          <label> Thursday </label>
-           <input 
-           type="radio" 
-           name="days" 
-           value="Thursday"
-           onChange={handleDaysChange}>
-           </input>
-           
-           <label> Friday </label>
-           <input
-           type="radio" 
-           name="days" 
-           value="Friday"
-           onChange={handleDaysChange}
-           ></input>
-          </div> 
-         
-        </div>
-       
 
+        </div>
+        
+         <ul> Days 
+         {daysOfWeek.map(d => (
+          <li 
+          className="row p-3"
+          key={d.name}>
+          <label> {d.name} </label>
+          <input
+          type="checkbox"
+          name="days"
+          value={d.name}
+          //checked={d.checked}
+          className="control-input"
+          onChange={() => handleDaysChange(d)}
+          />
+          </li>))}
+          </ul>
+       
           <div className="row-md p-3">
           <button className="col-2 btn btn-m btn-warning">Submit</button>
           </div>
 
+        
+      </div>
       </div>
       </form>
+
     </div>
-     
   );
 }
 
