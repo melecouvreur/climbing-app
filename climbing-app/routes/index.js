@@ -47,6 +47,24 @@ router.post("/users", async function(req, res, next) {
   }
 })
 
+/*EDIT user info*/
+router.put("/users/:id", async function(req, res, next) {
+  const {username, email, pronouns, avatar, bio, location, level, top} = req.body
+  try {
+    await db(
+     `UPDATE user_info SET username = "${username}", email = "${email}", pronouns = "${pronouns}", avatar = "${avatar}", bio = "${bio}",
+      location = "${location}", level = ${level},
+      top = "${top}" WHERE uID = ${req.params.id};`
+    )
+    let results = await db(
+      `SELECT * FROM user_info ORDER BY uID ASC;`
+    );
+    res.status(200).send(results.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+})
+
 /*POST climbing days for user*/
 router.post("/days", async function(req, res, next) {
     const {uID, day} = req.body
@@ -76,7 +94,12 @@ router.get("/recommend", async function(req, res, next) {
       try {
         let days = ["Tuesday","Monday"]
         let queryList = "('" + days.join("','") + "')"
-        let results = await db(`SELECT * FROM user_info LEFT JOIN days ON user_info.uID = days.uID WHERE days.day in ${queryList} AND user_info.location = "London";`)
+        let results = await db(`SELECT 
+        DISTINCT user_info.firstname, user_info.lastname, user_info.username, user_info.bio,
+        user_info.pronouns, user_info.avatar, user_info.location, user_info.level, user_info.top, user_info.email, user_info.uID
+        FROM user_info 
+        LEFT JOIN days ON user_info.uID = days.uID 
+        WHERE days.day in ${queryList} AND user_info.location = "London";`)
         res.status(200).send(results.data);
       } catch (err) {
         res.status(500).send(err); 
@@ -89,7 +112,11 @@ router.post("/recommend", async function(req, res, next) {
       const {days, location} = req.body
       let queryList = "('" + days.join("','") + "')"
             try {
-              let results = await db(`SELECT * FROM user_info LEFT JOIN days ON user_info.uID = days.uID WHERE days.day in ${queryList} AND user_info.location = "${location}";`)
+              let results = await db(`SELECT
+              DISTINCT user_info.firstname, user_info.lastname, user_info.username, user_info.bio,
+              user_info.pronouns, user_info.avatar, user_info.location, user_info.level, user_info.top, user_info.email, user_info.uID
+              FROM user_info 
+              LEFT JOIN days ON user_info.uID = days.uID WHERE days.day in ${queryList} AND user_info.location = "${location}";`)
               res.status(200).send(results.data);
             } catch (err) {
               res.status(500).send(err); 
