@@ -57,7 +57,6 @@ const handleDaysChange = (d) => {
   ]) ) 
   console.log(selectedDays)
   console.log(d.checked)
-
 }
 
 //handles form submit and updates settings state var on parent. 
@@ -65,9 +64,15 @@ const handleDaysChange = (d) => {
 const handleSubmit = (e) => {
   e.preventDefault();
   console.log(settings);
+
   selectedDays.filter((day) => day.value === true)
-  setDays((state) => ([
-    ...state, selectedDays]))
+  console.log(selectedDays)
+
+  let nameDays = Object.keys(selectedDays)
+  console.log(nameDays)
+
+  setDays(nameDays)
+
   console.log(days)
   handleChangeView("Profile")
 }
