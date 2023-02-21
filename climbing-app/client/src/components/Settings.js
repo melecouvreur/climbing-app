@@ -12,6 +12,7 @@ const [daysOfWeek, setDaysOfWeek] = useState(
     {checked: false, name: "Saturday"} ,
     {checked: false, name: "Sunday"}
   ])
+
 const [selectedDays, setSelectedDays] = useState([])
 
 //handles form input for fields != checkbox
@@ -65,7 +66,8 @@ const handleSubmit = (e) => {
   e.preventDefault();
   console.log(settings);
   selectedDays.filter((day) => day.value === true)
-  setDays(selectedDays)
+  setDays((state) => ([
+    ...state, selectedDays]))
   console.log(days)
   handleChangeView("Profile")
 }

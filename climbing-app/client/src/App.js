@@ -26,7 +26,7 @@ function App() {
     location: "London",
     top: isChecked,
     lead: isChecked,
-    days: ["Saturday", "Sunday", "Tuesday", "Sunday", "Monday"],
+    days: days,
     //to insert days state var
    }
  )
