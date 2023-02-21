@@ -47,17 +47,16 @@ const handleDaysChange = (d) => {
   console.log(d.checked)
 
   let index = daysOfWeek.findIndex((day) => day.name === d.name)
-  console.log(index)
   console.log(daysOfWeek[index].name)
+  console.log(daysOfWeek[index].checked)
   
-  setSelectedDays((state) => ({
+  setSelectedDays((state) => ([
     ...state, 
-    [daysOfWeek[index].name]: !daysOfWeek[index].checked,
-}) ) 
+    {[daysOfWeek[index].name]: !daysOfWeek[index].checked},
+  ]) ) 
   console.log(selectedDays)
   console.log(d.checked)
 
-  console.log(days)
 }
 
 //handles form submit and updates settings state var on parent. 
@@ -65,8 +64,9 @@ const handleDaysChange = (d) => {
 const handleSubmit = (e) => {
   e.preventDefault();
   console.log(settings);
-  selectedDays.filter((day) => day.checked === true)
+  selectedDays.filter((day) => day.value === true)
   setDays(selectedDays)
+  console.log(days)
   handleChangeView("Profile")
 }
 
