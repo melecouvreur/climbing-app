@@ -19,7 +19,7 @@ const handleInputChange = (event) => {
   const name = event.target.name;
   setSettings((state) => ({
     ...state,
-    [name]: value,}
+  [name]: value,}
   ))
   }
 
@@ -47,7 +47,10 @@ const handleDaysChange = (d) => {
 
   let index = daysOfWeek.findIndex((day) => day.name === d.name)
   console.log(index)
-  setDaysOfWeek(daysOfWeek[index].checked = !daysOfWeek[index].checked) 
+  setDaysOfWeek((state) => ([
+    ...state, 
+    daysOfWeek[index].checked = !daysOfWeek[index].checked
+  ]) ) 
   console.log(d.checked)
 
   console.log(days)
