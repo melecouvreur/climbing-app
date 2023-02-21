@@ -1,6 +1,6 @@
 import React, { useState} from "react";
 
-function Settings( {settings, setSettings, handleChangeView, days, setDays }) {
+function Settings( {settings, setSettings, handleChangeView, days, setDays, isChecked, setChecked }) {
 
 const [daysOfWeek, setDaysOfWeek] = useState(
   [
@@ -28,11 +28,13 @@ const handleCheck = (e) => {
   console.log(e.target.value)
   console.log(e.target.name)
 
+  setChecked(!isChecked)
+
   setSettings((state) => ({
-    ... state,
-   [e.target.name]: !e.target.value,
-  }))
-}
+    ...state,
+    [e.target.name]: e.target.value}
+    ))
+  }
 
 //handles checked status for days
 const handleDaysChange = (d) => {
@@ -61,11 +63,12 @@ const handleSubmit = (e) => {
 
   return (
 
-    <div className="justify-content">
-      <h2> Settings </h2>
+    <div className="d-flex h-100 w-100 p-3 text-center">
+      <h2 className="text-center"> Settings </h2>
 
       <form onSubmit={handleSubmit}>
       <div className="grid p-3 text-center">
+
       <div className="row">
 
           <div className="row p-3">
@@ -171,11 +174,11 @@ const handleSubmit = (e) => {
 
         <div className="row p-3">
            
-           <div className="custom-control custom-checkbox">
-           <label className="custom-control-label"> Top-rope </label>
+           <div className="checkbox">
+           <label className="p-2"> Top-rope </label>
            <input 
            type="checkbox" 
-           className="custom-control-input" 
+           className="custom-input" 
            name="top"
            value={settings.top}
            //checked={settings.top === true }
@@ -185,38 +188,35 @@ const handleSubmit = (e) => {
 
 
           <div className="custom-control custom-checkbox">
-           <label className="custom-control-label"> Lead </label>
+           <label className="p-2"> Lead </label>
            <input 
            type="checkbox" 
-           className="custom-control-input" 
+           className="custom-input" 
            name="lead"
            value={settings.lead}
            //checked={settings.lead === true}
            onChange={(e) => handleCheck(e)}
            />
           </div>
-
         </div>
         
-         <ul> Days 
+         <div className="row p-3 list-group-horizontal">
          {daysOfWeek.map(d => (
-          <li 
-          className="row p-3"
-          key={d.name}>
-          <label> {d.name} </label>
+          <div key={d.name}> 
+          <label className="p-1"> {d.name} </label>
           <input
           type="checkbox"
           name="days"
           value={d.name}
           //checked={d.checked}
-          className="control-input"
-          onChange={() => handleDaysChange(d)}
-          />
-          </li>))}
-          </ul>
+          className="p-1 control-input list-group-item flex-fill"
+          onChange={() => handleDaysChange(d)}/>
+          </div>
+          ))}
+          </div>
        
           <div className="row-md p-3">
-          <button className="col-2 btn btn-m btn-warning">Submit</button>
+          <button className="btn btn-m btn-warning">Submit</button>
           </div>
 
         

@@ -6,7 +6,8 @@ import './App.css';
 
 function App() {
 
-  const [isView, setView] = useState("profile") 
+  const [isView, setView] = useState("home") 
+  const [isChecked, setChecked] = useState(false)
   const [recommendations, setRecommendations] = useState([]) // Sets list of recommended climbers based on match criteria
 
   const uID = 0
@@ -15,17 +16,17 @@ function App() {
   //"Active user" default settings. Move to settings comp later
   const [settings, setSettings] = useState({ 
     uID: uID,
-    firstName: "",
-    lastName: "",
-    userName: "",
-    email: "",
-    pronouns: "",
-    bio: "",
-    img: "",
+    firstName: "Mele",
+    lastName: "Couvreur",
+    userName: "m_couvreur",
+    email: "dummy@gmail.com",
+    pronouns: "she/her",
+    bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge. Coffee, climbing and coding-fanatic",
+    img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
     location: "London",
-    top: false,
-    lead: false,
-    days: ["Saturday","Sunday", "Tuesday"],
+    top: isChecked,
+    lead: isChecked,
+    days: ["Saturday", "Sunday", "Tuesday", "Sunday", "Monday"],
     //to insert days state var
    }
  )
@@ -74,9 +75,15 @@ function App() {
   
   return (
 
-    <div className="justify-content-md-start">
+    <div className="d-flex h-100 p-3 text-center text-bg-dark">
 
-      <nav>
+    <div className="cover-container d-flex w-100 h-100 p-3 flex-column">
+    
+    <header className="mb-auto">
+    <div>
+    <img className= "App-logo img-fluid" src="https://cdn-icons-png.flaticon.com/512/5064/5064233.png"/> 
+    <h1 className="float-md-start"> BelayMe </h1>
+      <nav className="nav nav-masthead justify-content-center float-md-end p-3">
         <button
         onClick={() => handleChangeView("Settings")}
         className= {isView === "Settings" ? "btn btn-m btn-danger m-1" : "btn btn-m btn-warning m-1"}
@@ -88,6 +95,19 @@ function App() {
         >
         myProfile </button>
         </nav>
+    </div>
+    </header>
+
+       {isView === "home" && (<div className="px-3">
+        
+        <h2> Welcome! </h2>
+
+        <p> 
+        "BelayMe is an app for finding belay partners" </p>
+       </div>)}
+
+
+
 
       <div className="container text-center">
         {isView === "Settings" && 
@@ -97,32 +117,57 @@ function App() {
         handleChangeView={handleChangeView}
         days={days}
         setDays={setDays}
+        isChecked={isChecked}
+        setChecked={setChecked}
         />)}
       </div>
 
       
       {isView === "Profile" && (
+      <div className="card p-3 justify-content-center float-md-end border-warning">
+      <h2 className="p-3"> My Profile </h2>
+
+      <h5 className="card-title"> {settings.userName} </h5>
+      <span className="card-text"> {settings.pronouns} </span>
+
+      <img className="card-img-top p-4" src={settings.img} alt="profile"/>
+
+      <span> {settings.location} </span>
+
+      <span> {settings.top} </span>
+      <span> {settings.lead} </span>
+
+      <p className="card-body"> {settings.bio} </p>
+
       <div>
-      <h1> BelayMe </h1>
-
-      <h2> My Profile </h2>
-
-      <p> Here my profile will be featured </p>
-
       <button 
-      className="btn btn-m btn-warning m-1"
+      className="row btn btn-m btn-warning m-1"
       onClick={getRecommendations}
-      > Find Climbers </button>
+      > Find NewPartners </button>
+      </div>
+      
+      <div>
+      <button
+      className="row btn btn-m btn-warning m-1">
+        My Partners
+      </button>
+      </div>
+
       </div>
        )}
 
         {isView === "List" && (
         <div>
           <List
+          handleChangeView={handleChangeView}
+          isView={isView}
           recommendations={recommendations}/>
         </div>
       )}
+
+         
      
+     </div>
     </div>
   )
 }
