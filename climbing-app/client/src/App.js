@@ -6,12 +6,12 @@ import './App.css';
 
 function App() {
 
-  const [isView, setView] = useState("home") 
-  const [isChecked, setChecked] = useState(false)
+  const [isView, setView] = useState("home") // changes userview to different components
+  const [isChecked, setChecked] = useState(false) // updates active user top/lead settings field
   const [recommendations, setRecommendations] = useState([]) // Sets list of recommended climbers based on match criteria
 
   const uID = 0
-  const [days, setDays] = useState([])
+  const [days, setDays] = useState([]) // Sets days active user climbs
 
   //"Active user" default settings. Move to settings comp later
   const [settings, setSettings] = useState({ 
@@ -50,7 +50,8 @@ function App() {
   };
   */
 
-// generates list of recommended climbers based on match criteria 
+// Generates list of recommended climbers based on match criteria i.e. location & days. 
+// To do - insert top/lead
   const getRecommendations = async () => {
     try {
       let results = await fetch("/recommend", {
@@ -75,7 +76,7 @@ function App() {
   
   return (
 
-    <div className="d-flex h-100 p-3 text-center text-bg-dark">
+    <div className="d-flex h-100 p-3 text-center">
 
     <div className="cover-container d-flex w-100 h-100 p-3 flex-column">
     
@@ -97,16 +98,13 @@ function App() {
         </nav>
     </div>
     </header>
-
+       
+       
        {isView === "home" && (<div className="px-3">
-        
         <h2> Welcome! </h2>
-
         <p> 
         "BelayMe is an app for finding belay partners" </p>
        </div>)}
-
-
 
 
       <div className="container text-center">
@@ -133,10 +131,8 @@ function App() {
       <img className="card-img-top p-4" src={settings.img} alt="profile"/>
 
       <span> {settings.location} </span>
-
       <span> {settings.top} </span>
       <span> {settings.lead} </span>
-
       <p className="card-body"> {settings.bio} </p>
 
       <div>
@@ -166,7 +162,6 @@ function App() {
       )}
 
          
-     
      </div>
     </div>
   )

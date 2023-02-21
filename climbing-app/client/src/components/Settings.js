@@ -52,7 +52,6 @@ const handleDaysChange = (d) => {
 
 //handles form submit and updates settings state var on parent. 
 //selected days only passed to settings state var once submitted
-
 const handleSubmit = (e) => {
   e.preventDefault();
   console.log(settings);
