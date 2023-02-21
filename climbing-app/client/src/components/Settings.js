@@ -12,6 +12,7 @@ const [daysOfWeek, setDaysOfWeek] = useState(
     {checked: false, name: "Saturday"} ,
     {checked: false, name: "Sunday"}
   ])
+const [selectedDays, setSelectedDays] = useState([])
 
 //handles form input for fields != checkbox
 const handleInputChange = (event) => {
@@ -47,10 +48,13 @@ const handleDaysChange = (d) => {
 
   let index = daysOfWeek.findIndex((day) => day.name === d.name)
   console.log(index)
-  setDaysOfWeek((state) => ([
+  console.log(daysOfWeek[index].name)
+  
+  setSelectedDays((state) => ({
     ...state, 
-    daysOfWeek[index].checked = !daysOfWeek[index].checked
-  ]) ) 
+    [daysOfWeek[index].name]: !daysOfWeek[index].checked,
+}) ) 
+  console.log(selectedDays)
   console.log(d.checked)
 
   console.log(days)
@@ -61,7 +65,7 @@ const handleDaysChange = (d) => {
 const handleSubmit = (e) => {
   e.preventDefault();
   console.log(settings);
-  let selectedDays = daysOfWeek.filter((day) => day.checked === true)
+  selectedDays.filter((day) => day.checked === true)
   setDays(selectedDays)
   handleChangeView("Profile")
 }
