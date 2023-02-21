@@ -27,8 +27,11 @@ const handleInputChange = (event) => {
 const handleCheck = (e) => {
   console.log(e.target.value)
   console.log(e.target.name)
-
+  
   setChecked(!isChecked)
+
+  console.log(e.target.value)
+  console.log(e.target.name)
 
   setSettings((state) => ({
     ...state,
