@@ -115,7 +115,6 @@ function App() {
         handleChangeView={handleChangeView}
         days={days}
         setDays={setDays}
-        isChecked={isChecked}
         setChecked={setChecked}
         />)}
       </div>

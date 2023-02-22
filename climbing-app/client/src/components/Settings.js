@@ -1,6 +1,6 @@
 import React, { useState} from "react";
 
-function Settings( {settings, setSettings, handleChangeView, days, setDays, isChecked, setChecked }) {
+function Settings( {settings, setSettings, handleChangeView, days, setDays, setChecked }) {
 
 const [daysOfWeek, setDaysOfWeek] = useState(
   [
@@ -16,8 +16,9 @@ const [daysOfWeek, setDaysOfWeek] = useState(
 const [selectedDays, setSelectedDays] = useState([])
 //handles form input for fields != checkbox
 const handleInputChange = (event) => {
-  const value = event.target.value
+  const value = event.target.value;
   const name = event.target.name;
+
   setSettings((state) => ({
     ...state,
   [name]: value,}
@@ -25,6 +26,7 @@ const handleInputChange = (event) => {
   }
 
 //handles true/false status for top and rope fields
+//TO DO - refactor
 const setTop = () => {
   setChecked(settings.top = !settings.top)
 
@@ -36,7 +38,7 @@ const setTop = () => {
 
 const setLead = () => {
   setChecked(settings.lead = !settings.lead)
-  
+
   setSettings((state) => ({
       ...state}
       ))
@@ -46,26 +48,22 @@ const setLead = () => {
 
 //handles checked status for days
 const handleDaysChange = (d) => {
-  //console.log(daysOfWeek)
-  //console.log(d.name)
-  //console.log(d.checked)
   let index = daysOfWeek.findIndex((day) => day.name === d.name)
-  //console.log(daysOfWeek[index])
-  //console.log(daysOfWeek[index].checked)
-
   let sDay = daysOfWeek[index]
+
   setChecked(sDay.checked = !sDay.checked)
   console.log(sDay)
-  
+
   setSelectedDays((state) => ([
     ...state, 
-    daysOfWeek[index].name,
+    sDay,
   ]) ) 
-
-  let sDays = selectedDays.filter((sDay) => sDay.checked === true)
   console.log(selectedDays)
-  console.log(sDays)
+  //console.log(sDays)
+
 }
+
+  
 
 //handles form submit and updates settings state var on parent. 
 //selected days only passed to settings state var once submitted
@@ -74,7 +72,10 @@ const handleSubmit = (e) => {
   //console.log(settings);
   console.log(selectedDays)
 
-  setDays(() => (selectedDays))
+  let sDays = selectedDays.filter((d) => d.checked === true).map(d => d.name)
+  console.log(sDays)
+
+  setDays(() => (sDays))
   console.log(days)
   
   handleChangeView("Profile")
@@ -200,7 +201,6 @@ const handleSubmit = (e) => {
            className="custom-input" 
            name="top"
            value={settings.top}
-           //checked={settings.top === true }
            onChange={() => setTop(settings.top)}
            />
           </div>
@@ -213,7 +213,6 @@ const handleSubmit = (e) => {
            className="custom-input" 
            name="lead"
            value={settings.lead}
-           //checked={settings.lead === true}
            onChange={() => setLead(settings.lead)}
            />
           </div>
