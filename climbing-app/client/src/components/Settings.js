@@ -4,17 +4,16 @@ function Settings( {settings, setSettings, handleChangeView, days, setDays, isCh
 
 const [daysOfWeek, setDaysOfWeek] = useState(
   [
-    {checked: false, name: "Monday"} ,
-    {checked: false, name: "Tuesday"} ,
-    {checked: false, name: "Wednesday"} ,
-    {checked: false, name: "Thursday"} ,
-    {checked: false, name: "Friday"} ,
-    {checked: false, name: "Saturday"} ,
-    {checked: false, name: "Sunday"}
+    {name: "Monday", checked: false} ,
+    {name: "Tuesday", checked: false} ,
+    {name: "Wednesday", checked: false} ,
+    {name: "Thursday", checked: false} ,
+    {name: "Friday", checked: false} ,
+    {name: "Saturday", checked: false} ,
+    {name: "Sunday", checked: false}
   ])
 
 const [selectedDays, setSelectedDays] = useState([])
-
 //handles form input for fields != checkbox
 const handleInputChange = (event) => {
   const value = event.target.value
@@ -43,20 +42,18 @@ const handleCheck = (e) => {
 
 //handles checked status for days
 const handleDaysChange = (d) => {
-  console.log(daysOfWeek)
-  console.log(d.name)
-  console.log(d.checked)
-
+  //console.log(daysOfWeek)
+  //console.log(d.name)
+  //console.log(d.checked)
   let index = daysOfWeek.findIndex((day) => day.name === d.name)
   console.log(daysOfWeek[index].name)
   console.log(daysOfWeek[index].checked)
   
   setSelectedDays((state) => ([
     ...state, 
-    {[daysOfWeek[index].name]: !daysOfWeek[index].checked},
+    daysOfWeek[index].name,
   ]) ) 
   console.log(selectedDays)
-  console.log(d.checked)
 }
 
 //handles form submit and updates settings state var on parent. 
@@ -65,22 +62,25 @@ const handleSubmit = (e) => {
   e.preventDefault();
   console.log(settings);
 
-  selectedDays.filter((day) => day.value === true)
+  //selectedDays.filter((day) => day.checked === true)
   console.log(selectedDays)
 
-  let nameDays = Object.keys(selectedDays)
-  console.log(nameDays)
-
-  setDays(nameDays)
-
+  setDays((state) => ([
+    ...state,
+    selectedDays]))
   console.log(days)
+
+  //setSettings((state) => ({
+  //...state,
+  //[days]: days,
+  //}))
   handleChangeView("Profile")
 }
 
   return (
 
     <div className="d-flex h-100 w-100 p-3 text-center">
-      <h2 className="text-center"> Settings </h2>
+     {/*<h2 className="text-center"> Settings </h2>*/}
 
       <form onSubmit={handleSubmit}>
       <div className="grid p-3 text-center">

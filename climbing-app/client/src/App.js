@@ -59,7 +59,7 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location: settings.location, days: settings.days })
+        body: JSON.stringify({ location: settings.location, days }) //change to days state var?
       });
       let users = await results.json();
       console.log(users)
@@ -76,9 +76,9 @@ function App() {
   
   return (
 
-    <div className="d-flex h-100 p-3 text-center">
+    <div className="d-flex h-100 text-center">
 
-    <div className="cover-container d-flex w-100 h-100 p-3 flex-column">
+    <div className="cover-container d-flex w-100 h-100 p-2 flex-column">
     
     <header className="mb-auto">
     <div>
@@ -122,7 +122,7 @@ function App() {
 
       
       {isView === "Profile" && (
-      <div className="card p-3 justify-content-center float-md-end border-warning">
+      <div className="card p-3 justify-content-center float-md-end border-0">
       <h2 className="p-3"> My Profile </h2>
 
       <h5 className="card-title"> {settings.userName} </h5>
