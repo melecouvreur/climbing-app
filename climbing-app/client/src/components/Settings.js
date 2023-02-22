@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useEffect} from "react";
 
 function Settings( {settings, setSettings, handleChangeView, days, setDays, setChecked }) {
 
@@ -45,7 +45,6 @@ const setLead = () => {
   console.log(settings)
   }
   
-
 ///handles days selection
 const handleDaysChange = (d) => {
  //first find clickedDay
@@ -60,8 +59,13 @@ const handleDaysChange = (d) => {
  console.log(selectedDays)
  
 //Toggle checked/unchecked i.e. true/false status of days in selectedDays Array
-setChecked(cDay.checked = !cDay.checked)
+ setChecked(cDay.checked = !cDay.checked)
  console.log(cDay)
+
+ //let sDays = selectedDays.filter((d) => d.checked === true).map(d => d.name)
+ //console.log(sDays)
+ //setDays(() => (sDays))
+ //console.log(days)
 }
 
 //handles form submit and updates settings state var on parent. 
@@ -75,12 +79,15 @@ const handleSubmit = (e) => {
   //push name prop (string) in days array
   let sDays = selectedDays.filter((d) => d.checked === true).map(d => d.name)
   console.log(sDays)
-
   setDays(() => (sDays))
   console.log(days)
-  
+
   handleChangeView("Profile")
 }
+
+//useEffect(() => {
+ // setDays();
+//}, [selectedDays])
 
   return (
 
@@ -202,6 +209,7 @@ const handleSubmit = (e) => {
            className="custom-input" 
            name="top"
            value={settings.top}
+           checked={settings.top === true}
            onChange={() => setTop(settings.top)}
            />
           </div>
@@ -214,6 +222,7 @@ const handleSubmit = (e) => {
            className="custom-input" 
            name="lead"
            value={settings.lead}
+           checked={settings.lead === true}
            onChange={() => setLead(settings.lead)}
            />
           </div>
@@ -227,7 +236,7 @@ const handleSubmit = (e) => {
           type="checkbox"
           name="days"
           value={d.name}
-          //checked={d.checked}
+          checked={selectedDays.checked}
           className="p-1 control-input list-group-item flex-fill"
           onChange={() => handleDaysChange(d)}/>
           </div>

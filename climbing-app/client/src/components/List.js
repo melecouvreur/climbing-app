@@ -1,10 +1,9 @@
 import React, {useState} from "react";
 import Box from "./Box"
 
-
 function List( {recommendations, handleChangeView, isView}) {
 
-const [featured, setFeatured] = useState([])
+const [featured, setFeatured] = useState({})
 
 
 async function featureUser(id) {
@@ -12,7 +11,7 @@ async function featureUser(id) {
     let results = await fetch(`/users/${id}`);
     let user = await results.json();
     console.log(user)
-    
+    //if db query succesfull > sets featured user
     setFeatured(user)
     console.log(featured)
     

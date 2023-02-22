@@ -92,7 +92,7 @@ router.get("/days", async function(req, res, next) {
 /*GET/recommended users based on match criteria ( = testing route. remove later)*/
 router.get("/recommend", async function(req, res, next) {
       try {
-        let days = ["Tuesday","Monday"]
+        let days = ["Tuesday","Monday", "Saturday"]
         let queryList = "('" + days.join("','") + "')"
         let results = await db(`SELECT 
         DISTINCT user_info.firstname, user_info.lastname, user_info.username, user_info.bio,
@@ -112,7 +112,7 @@ router.post("/recommend", async function(req, res, next) {
       const {days, location} = req.body
       let queryList = "('" + days.join("','") + "')"
             try {
-              let results = await db(`SELECT
+              let results = await db(`SELECT 
               DISTINCT user_info.firstname, user_info.lastname, user_info.username, user_info.bio,
               user_info.pronouns, user_info.avatar, user_info.location, user_info.level, user_info.top, user_info.email, user_info.uID
               FROM user_info 

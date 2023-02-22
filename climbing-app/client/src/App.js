@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Settings from "./components/Settings"
 import List from "./components/List"
 import './App.css';
@@ -10,12 +10,10 @@ function App() {
   const [isChecked, setChecked] = useState(false) // updates active user top/lead settings field
   const [recommendations, setRecommendations] = useState([]) // Sets list of recommended climbers based on match criteria
 
-  const uID = 0
-  const [days, setDays] = useState([]) // Sets days active user climbs
+  const [days, setDays] = useState(["Monday", "Tuesday"]) // Sets days  "Active user" climbs
 
-  //"Active user" default settings. Move to settings comp later
+  //"Active user" default settings. Move to settings comp?
   const [settings, setSettings] = useState({ 
-    uID: uID,
     firstName: "Mele",
     lastName: "Couvreur",
     userName: "m_couvreur",
@@ -26,15 +24,21 @@ function App() {
     location: "London",
     top: false,
     lead: false,
-    days: days,
-    //to insert days state var
    }
  )
+
+
+useEffect(() => {
+  handleChangeView("home")
+  setSettings((state) => ({
+    ...state}
+    ));
+  //getRecommendations();
+}, [])
 
  const handleChangeView = (isView) => {
   setView(isView)
 }
-
   //Fetches all users. No filters applied. This is for testing
   /*
   const getRecommendations = () => {
@@ -59,7 +63,7 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location: settings.location, days }) //change to days state var?
+        body: JSON.stringify({ location: settings.location, days}) //change to days state var?
       });
       let users = await results.json();
       console.log(users)
@@ -156,7 +160,8 @@ function App() {
           <List
           handleChangeView={handleChangeView}
           isView={isView}
-          recommendations={recommendations}/>
+          recommendations={recommendations}
+          getRecommendations={getRecommendations}/>
         </div>
       )}
 
