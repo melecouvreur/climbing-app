@@ -46,32 +46,33 @@ const setLead = () => {
   }
   
 
-//handles checked status for days
+///handles days selection
 const handleDaysChange = (d) => {
+ //first find clickedDay
   let index = daysOfWeek.findIndex((day) => day.name === d.name)
-  let sDay = daysOfWeek[index]
+  let cDay = daysOfWeek[index]
 
-  setChecked(sDay.checked = !sDay.checked)
-  console.log(sDay)
-
+ //then add clicked day to selectedDays array
   setSelectedDays((state) => ([
     ...state, 
-    sDay,
+    cDay,
   ]) ) 
-  console.log(selectedDays)
-  //console.log(sDays)
-
+ console.log(selectedDays)
+ 
+//Toggle checked/unchecked i.e. true/false status of days in selectedDays Array
+setChecked(cDay.checked = !cDay.checked)
+ console.log(cDay)
 }
-
-  
 
 //handles form submit and updates settings state var on parent. 
 //selected days only passed to settings state var once submitted
 const handleSubmit = (e) => {
   e.preventDefault();
   //console.log(settings);
-  console.log(selectedDays)
+  //console.log(selectedDays)
 
+  //filter days with true/checked status from selectedDays Array
+  //push name prop (string) in days array
   let sDays = selectedDays.filter((d) => d.checked === true).map(d => d.name)
   console.log(sDays)
 
