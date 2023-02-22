@@ -24,8 +24,8 @@ function App() {
     bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge. Coffee, climbing and coding-fanatic",
     img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
     location: "London",
-    top: isChecked,
-    lead: isChecked,
+    top: false,
+    lead: false,
     days: days,
     //to insert days state var
    }

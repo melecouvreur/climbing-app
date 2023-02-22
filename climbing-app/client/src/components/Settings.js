@@ -25,20 +25,24 @@ const handleInputChange = (event) => {
   }
 
 //handles true/false status for top and rope fields
-const handleCheck = (e) => {
-  console.log(e.target.value)
-  console.log(e.target.name)
-  
-  setChecked(!isChecked)
-
-  console.log(e.target.value)
-  console.log(e.target.name)
+const setTop = () => {
+  setChecked(settings.top = !settings.top)
 
   setSettings((state) => ({
-    ...state,
-    [e.target.name]: e.target.value}
+    ...state}
     ))
+  console.log(settings)
   }
+
+const setLead = () => {
+  setChecked(settings.lead = !settings.lead)
+  
+  setSettings((state) => ({
+      ...state}
+      ))
+  console.log(settings)
+  }
+  
 
 //handles checked status for days
 const handleDaysChange = (d) => {
@@ -46,34 +50,33 @@ const handleDaysChange = (d) => {
   //console.log(d.name)
   //console.log(d.checked)
   let index = daysOfWeek.findIndex((day) => day.name === d.name)
-  console.log(daysOfWeek[index].name)
-  console.log(daysOfWeek[index].checked)
+  //console.log(daysOfWeek[index])
+  //console.log(daysOfWeek[index].checked)
+
+  let sDay = daysOfWeek[index]
+  setChecked(sDay.checked = !sDay.checked)
+  console.log(sDay)
   
   setSelectedDays((state) => ([
     ...state, 
     daysOfWeek[index].name,
   ]) ) 
+
+  let sDays = selectedDays.filter((sDay) => sDay.checked === true)
   console.log(selectedDays)
+  console.log(sDays)
 }
 
 //handles form submit and updates settings state var on parent. 
 //selected days only passed to settings state var once submitted
 const handleSubmit = (e) => {
   e.preventDefault();
-  console.log(settings);
-
-  //selectedDays.filter((day) => day.checked === true)
+  //console.log(settings);
   console.log(selectedDays)
 
-  setDays((state) => ([
-    ...state,
-    selectedDays]))
+  setDays(() => (selectedDays))
   console.log(days)
-
-  //setSettings((state) => ({
-  //...state,
-  //[days]: days,
-  //}))
+  
   handleChangeView("Profile")
 }
 
@@ -198,7 +201,7 @@ const handleSubmit = (e) => {
            name="top"
            value={settings.top}
            //checked={settings.top === true }
-           onChange={(e) => handleCheck(e)}
+           onChange={() => setTop(settings.top)}
            />
           </div>
 
@@ -211,7 +214,7 @@ const handleSubmit = (e) => {
            name="lead"
            value={settings.lead}
            //checked={settings.lead === true}
-           onChange={(e) => handleCheck(e)}
+           onChange={() => setLead(settings.lead)}
            />
           </div>
         </div>
