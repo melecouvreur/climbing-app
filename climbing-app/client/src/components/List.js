@@ -40,11 +40,18 @@ async function featureUser(id) {
          <p className="card-body"> {user.bio} </p>
        </div>
       ))}
+
     
       {isView === "Featured" && (
       <Box
        featured={featured}/>
        )}
+
+
+
+
+
+
 
 
     </div>

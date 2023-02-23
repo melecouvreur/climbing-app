@@ -102,10 +102,10 @@ const handleSubmit = (e) => {
 }
 */
 
-useEffect(() => {
-  setDays();
-  console.log(days)
-}, [daysOfWeek])
+//useEffect(() => {
+//setDays();
+//console.log(days)
+//}, [daysOfWeek])
 
   return (
 

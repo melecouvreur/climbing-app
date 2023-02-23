@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Settings from "./components/Settings"
 import List from "./components/List"
 import './App.css';
-//import { BrowserRouter } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 
 
 function App() {
@@ -104,12 +104,14 @@ useEffect(() => {
     </div>
     </header>
        
-       
-       {isView === "home" && (<div className="px-3">
-        <h2> Welcome! </h2>
-        <p> 
-        "BelayMe is an app for finding belay partners" </p>
+       <div className="grid px-3">
+       {isView === "home" && (
+       <div className="row p-5 justify-content-center">
+        <p className="col-3"> 
+        "Get matched with a belay partner with BelayMe" </p>
        </div>)}
+       </div>
+      
 
 
       <div className="container text-center">
