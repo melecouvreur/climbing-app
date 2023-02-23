@@ -25,14 +25,14 @@ const handleInputChange = (event) => {
   ))
   }
 
-//handles true/false status for top and rope fields
+//sets true/false status for top and rope fields
+//updates settings
 //TO DO - refactor
 const setTop = () => {
   setChecked(settings.top = !settings.top)
 
   setSettings((state) => ({
-    ...state}
-    ))
+    ...state}))
   console.log(settings)
   }
 
@@ -40,12 +40,32 @@ const setLead = () => {
   setChecked(settings.lead = !settings.lead)
 
   setSettings((state) => ({
-      ...state}
-      ))
+      ...state}))
   console.log(settings)
   }
-  
-///handles days selection
+
+//sets status days in daysOfWeekArray to checked/unchecked (true/false)
+setChecked = (d) => {
+  d.checked = !d.checked
+  console.log(d)
+  console.log(daysOfWeek)
+}
+
+//setsDays to checked/true days from DaysofWeek array to create obj.req array
+//push name prop (string) in days array only
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  setDays(() => (daysOfWeek.filter((d) => d.checked === true).map(d => d.name)))
+  console.log(days)
+
+  handleChangeView("Profile")
+}
+
+/* old version
+
+/*
+///handles days selection - old version
 const handleDaysChange = (d) => {
  //first find clickedDay
   let index = daysOfWeek.findIndex((day) => day.name === d.name)
@@ -61,12 +81,8 @@ const handleDaysChange = (d) => {
 //Toggle checked/unchecked i.e. true/false status of days in selectedDays Array
  setChecked(cDay.checked = !cDay.checked)
  console.log(cDay)
-
- //let sDays = selectedDays.filter((d) => d.checked === true).map(d => d.name)
- //console.log(sDays)
- //setDays(() => (sDays))
- //console.log(days)
 }
+
 
 //handles form submit and updates settings state var on parent. 
 //selected days only passed to settings state var once submitted
@@ -84,10 +100,12 @@ const handleSubmit = (e) => {
 
   handleChangeView("Profile")
 }
+*/
 
-//useEffect(() => {
- // setDays();
-//}, [selectedDays])
+useEffect(() => {
+  setDays();
+  console.log(days)
+}, [daysOfWeek])
 
   return (
 
@@ -236,9 +254,10 @@ const handleSubmit = (e) => {
           type="checkbox"
           name="days"
           value={d.name}
-          checked={selectedDays.checked}
+          checked={daysOfWeek.checked}
           className="p-1 control-input list-group-item flex-fill"
-          onChange={() => handleDaysChange(d)}/>
+          onChange={() => setChecked(d)}/>
+          {/*onChange={() => handleDaysChange(d)}/>*/}
           </div>
           ))}
           </div>
