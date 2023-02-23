@@ -1,7 +1,6 @@
-import React, {useState} from "react";
-import Box from "./Box"
+import React from "react";
 
-function Profile( {recommendations, handleChangeView, isView, settings, getRecommendations}) {
+function Profile( {settings, getRecommendations}) {
 
 
   return (

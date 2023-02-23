@@ -119,7 +119,7 @@ useEffect(() => {
         myProfile </button></NavLink>
 
         <NavLink to="/matches"><button
-        onClick={() => handleChangeView("Matches")} // remove
+        onClick={() => getRecommendations} 
         className= {isView === "Matches" ? "btn btn-m btn-danger m-1" 
         : "btn btn-m btn-warning m-1"} >
         myMatches </button></NavLink>
@@ -146,6 +146,7 @@ useEffect(() => {
         setDays={setDays}
         setChecked={setChecked}
         navigate={navigate}
+        getRecommendations={getRecommendations}
         />
         }>
         </Route>
@@ -160,6 +161,7 @@ useEffect(() => {
         setDays={setDays}
         setChecked={setChecked}
         navigate={navigate}
+        getRecommendations={getRecommendations}
         />
         }>
         </Route>

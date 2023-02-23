@@ -1,6 +1,6 @@
-import React, { useState} from "react";
+import React, { useState, useEffect} from "react";
 
-function Preferences( {navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
+function Preferences( {getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
 
 const [daysOfWeek, setDaysOfWeek] = useState(
   [
@@ -44,28 +44,29 @@ const setLead = () => {
   }
 
 //sets status days in daysOfWeekArray to checked/unchecked (true/false)
-setChecked = (d) => {
-  d.checked = !d.checked
-  console.log(d)
-  console.log(daysOfWeek)
-}
-
 //setsDays to checked/true days from DaysofWeek array to create obj.req array
 //push name prop (string) in days array only
-const handleSubmit = (e) => {
-  e.preventDefault();
-
+const handleDaysChange = (d) => {
+  setChecked(d.checked = !d.checked)
+    console.log(daysOfWeek)
+    console.log(d)
   setDays(() => (daysOfWeek.filter((d) => d.checked === true).map(d => d.name)))
   console.log(days)
+  }
+   
 
+const handleSubmit = (e) => {
+  e.preventDefault();
+  console.log(days)
   handleChangeView("List")
   navigate("/matches")
 }
 
-//useEffect(() => {
-//setDays();
+useEffect(() => {
+//setDays()
+//getRecommendations()
 //console.log(days)
-//}, [daysOfWeek])
+}, [])
 
   return (
 
@@ -144,7 +145,7 @@ const handleSubmit = (e) => {
           value={d.name}
           checked={daysOfWeek.checked}
           className="p-1 control-input list-group-item flex-fill"
-          onChange={() => setChecked(d)}/>
+          onChange={() => handleDaysChange(d)}/>
           </div>
           ))}
           </div>
