@@ -103,6 +103,25 @@ useEffect(() => {
         </nav>
     </div>
     </header>
+
+
+    <Routes>
+      <Route path="/settings" element={<Settings
+        settings={settings}
+        setSettings={setSettings}
+        handleChangeView={handleChangeView}
+        days={days}
+        setDays={setDays}
+        setChecked={setChecked}
+        />}></Route>
+
+      <Route path="/list" element={ <List
+          handleChangeView={handleChangeView}
+          isView={isView}
+          recommendations={recommendations}
+          getRecommendations={getRecommendations}/>}></Route>
+     </Routes>
+      
        
        <div className="grid px-3">
        {isView === "home" && (

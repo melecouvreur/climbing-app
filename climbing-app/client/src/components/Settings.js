@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState} from "react";
 
 function Settings( {settings, setSettings, handleChangeView, days, setDays, setChecked }) {
 
@@ -13,7 +13,6 @@ const [daysOfWeek, setDaysOfWeek] = useState(
     {name: "Sunday", checked: false}
   ])
 
-const [selectedDays, setSelectedDays] = useState([])
 //handles form input for fields != checkbox
 const handleInputChange = (event) => {
   const value = event.target.value;
