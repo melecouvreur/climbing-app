@@ -1,6 +1,6 @@
 import React, { useState} from "react";
 
-function Settings( {navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
+function Preferences( {navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
 
 const [daysOfWeek, setDaysOfWeek] = useState(
   [
@@ -57,8 +57,9 @@ const handleSubmit = (e) => {
 
   setDays(() => (daysOfWeek.filter((d) => d.checked === true).map(d => d.name)))
   console.log(days)
-  navigate("/profile")
-  handleChangeView("Profile")
+
+  handleChangeView("List")
+  navigate("/matches")
 }
 
 //useEffect(() => {
@@ -75,78 +76,6 @@ const handleSubmit = (e) => {
       <div className="grid p-3 text-center">
 
       <div className="row">
-
-          <div className="row p-3">
-          <label> First name </label>
-          <input
-            type="text"
-            name="firstName"
-            value={settings.firstName}
-            placeholder="Type first name"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
-
-          <div className="row p-3">
-          <label> Last name </label>
-          <input
-            type="text"
-            name="lastName"
-            value={settings.lastName}
-            placeholder="Type last name"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
-
-          <div className="row p-3">
-          <label> User name </label>
-          <input
-            type="text"
-            name="userName"
-            value={settings.userName}
-            placeholder="Type user name"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
-
-          <div className="row p-3">
-          <label> Email </label>
-          <input
-            type="email"
-            name="email"
-            value={settings.email}
-            placeholder="Type email"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
-
-          <div className="row p-3">
-          <label> Bio </label>
-          <input
-            type="text"
-            name="bio"
-            value={settings.bio}
-            placeholder="Type bio"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
-
-          <div className="row p-3">
-          <label> Image </label>
-          <input
-            type="text"
-            name="img"
-            value={settings.img}
-            placeholder="https://example.com/users/"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-        </div>
 
          <div className="row p-3">
           <label> Location </label>
@@ -233,4 +162,4 @@ const handleSubmit = (e) => {
   );
 }
 
-export default Settings;
+export default Preferences;

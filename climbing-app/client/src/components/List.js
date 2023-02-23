@@ -5,7 +5,6 @@ function List( {recommendations, handleChangeView, isView}) {
 
 const [featured, setFeatured] = useState({})
 
-
 async function featureUser(id) {
   try {
     let results = await fetch(`/users/${id}`);
@@ -25,8 +24,7 @@ async function featureUser(id) {
 
   return (
     <div className="justify-content">
-      <h2> My Recommendations </h2>
-
+      <h2> My Matches </h2>
       {recommendations.map(user => (
         <div
          key={user.uID}
@@ -41,18 +39,10 @@ async function featureUser(id) {
        </div>
       ))}
 
-    
       {isView === "Featured" && (
       <Box
        featured={featured}/>
        )}
-
-
-
-
-
-
-
 
     </div>
   );

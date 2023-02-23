@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from "react";
 import Settings from "./components/Settings"
 import List from "./components/List"
+import Profile from "./components/Profile";
+import Preferences from "./components/Preferences";
 import './App.css';
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, NavLink, useNavigate} from "react-router-dom";
 
 
 function App() {
@@ -10,8 +12,8 @@ function App() {
   const [isView, setView] = useState("home") // changes userview to different components
   const [isChecked, setChecked] = useState(false) // updates active user top/lead settings field
   const [recommendations, setRecommendations] = useState([]) // Sets list of recommended climbers based on match criteria
-
   const [days, setDays] = useState(["Monday", "Tuesday"]) // Sets days  "Active user" climbs
+  const navigate = useNavigate()
 
   //"Active user" default settings. Move to settings comp?
   const [settings, setSettings] = useState({ 
@@ -27,7 +29,6 @@ function App() {
     lead: false,
    }
  )
-
 
 useEffect(() => {
   handleChangeView("home")
@@ -71,7 +72,7 @@ useEffect(() => {
       //if db query successful > updates recommended climber state var
       setRecommendations(users)
       console.log(recommendations)
-      handleChangeView("List")
+      navigate("/matches")
     }
     catch (error) {
       console.log(error)
@@ -84,55 +85,108 @@ useEffect(() => {
     <div className="d-flex h-100 text-center">
 
     <div className="cover-container d-flex w-100 h-100 p-2 flex-column">
+ 
+    <div className="position-absolute p-1">
+    <NavLink to="/settings"><button
+        onClick={() => handleChangeView("Settings")} //remove
+        className= {isView === "Settings" ? "btn btn-m btn-danger m-1" 
+        : "btn btn-m btn-warning m-1"}>
+        Edit Profile</button></NavLink>
+    </div>
     
     <header className="mb-auto">
     <div>
-    <img className= "App-logo img-fluid" src="https://cdn-icons-png.flaticon.com/512/5064/5064233.png"/> 
+    <img 
+    className= "App-logo img-fluid" 
+    src="https://cdn-icons-png.flaticon.com/512/5064/5064233.png"
+    alt="carabina"
+    onClick={() => handleChangeView("home")}/> 
+
     <h1 className="float-md-start"> BelayMe </h1>
+
       <nav className="nav nav-masthead justify-content-center float-md-end p-3">
-        <button
-        onClick={() => handleChangeView("Settings")}
-        className= {isView === "Settings" ? "btn btn-m btn-danger m-1" : "btn btn-m btn-warning m-1"}
-        >
-        Settings</button>
-        <button
-        onClick={() => handleChangeView("Profile")}
-        className= {isView === "Profile" ? "btn btn-m btn-danger m-1" : "btn btn-m btn-warning m-1"}
-        >
-        myProfile </button>
+        
+        <NavLink to="/preferences"><button
+        onClick={() => handleChangeView("Preferences")} //remove
+        className= {isView === "Preferences" ? "btn btn-m btn-danger m-1" 
+        : "btn btn-m btn-warning m-1"}>
+        myPreferences</button></NavLink>
+
+        <NavLink to="/profile"><button
+        onClick={() => handleChangeView("Profile")} // remove
+        className= {isView === "Profile" ? "btn btn-m btn-danger m-1" 
+        : "btn btn-m btn-warning m-1"} >
+        myProfile </button></NavLink>
+
+        <NavLink to="/matches"><button
+        onClick={() => handleChangeView("Matches")} // remove
+        className= {isView === "Matches" ? "btn btn-m btn-danger m-1" 
+        : "btn btn-m btn-warning m-1"} >
+        myMatches </button></NavLink>
         </nav>
     </div>
     </header>
 
-
-    <Routes>
-      <Route path="/settings" element={<Settings
-        settings={settings}
-        setSettings={setSettings}
-        handleChangeView={handleChangeView}
-        days={days}
-        setDays={setDays}
-        setChecked={setChecked}
-        />}></Route>
-
-      <Route path="/list" element={ <List
-          handleChangeView={handleChangeView}
-          isView={isView}
-          recommendations={recommendations}
-          getRecommendations={getRecommendations}/>}></Route>
-     </Routes>
-      
-       
-       <div className="grid px-3">
+    <div className="grid px-3">
        {isView === "home" && (
        <div className="row p-5 justify-content-center">
         <p className="col-3"> 
         "Get matched with a belay partner with BelayMe" </p>
        </div>)}
        </div>
+
+    <Routes>
+      <Route path="/settings" 
+        element={
+        <Settings
+        settings={settings}
+        setSettings={setSettings}
+        handleChangeView={handleChangeView}
+        days={days}
+        setDays={setDays}
+        setChecked={setChecked}
+        navigate={navigate}
+        />
+        }>
+        </Route>
+
+        <Route path="/preferences" 
+        element={
+        <Preferences
+        settings={settings}
+        setSettings={setSettings}
+        handleChangeView={handleChangeView}
+        days={days}
+        setDays={setDays}
+        setChecked={setChecked}
+        navigate={navigate}
+        />
+        }>
+        </Route>
+  
+
+        <Route path="/profile"
+         element={
+         <Profile
+       settings={settings}
+       getRecommendations={getRecommendations}
+       recommendations={recommendations}
+       days={days}/>
+       }>
+       </Route>
+
+      <Route path="/matches" 
+          element={<List
+          handleChangeView={handleChangeView}
+          isView={isView}
+          recommendations={recommendations}
+          getRecommendations={getRecommendations}/>}>
+          </Route>
+     </Routes>
       
-
-
+       
+      
+{/*
       <div className="container text-center">
         {isView === "Settings" && 
         (<Settings
@@ -144,8 +198,11 @@ useEffect(() => {
         setChecked={setChecked}
         />)}
       </div>
+        */}
 
+  
       
+{/*
       {isView === "Profile" && (
       <div className="card p-3 justify-content-center float-md-end border-0">
       <h2 className="p-3"> My Profile </h2>
@@ -176,7 +233,9 @@ useEffect(() => {
 
       </div>
        )}
+      */}
 
+      {/*
         {isView === "List" && (
         <div>
           <List
@@ -186,6 +245,7 @@ useEffect(() => {
           getRecommendations={getRecommendations}/>
         </div>
       )}
+        */}
 
          
      </div>
