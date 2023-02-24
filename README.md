@@ -26,11 +26,10 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 - User can edit match preferences/filters containing:
   - Location
   - Climbing category i.e. top rope & lead
-  - Skill level/grade
+  - Skill level
   - Days
 
 - User can filter/match with others climbers based on preferences
-- User can see list of connected climbers (i.e. connected => matched & accepted contact request)
 
 ## **Technologies**
 
@@ -42,15 +41,16 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 ## **Future Features**
 
 - Account and profile set-up user flow including email verification & T&Cs
-- User can send/accept contact request to matched/filtered climbers
-- User can see list of climbers of who requested contact, but have not yet accepted
-- User can message once matched & contact request accepted
+- User can send/accept connection request to matched/filtered climbers
+- User can message once connection request accepted
+- User can see list of connected climbers (i.e. matched & accepted connection request)
+- User can see list of climbers of who sent connection request, but have not yet accepted
 - User can link IG profile to climber profile
 - User can add time of Day  i.e. morning, lunch, afternoon, evening as filter
 - User can add pre-defined interest categories to profile
-- User can find climbers based on username (irrespective of match)
-- User can follow/bookmark other climbers until user decides to send contact request
-- User gets notification when other user interacts i.e. send contact request, new message
+- User can find/search climbers based on username (irrespective of match)
+- User can follow/bookmark other climbers until user decides to send connection request
+- User gets notification when other user interacts i.e. send connection request, new message
 - User can choose to allow/disable notifications
 
 ## API Routes
@@ -62,33 +62,42 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 - Description: Gets all users
 - Req Body: N/A
 - Res Obj: {ID: integer, firstname: string, lastname: string, email: string,
-username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: Boolean, beginner: Boolean, intermediate: Boolean, advanced: Boolean}
+username: string, pronouns: string, avatar: url, bio: string, location: string, top: Boolean, lead: Boolean, level: string}
 
 ### Route 2
 
 - URL: "/users/:id"
 - METHOD: GET
-- Description: Gets user info by id. Shows info from matched climbers when click-through to their profile from matched list.
+- Description: Gets user info by id
 - Req Body: N/A
-- Res Obj: { ID: integer, firstname: string, lastname: string, email: string,
-username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, beginner: Boolean, intermediate: Boolean, advanced: Boolean}
+- Res Obj: {ID: integer, firstname: string, lastname: string, email: string,
+username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string}
 
 ### Route 3
 
 - URL: "/users"
 - METHOD: POST
-- Description: Adds new user
-- Req Body {username: string, pronouns: string, profile_img: url, bio: string,  location: string, top-rope: Boolean, lead-top: boolean, beginner: Boolean, intermediate: Boolean, advanced: Boolean}
+- Description: Adds new user to db
+- Req Body {username: string, pronouns: string, avatar: url, bio: string,  location: string, tope: Boolean, lead: boolean, level: string}
 - Res Obj {
 }
 
 ### Route 4
 
+- URL: "/users/:id"
+- METHOD: PUT
+- Description: Edit user info in db
+- Req Body {username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: boolean, level: string}
+- Res Obj {
+}
+
+### Route 5
+
 - URL: "/users/recommend"
 - METHOD: POST
-- Description: Gets recommended users based on matching criteria
-- Req Body: {location, top-rope, lead-rope, skill_level, days }
-- Res Obj: {username: string, username: string, pronouns: string, profile_img: url, bio: string, location: string, top-rope: Boolean, lead-top: boolean, beginner: Boolean, intermediate: Boolean, advanced: Boolean}
+- Description: Gets recommended users based on matching criteria in Req Body
+- Req Body: {location, top, lead, level, days }
+- Res Obj: {username: string, username: string, pronouns: string, avatar: url, bio: string, location: string, lead: Boolean, top: boolean, level: string}
 
 ## Database
 
@@ -100,7 +109,7 @@ USER_INFO
 - email VARCHAR() NOT NULL; String
 - username VARCHAR() NOT NULL; String
 - pronouns VARCHAR() NOT NULL; String
-- profile_img VARCHAR(); String
+- avatar VARCHAR(); String
 - bio VARCHAR(); String
 - location VARCHAR() NOT NULL; String
 - top BINARY(); Boolean
@@ -113,9 +122,9 @@ DAYS
 - uID INT NOT NULL FOREIGN KEY; Number
 - day VARCHAR(20)
 
-MY SQL COMMANDS
+MY SQL COMMANDS TO SET UP DATABASES
 
-SETTING UP USER DATABASE:
+USER_INFO DATABASE:
 
 `CREATE TABLE user_info (
 uID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -133,7 +142,7 @@ lead TINYINT(1));`
 
 *TODO - add lead column! Can't seem to add.
 
-SETTING UP DAYS DATABASE
+DAYS DATABASE
 
 `CREATE TABLE days (
 dID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
