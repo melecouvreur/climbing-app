@@ -43,22 +43,24 @@ const setLead = () => {
   console.log(settings)
   }
 
-//sets status days in daysOfWeekArray to checked/unchecked (true/false)
+//Toggles checked/unchecked prop of days in daysOfWeek Array 
+//setsDays to "checked days" from daysOfWeek array to days Array
+//days array = obj.req for getRecommendations function
+//NB - pushes name prop (string) in days array only
 const handleDaysChange = (d) => {
 setChecked(d.checked = !d.checked)
   console.log(daysOfWeek)
   console.log(d)
-
 setDays(() => (daysOfWeek.filter((d) => d.checked === true).map(d => d.name)))
 console.log(days)
 }
 
-//setsDays to checked/true days from DaysofWeek array to create obj.req array
-//push name prop (string) in days array only
 const handleSubmit = (e) => {
   e.preventDefault();
-  navigate("/profile")
+  console.log(days)
+  getRecommendations()
   handleChangeView("Profile")
+  navigate("/profile")
 }
 
 useEffect(() => {

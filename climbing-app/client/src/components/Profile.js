@@ -1,7 +1,13 @@
 import React from "react";
 
-function Profile( {settings, getRecommendations}) {
+function Profile( {navigate, settings, getRecommendations}) {
 
+//Fetches recommended climbers from db and setsRecommendations array
+//Switches to myMatches screen where user sees recommendations 
+const findPartners = () => {
+    getRecommendations()
+    navigate("/matches")
+  }
 
   return (
     <div className="justify-content">
@@ -22,7 +28,7 @@ function Profile( {settings, getRecommendations}) {
       <div>
       <button 
       className="row btn btn-m btn-warning m-1"
-      onClick={getRecommendations}
+      onClick={findPartners}
       > Find NewPartners </button>
       </div>
       
