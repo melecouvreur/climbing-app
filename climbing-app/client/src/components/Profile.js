@@ -12,26 +12,26 @@ const findPartners = () => {
   return (
     <div className="justify-content">
        
-      <div className="card p-3 justify-content-center float-md-end border-0">
-      <h2 className="p-3"> My Profile </h2>
+      <div className="profile p-3 justify-content-center float-md-end border-0">
+      <h2 className="profile p-3"> My Profile </h2>
 
-      <h5 className="card-title"> {settings.userName} </h5>
-      <span className="card-text"> {settings.pronouns} </span>
+      <h5 className="profile card-title"> {settings.userName} </h5>
+      <span className="profile card-text"> {settings.pronouns} </span>
 
-      <img className="card-img-top p-4" src={settings.img} alt="profile"/>
+      <img className="profile-pic img-fluid" src={settings.img} alt="profile"/>
 
-      <span> {settings.location} </span>
+      <p className="profile p-3"> {settings.location} </p>
       <span> {settings.lead} </span>
-      <p className="card-body"> {settings.bio} </p>
+      <p className="profile card-body justify-content-center p-5"> {settings.bio} </p>
 
-      <div>
+      <div className="profile">
       <button 
       className="row btn btn-m btn-warning m-1"
       onClick={findPartners}
       > Find NewPartners </button>
       </div>
       
-      <div>
+      <div className="profile">
       <button
       className="row btn btn-m btn-warning m-1">
         My Partners

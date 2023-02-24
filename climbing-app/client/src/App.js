@@ -82,7 +82,7 @@ useEffect(() => {
     }
   };
 
-  let activeClassName = "btn btn-m btn-danger m-1"
+  let activeClassName = "btn btn-sm btn-warning"
   
   return (
 
@@ -98,7 +98,7 @@ useEffect(() => {
         isActive ? activeClassName : undefined }>
         <button
         //onClick={() => handleChangeView("Settings")} //remove
-        className="btn btn-m btn-warning m-1">
+        className="text-white btn m-1">
         Edit Profile</button>
     </NavLink>
     </div>
@@ -122,22 +122,26 @@ useEffect(() => {
     <nav className="nav nav-masthead justify-content-center float-md-end p-3">
         
         <NavLink 
-        to="/preferences"><button
-        onClick={() => handleChangeView("Preferences")} //remove
-        className= {isView === "Preferences" ? "btn btn-m btn-danger m-1" 
-        : "btn btn-m btn-warning m-1"}>
+        to="/preferences"
+        className={({isActive}) => 
+        isActive ? activeClassName : undefined }
+        ><button
+        //onClick={() => handleChangeView("Preferences")} //remove
+        className="text-white btn m-1">
         myPreferences</button></NavLink>
 
         <NavLink to="/profile"><button
         onClick={() => handleChangeView("Profile")} // remove
-        className= {isView === "Profile" ? "btn btn-m btn-danger m-1" 
-        : "btn btn-m btn-warning m-1"} >
+        className= {isView === "Profile" ? "text-danger btn m-1" 
+        : "text-white btn m-1"} >
         myProfile </button></NavLink>
 
-        <NavLink to="/matches"><button
+        <NavLink to="/matches"
+        className={({isActive}) => 
+        isActive ? activeClassName : undefined }
+        ><button
         onClick={() => getRecommendations} 
-        className= {isView === "Matches" ? "btn btn-m btn-danger m-1" 
-        : "btn btn-m btn-warning m-1"} >
+        className= "text-white btn m-1">
         myMatches </button></NavLink>
         </nav>
     </div>

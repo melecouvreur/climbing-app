@@ -44,28 +44,41 @@
 
 h1,
 h2 {
-  color: goldenrod
+  color: whitesmoke
 }
 
 h3,
 h4,
 h5,
 h6 {
-  color: darkseagreen;
+  color: whitesmoke
 }
 
 nav {
-  background-color: blanchedalmond
+  background-color: salmon;
 }
 
 * {
-  background-color:whitesmoke
+  background-color: black;
+  color: whitesmoke
 }
 
-.card {
-  background-color: whitesmoke;
+
+.profile {
+  background-color: salmon;
+  border: none
 }
 
 .active {
   border-color: red;
+}
+
+.avatar {
+  height: 30vmin;
+  width: 30vmin;
+}
+
+.profile-pic {
+  height: 50vmin;
+  width: 50vmin;
 }

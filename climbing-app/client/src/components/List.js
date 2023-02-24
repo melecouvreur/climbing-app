@@ -33,7 +33,7 @@ async function featureUser(id) {
 
          <h5 className="card-title"> {user.username} </h5>
          <h5 className="card-text">{user.firstname} {user.lastname} </h5>
-         <img className="profile-pic card-img p-2" src={user.avatar} alt="profile"/>
+         <img className="avatar card-img p-2" src={user.avatar} alt="profile"/>
          <span> {user.top} </span>
          <p className="card-body"> {user.bio} </p>
        </div>
