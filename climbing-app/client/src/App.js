@@ -13,7 +13,7 @@ function App() {
   const [isView, setView] = useState("home") // SetsView 
   const [isChecked, setChecked] = useState(false) // Sets top/lead within Preferences of "active user"
   const [recommendations, setRecommendations] = useState([]) // SetsRecommendations array (= recommended climbers) based on Preferences/filters
-  const [days, setDays] = useState(["Saturday"]) // Setsdays within Preferences/filter of "active user"
+  const [days, setDays] = useState(["Saturday", "Monday", "Tuesday", "Friday"]) // Setsdays within Preferences/filter of "active user"
   const navigate = useNavigate()
 
   //"active user" default settings. Move to settings comp?
@@ -26,7 +26,7 @@ function App() {
     bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge. Coffee, climbing and coding-fanatic",
     img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
     location: "London",
-    top: false, 
+    level: "Intermediate",
     lead: false, 
    }
  )
@@ -69,7 +69,7 @@ useEffect(() => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location: settings.location, days}) 
+        body: JSON.stringify({ location: settings.location, days, level: settings.level}) 
       });
       let users = await results.json();
       console.log(users)
@@ -82,17 +82,19 @@ useEffect(() => {
     }
   };
 
-  let activeClassName = "btn btn-danger"
+  let activeClassName = "btn btn-m btn-danger m-1"
   
   return (
 
-    <div className="d-flex h-100 text-center">
+    <div className="d-flex w-100 h-100 text-center">
+
+      
     <div className="cover-container d-flex w-100 h-100 p-2 flex-column">
 
-    <div className="position-absolute p-1">
+    <div className="d-flex justify-content-start p-1">
     <NavLink 
         to="/settings"
-        className={({isActive}) =>
+        className={({isActive}) => 
         isActive ? activeClassName : undefined }>
         <button
         //onClick={() => handleChangeView("Settings")} //remove

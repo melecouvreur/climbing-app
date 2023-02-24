@@ -70,14 +70,14 @@ router.put("/users/:id", async function(req, res, next) {
 /* Route 5 - POSTS/recommends users based on matching days & location*/
 //change to GET
 router.post("/recommend", async function(req, res, next) {
-      const {days, location} = req.body
+      const {days, location, level} = req.body
       let queryList = "('" + days.join("','") + "')"
             try {
               let results = await db(`SELECT 
               DISTINCT user_info.firstname, user_info.lastname, user_info.username, user_info.bio,
               user_info.pronouns, user_info.avatar, user_info.location, user_info.level, user_info.top, user_info.email, user_info.uID
               FROM user_info 
-              LEFT JOIN days ON user_info.uID = days.uID WHERE days.day in ${queryList} AND user_info.location = "${location}";`)
+              LEFT JOIN days ON user_info.uID = days.uID WHERE days.day in ${queryList} AND user_info.location = "${location}" AND user_info.level = "${level}";`)
               res.status(200).send(results.data);
             } catch (err) {
               res.status(500).send(err); 

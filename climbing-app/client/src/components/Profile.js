@@ -21,7 +21,6 @@ const findPartners = () => {
       <img className="card-img-top p-4" src={settings.img} alt="profile"/>
 
       <span> {settings.location} </span>
-      <span> {settings.top} </span>
       <span> {settings.lead} </span>
       <p className="card-body"> {settings.bio} </p>
 

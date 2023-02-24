@@ -27,12 +27,6 @@ const handleInputChange = (event) => {
 //sets true/false status for top and rope fields
 //updates settings
 //TO DO - refactor
-const setTop = () => {
-  setChecked(settings.top = !settings.top)
-  setSettings((state) => ({
-    ...state}))
-  console.log(settings)
-  }
 
 const setLead = () => {
   setChecked(settings.lead = !settings.lead)
@@ -68,19 +62,17 @@ useEffect(() => {
 
   return (
 
-    <div className="d-flex h-100 w-100 p-3 text-center">
+    <div className="d-flex p-3 justify-content-center">
      {/*<h2 className="text-center"> Settings </h2>*/}
 
-      <form onSubmit={handleSubmit}>
-      <div className="grid p-3 text-center">
+      <form onSubmit={handleSubmit}
+      className="d-flex p-3 m-1">
 
-      <div className="row">
-      
-      <div>
-      <p> Find Climbers </p>
-      </div>
-         <div className="row p-3">
-          <label> Location </label>
+      <div className="grid p-3">
+
+         <div className="form-group row p-3">
+          <label className="col-3"> Location </label>
+          <div className="col-9">
           <input
             type="text"
             name="location"
@@ -90,9 +82,11 @@ useEffect(() => {
             onChange={(e) => handleInputChange(e)}
           />
           </div>
+          </div>
 
-           <div className="row p-3">
-           <label> Level </label>
+           <div className="form-group row p-3">
+           <label className="col-3"> Level </label>
+           <div className="col-9">
            <select 
             className="form-control"
             id="level"
@@ -102,41 +96,15 @@ useEffect(() => {
             placeholder="Set level"
             onChange={(e) => handleInputChange(e)}
             >
-            <option> Beginner </option>
-            <option> Intermediate </option>
-            <option> Advanced </option>
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
           </select>
           </div>
-
-        <div className="row p-3">
-           
-           <div className="checkbox">
-           <label className="p-2"> Top-rope </label>
-           <input 
-           type="checkbox" 
-           className="custom-input" 
-           name="top"
-           value={settings.top}
-           checked={settings.top === true}
-           onChange={() => setTop(settings.top)}
-           />
           </div>
+         
 
-
-          <div className="custom-control custom-checkbox">
-           <label className="p-2"> Lead </label>
-           <input 
-           type="checkbox" 
-           className="custom-input" 
-           name="lead"
-           value={settings.lead}
-           checked={settings.lead === true}
-           onChange={() => setLead(settings.lead)}
-           />
-          </div>
-        </div>
-        
-         <div className="row p-3 list-group-horizontal">
+         <div className="form-group row p-3 m-3 list-group-horizontal">
          {daysOfWeek.map(d => (
           <div key={d.name}> 
           <label className="p-1"> {d.name} </label>
@@ -150,13 +118,30 @@ useEffect(() => {
           </div>
           ))}
           </div>
+
+          <div className="form-group row p-3">
+          <div className="custom-control custom-checkbox">
+           <label className="p-3"> Lead </label>
+           <input 
+           type="checkbox" 
+           className="custom-input" 
+           name="lead"
+           value={settings.lead}
+           checked={settings.lead === true}
+           onChange={() => setLead(settings.lead)}
+           />
+          
+          </div>
+
+
+        
+          </div>
        
-          <div className="row-md p-3">
+          <div className="form-group row-md p-3">
           <button className="btn btn-m btn-warning">Submit</button>
           </div>
 
-        
-      </div>
+       
       </div>
       </form>
 
