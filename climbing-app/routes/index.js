@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
   res.send({ title: 'Express' });
 });
 
-/*GET all users */
+/*Route 1 - GET all users */
 router.get("/users", function(req, res, next) {
   db("SELECT * FROM user_info;")
     .then(results => {
@@ -16,8 +16,8 @@ router.get("/users", function(req, res, next) {
     })
     .catch(err => res.status(500).send(err));
 });
-
-/*GET users by uID*/
+ 
+/*Route 2 - GET users by uID*/
 router.get("/users/:id", async function(req, res, next) {
   try {
     let results = await db(
@@ -29,7 +29,7 @@ router.get("/users/:id", async function(req, res, next) {
   } 
 });     
 
-/*POST new user*/
+/*Route 3 - POST new user*/
 router.post("/users", async function(req, res, next) {
   const {firstname, lastname, username, email, pronouns, avatar, bio, location, level, top} = req.body
   try {
@@ -48,7 +48,7 @@ router.post("/users", async function(req, res, next) {
   }
 })
 
-/*EDIT user info*/
+/*Route 4 - EDIT user info*/
 router.put("/users/:id", async function(req, res, next) {
   const {username, email, pronouns, avatar, bio, location, level, top} = req.body
   try {
@@ -66,48 +66,8 @@ router.put("/users/:id", async function(req, res, next) {
   }
 })
 
-/*POST climbing days for user*/
-router.post("/days", async function(req, res, next) {
-    const {uID, day} = req.body
-    try {
-      await db(`INSERT INTO days (uID, day) VALUES (${uID}, "${day}");`)
-      let results = await db(
-        `SELECT * FROM days ORDER BY uID ASC;`
-      );
-      res.status(200).send(results.data);
-    } catch (err) {
-      res.status(500).send(err);
-    }
-  })
 
-/*GET all days*/
-router.get("/days", async function(req, res, next) {
-      try {
-        let results = await db(`SELECT * FROM days ORDER BY dID ASC;`);
-        res.status(200).send(results.data);
-      } catch (err) {
-        res.status(500).send(err);
-      }
-    })
-
-/*GET/recommended users based on match criteria ( = testing route. remove later)*/
-router.get("/recommend", async function(req, res, next) {
-      try {
-        let days = ["Tuesday","Monday", "Saturday"]
-        let queryList = "('" + days.join("','") + "')"
-        let results = await db(`SELECT 
-        DISTINCT user_info.firstname, user_info.lastname, user_info.username, user_info.bio,
-        user_info.pronouns, user_info.avatar, user_info.location, user_info.level, user_info.top, user_info.email, user_info.uID
-        FROM user_info 
-        LEFT JOIN days ON user_info.uID = days.uID 
-        WHERE days.day in ${queryList} AND user_info.location = "London";`)
-        res.status(200).send(results.data);
-      } catch (err) {
-        res.status(500).send(err); 
-      } 
-    })
-
-/*POSTS/recommends users based on matching days & location*/
+/* Route 5 - POSTS/recommends users based on matching days & location*/
 //change to GET
 router.post("/recommend", async function(req, res, next) {
       const {days, location} = req.body
@@ -123,7 +83,48 @@ router.post("/recommend", async function(req, res, next) {
               res.status(500).send(err); 
             } 
           })
+
+/*GET/recommended users based on match criteria ( = testing route. remove later)*/
+router.get("/recommend", async function(req, res, next) {
+  try {
+    let days = ["Tuesday","Monday", "Saturday"]
+    let queryList = "('" + days.join("','") + "')"
+    let results = await db(`SELECT 
+    DISTINCT user_info.firstname, user_info.lastname, user_info.username, user_info.bio,
+    user_info.pronouns, user_info.avatar, user_info.location, user_info.level, user_info.top, user_info.email, user_info.uID
+    FROM user_info 
+    LEFT JOIN days ON user_info.uID = days.uID 
+    WHERE days.day in ${queryList} AND user_info.location = "London";`)
+    res.status(200).send(results.data);
+  } catch (err) {
+    res.status(500).send(err); 
+  } 
+})
       
+/*POST climbing days for user (for testing)*/
+router.post("/days", async function(req, res, next) {
+  const {uID, day} = req.body
+  try {
+    await db(`INSERT INTO days (uID, day) VALUES (${uID}, "${day}");`)
+    let results = await db(
+      `SELECT * FROM days ORDER BY uID ASC;`
+    );
+    res.status(200).send(results.data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+})
+
+/*GET all days (for testing)*/
+router.get("/days", async function(req, res, next) {
+    try {
+      let results = await db(`SELECT * FROM days ORDER BY dID ASC;`);
+      res.status(200).send(results.data);
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  })
+
 
 module.exports = router;
 

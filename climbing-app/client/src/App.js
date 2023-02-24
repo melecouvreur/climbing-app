@@ -25,13 +25,14 @@ function App() {
     bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge. Coffee, climbing and coding-fanatic",
     img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
     location: "London",
-    top: false,
-    lead: false,
+    top: false, 
+    lead: false, 
    }
  )
 
 useEffect(() => {
   handleChangeView("home")
+  //showUsers()
   setSettings((state) => ({
     ...state}
     ));
@@ -41,22 +42,21 @@ useEffect(() => {
  const handleChangeView = (isView) => {
   setView(isView)
 }
-  //Fetches all users. No filters applied. This is for testing
-  /*
-  const getRecommendations = () => {
+  //Fetches all users when page initally loads. No filters applied.
+  const showUsers = () => {
     fetch("/users")
     .then(response => response.json())
     .then(users => {
     setRecommendations(users)
-    handleChangeView("List")
+    //handleChangeView("List")
     })
     .catch(error => {
       console.log(error)
     })
   };
-  */
 
-// Generates list of recommended climbers based on match criteria i.e. location & days. 
+
+// Generates list of recommended climbers based on match criteria once preferences filled in 
 // To do - insert top/lead
   const getRecommendations = async () => {
     try {
@@ -96,6 +96,7 @@ useEffect(() => {
     
     <header className="mb-auto">
     <div>
+      
     <img 
     className= "App-logo img-fluid" 
     src="https://cdn-icons-png.flaticon.com/512/5064/5064233.png"
