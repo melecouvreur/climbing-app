@@ -65,3 +65,7 @@ nav {
 .card {
   background-color: whitesmoke;
 }
+
+.active {
+  border-color: red;
+}

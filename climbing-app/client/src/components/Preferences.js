@@ -53,7 +53,6 @@ const handleDaysChange = (d) => {
   console.log(days)
   }
 
-  
 const handleSubmit = (e) => {
   e.preventDefault();
   console.log(days)
@@ -65,7 +64,6 @@ const handleSubmit = (e) => {
 useEffect(() => {
 //setDays()
 //getRecommendations()
-//console.log(days)
 }, [])
 
   return (
@@ -77,7 +75,10 @@ useEffect(() => {
       <div className="grid p-3 text-center">
 
       <div className="row">
-
+      
+      <div>
+      <p> Find Climbers </p>
+      </div>
          <div className="row p-3">
           <label> Location </label>
           <input
