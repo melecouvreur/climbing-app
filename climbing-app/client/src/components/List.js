@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import Box from "./Box"
+import "./Profile.css"
 
 function List( {recommendations, handleChangeView, isView}) {
 
@@ -23,22 +24,52 @@ async function featureUser(id) {
 }
 
   return (
-    <div className="justify-content">
-      <h2> My Matches </h2>
+    
+    <div className="bg-3 d-flex justify-content-center align-items-center">
+      <div className="card-deck">
       {recommendations.map(user => (
         <div
          key={user.uID}
-         className="card p-3 list-group-item center-align border-0"
+         className="card"
          onClick={() => featureUser(user.uID)}>
 
-         <h5 className="card-title"> {user.username} </h5>
-         <h5 className="card-text">{user.firstname} {user.lastname} </h5>
-         <img className="avatar card-img p-2" src={user.avatar} alt="profile"/>
-         <span> {user.top} </span>
-         <p className="card-body"> {user.bio} </p>
-       </div>
-      ))}
+     <div className="user text-center">
+     <div className="profile">
+      <img 
+        src={user.avatar} 
+        className="rounded-circle" 
+        width="100"/>
+    </div>
+   </div>
 
+  <div className="mt-5 text-center">
+   <h4 className="p-2 mb-0"> {user.username} </h4>
+   <p className="d-block mb-2"> {user.firstname} {user.lastname} </p>
+   <span className="d-block mb-2"> {user.pronouns}</span>
+
+   <button 
+   className="btn btn-warning btn-sm follow m-3">
+    Send Request
+   </button>
+
+   <div className="d-flex justify-content-between align-items-center mt-4 px-4">
+
+     <div className="stats">
+       <h6 className="mb-0"> Location </h6>
+       <span> {user.location}</span>
+     </div>
+
+     <div className="stats">
+       <h6 className="mb-0"> Level </h6>
+       <span> {user.level} </span>
+     </div>
+
+   </div>
+
+</div>
+</div> 
+      ))}
+</div>
       {isView === "Featured" && (
       <Box
        featured={featured}/>

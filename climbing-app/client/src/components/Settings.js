@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from "react";
+import "./Profile.css"
 
 function Settings( {getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
 
@@ -63,98 +64,77 @@ useEffect(() => {
  
   return (
 
-    <div className="d-flex h-100 w-100 p-3 justify-content-center">
+  <div className="bg-1 p-4 d-flex justify-content-center text-left">
 
-      <form onSubmit={handleSubmit}>
-      <div className="d-flex p-3 m-1">
+    <form onSubmit={handleSubmit}>
 
-      <div className="grid p-3">
-
-          <div className="form-group row p-3">
-          <label className="col-3 p-3"> First name </label>
-          <div className="col-9 p-3">
-          <input
-            type="text"
-            name="firstName"
-            value={settings.firstName}
-            placeholder="Type first name"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
-         
-
-          <label className="col-3 p-3"> Last name </label>
-          <div className="col-9 p-3">
-          <input
-            type="text"
-            name="lastName"
-            value={settings.lastName}
-            placeholder="Type last name"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
-          </div>
-
-          <div className="form-group row p-3">
-          <label className="col-3 p-3"> User name </label>
-          <div className="col-9 p-3">
-          <input
-            type="text"
-            name="userName"
-            value={settings.userName}
-            placeholder="Type user name"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
-
-
-          <label className="col-3 p-3"> Email </label>
-          <div className="col-9 p-3">
-          <input
-            type="email"
-            name="email"
-            value={settings.email}
-            placeholder="Type email"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
-          </div>
-
-          <div className="form-group row p-3">
-          <label className="col-3 p-3"> Bio </label>
-          <div className="col-9 p-3">
-          <input
-            type="text"
-            name="bio"
-            value={settings.bio}
-            placeholder="Type bio"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
+    <div className="form-row">
+        <div className="form-group col-md-6 p-2">
+            <label> First name </label>
+            <input
+              type="text"
+              name="firstName"
+              value={settings.firstName}
+              placeholder="Type first name"
+              className="form-control"
+              onChange={(e) => handleInputChange(e)}
+            />
+        </div>
+          
+        <div className="form-group col-md-6 p-2">
+            <label> Last name </label>
+            <input
+              type="text"
+              name="lastName"
+              value={settings.lastName}
+              placeholder="Type last name"
+              className="form-control"
+              onChange={(e) => handleInputChange(e)}
+            />
+        </div>
+    </div>
+    
+    <div className="form-row">
+       <div className="form-group col-md-6 p-2">
+            <label> User name </label>
+            <input
+              type="text"
+              name="userName"
+              value={settings.userName}
+              placeholder="Type user name"
+              className="form-control"
+              onChange={(e) => handleInputChange(e)}
+            />
+       </div>
+     
+       <div className="form-group col-md-6 p-2">
+          <label> Email </label>
+            <input
+              type="email"
+              name="email"
+              value={settings.email}
+              placeholder="Type email"
+              className="form-control"
+              onChange={(e) => handleInputChange(e)}
+            />
+        </div>
+    </div>
         
-
-
-          <label className="col-3 p-3"> Image </label>
-          <div className="col-9 p-3">
-          <input
-            type="text"
-            name="img"
-            value={settings.img}
-            placeholder="https://example.com/users/"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
+      <div className="form-row">
+         <div className="form-group col-md-6 p-2">
+            <label> Image </label>
+            <input
+              type="text"
+              name="img"
+              value={settings.img}
+              placeholder="https://example.com/users/"
+              className="form-control"
+              onChange={(e) => handleInputChange(e)}
+            />
         </div>
 
-         <div className="form-group row p-3">
-          <label className="col-3 p-3"> Location </label>
-          <div className="col-9 p-3">
+         <div className="form-group col-md-6 p-2">
+          <label> Location </label>
           <input
             type="text"
             name="location"
@@ -164,11 +144,9 @@ useEffect(() => {
             onChange={(e) => handleInputChange(e)}
           />
           </div>
-         
 
-          
-           <label className="col-3 p-3"> Level </label>
-           <div className="col-9 p-3">
+          <div className="form-group col-md-6 p-2">
+         <label> Level </label>
            <select 
             className="form-control"
             id="level"
@@ -183,46 +161,59 @@ useEffect(() => {
             <option>Advanced</option>
           </select>
           </div>
-          </div>
 
-        
-         <div className="form-group row p-3 m-3 list-group-horizontal">
-         {daysOfWeek.map(d => (
-          <div key={d.name}> 
-          <label className="p-1"> {d.name} </label>
-          <input
-          type="checkbox"
-          name="days"
-          value={d.name}
-          checked={daysOfWeek.checked}
-          className="p-1 control-input list-group-item flex-fill"
-          onChange={() => handleDaysChange(d)}/>
-          </div>
-          ))}
-          </div>
+          <div className="form-group col-md-6 p-2">
+            <label> Lead </label>
+            <input 
+            type="checkbox" 
+            className="form-row m-2" 
+            name="lead"
+            value={settings.lead}
+            checked={settings.lead === true}
+            onChange={() => setLead(settings.lead)}
+            />
+            </div>
 
-          <div className="form-group row p-3">
-          <div className="custom-control custom-checkbox">
-          <label className="p-2"> Lead </label>
-          <input 
-          type="checkbox" 
-          className="custom-input" 
-          name="lead"
-          value={settings.lead}
-          checked={settings.lead === true}
-          onChange={() => setLead(settings.lead)}
-          />
-          </div>
-
-          </div>
-       
-          <div className="form-group row-md p-3">
-          <button className="btn btn-m btn-warning">Submit</button>
-          </div>
-
-        
+        </div>
+  
+        <div className="form-row">
+          <div className="form-group col-md-12 p-2">
+            <label> Bio </label>
+            <input
+              type="text"
+              name="bio"
+              value={settings.bio}
+              placeholder="Type bio"
+              className="form-control p-5"
+              onChange={(e) => handleInputChange(e)}
+            />
+         </div>
       </div>
-      </div>
+
+         <div className="form-group row p-2 m-2 list-group-horizontal">
+          {daysOfWeek.map(d => (
+            <div 
+            key={d.name}> 
+            <label className="p-1"> {d.name} </label>
+            <div className="col">
+            <input
+            type="checkbox"
+            name="days"
+            value={d.name}
+            checked={daysOfWeek.checked}
+            className="m-2 control-input list-group-item flex-fill"
+            onChange={() => handleDaysChange(d)}/>
+            </div>
+            </div>
+            ))}
+          </div>
+        
+          <div className="form-row justify-content-center">
+            <button className="btn btn-m btn-warning">Submit
+            </button>
+          </div>
+
+     
       </form>
 
     </div>

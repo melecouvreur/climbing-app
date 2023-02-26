@@ -1,21 +1,76 @@
-.App {
-  text-align: center;
-}
 
-.App-logo {
+.logo {
   height: 7vmin;
   pointer-events: none;
+}
+
+.main {
+  height: 100vh
+}
+
+h1,
+h2 {
+  color: salmon
+}
+
+h3,
+h4,
+h5,
+h6 {
+  color: white
+}
+
+nav {
+  background-color: salmon;
+}
+
+
+.avatar {
+  height: 30vmin;
+  width: 30vmin;
+}
+
+.bg-1 {
+  background-image: url(images/bg-1.jpg);
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-2 {
+  background-image: url(images/bg-2.jpg);
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-3 {
+  background-image: url(images/bg-3.jpg);
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-4 {
+  background-image: url(images/bg-4.jpg);
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.belayMe-logo {
+  background-image: url(images/logo.png);
+
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.profile-pic {
-  height: 30vmin;
-  width: 30vmin;
 }
 
 .App-header {
@@ -40,45 +95,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-h1,
-h2 {
-  color: whitesmoke
-}
-
-h3,
-h4,
-h5,
-h6 {
-  color: whitesmoke
-}
-
-nav {
-  background-color: salmon;
-}
-
-* {
-  background-color: black;
-  color: whitesmoke
-}
-
-
-.profile {
-  background-color: salmon;
-  border: none
-}
-
-.active {
-  border-color: red;
-}
-
-.avatar {
-  height: 30vmin;
-  width: 30vmin;
-}
-
-.profile-pic {
-  height: 50vmin;
-  width: 50vmin;
 }

@@ -6,7 +6,7 @@ import Profile from "./components/Profile";
 import Preferences from "./components/Preferences";
 import './App.css';
 import { Routes, Route, Link, NavLink, useNavigate} from "react-router-dom";
-
+import logo from "./images/logo.png"
 
 function App() {
 
@@ -82,45 +82,35 @@ useEffect(() => {
     }
   };
 
-  let activeClassName = "btn btn-sm btn-warning"
+  let activeClassName = "btn-outline-danger"
   
   return (
-
-    <div className="d-flex w-100 h-100 text-center">
-
+    <div className="main container-fluid text-center">
       
-    <div className="cover-container d-flex w-100 h-100 p-2 flex-column">
+    <div className="flex-row">
 
-    <div className="d-flex justify-content-start p-1">
-    <NavLink 
+    <div>
+    <NavLink to="/">
+    <img
+    className="logo m-2" 
+    src={logo}
+    alt="logo"
+    onClick={() => navigate("/")}/> 
+    </NavLink>
+    </div>
+
+    <nav className="nav nav-masthead justify-content-center p-2">
+    
+       <NavLink 
         to="/settings"
         className={({isActive}) => 
         isActive ? activeClassName : undefined }>
         <button
         //onClick={() => handleChangeView("Settings")} //remove
         className="text-white btn m-1">
-        Edit Profile</button>
-    </NavLink>
-    </div>
-    
-    <header className="mb-auto">
-    <div>
+        Settings </button>
+       </NavLink>
 
-    
-    <div>
-    <NavLink to="/">
-    <img
-    className="App-logo img-fluid" 
-    src="https://cdn-icons-png.flaticon.com/512/5064/5064233.png"
-    alt="carabina"
-    onClick={() => navigate("/")}/> 
-    </NavLink>
-    </div>
-
-    <h1 className="float-md-start"> BelayMe </h1>
-
-    <nav className="nav nav-masthead justify-content-center float-md-end p-3">
-        
         <NavLink 
         to="/preferences"
         className={({isActive}) => 
@@ -130,10 +120,12 @@ useEffect(() => {
         className="text-white btn m-1">
         myPreferences</button></NavLink>
 
-        <NavLink to="/profile"><button
-        onClick={() => handleChangeView("Profile")} // remove
-        className= {isView === "Profile" ? "text-danger btn m-1" 
-        : "text-white btn m-1"} >
+        <NavLink to="/profile"
+         className={({isActive}) => 
+         isActive ? activeClassName : undefined }
+         ><button
+        //onClick={() => handleChangeView("Profile")} // remove
+        className="text-white btn m-1" >
         myProfile </button></NavLink>
 
         <NavLink to="/matches"
@@ -141,11 +133,12 @@ useEffect(() => {
         isActive ? activeClassName : undefined }
         ><button
         onClick={() => getRecommendations} 
-        className= "text-white btn m-1">
+        className="text-white btn m-1">
         myMatches </button></NavLink>
         </nav>
+
     </div>
-    </header>
+   
 
     <Routes>
       <Route path="/"
@@ -206,7 +199,6 @@ useEffect(() => {
      </Routes>
          
      </div>
-    </div>
   )
 }
 

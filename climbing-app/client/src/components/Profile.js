@@ -1,4 +1,5 @@
 import React from "react";
+import "./Profile.css"
 
 function Profile( {navigate, settings, getRecommendations}) {
 
@@ -10,37 +11,52 @@ const findPartners = () => {
   }
 
   return (
-    <div className="justify-content">
+
+<div className="bg-2 d-flex justify-content-center align-items-center">
        
-      <div className="profile p-3 justify-content-center float-md-end border-0">
-      <h2 className="profile p-3"> My Profile </h2>
+  <div 
+    className="card">
+   {/* <div className="upper">
+      <img src="https://media.istockphoto.com/id/530731783/photo/woman-climbing-up-on-practice-wall.jpg?s=612x612&w=0&k=20&c=8R68VvcyMJVY2Qnsz0gHkfjabrRj1GTJn-CvCaVijWw=" 
+      className="img-fluid"/>
+  </div>*/}
 
-      <h5 className="profile card-title"> {settings.userName} </h5>
-      <span className="profile card-text"> {settings.pronouns} </span>
-
-      <img className="profile-pic img-fluid" src={settings.img} alt="profile"/>
-
-      <p className="profile p-3"> {settings.location} </p>
-      <span> {settings.lead} </span>
-      <p className="profile card-body justify-content-center p-5"> {settings.bio} </p>
-
-      <div className="profile">
-      <button 
-      className="row btn btn-m btn-warning m-1"
-      onClick={findPartners}
-      > Find NewPartners </button>
-      </div>
-      
-      <div className="profile">
-      <button
-      className="row btn btn-m btn-warning m-1">
-        My Partners
-      </button>
-      </div>
-
-      </div>
-
+    <div className="user text-center">
+     <div className="profile">
+      <img 
+        src={settings.img} 
+        className="rounded-circle" 
+        width="100"/>
     </div>
+   </div>
+
+  <div className="mt-5 text-center">
+   <h4 className="p-2 mb-0"> {settings.userName} </h4>
+   <span className="d-block mb-2"> {settings.pronouns}</span>
+
+   <button 
+   className="btn btn-warning btn-sm follow m-3"
+   onClick={findPartners}>
+    Get Matched
+   </button>
+
+   <div className="d-flex justify-content-between align-items-center mt-4 px-4">
+
+     <div className="stats">
+       <h6 className="mb-0"> Location </h6>
+       <span> {settings.location}</span>
+     </div>
+
+     <div className="stats">
+       <h6 className="mb-0"> Level </h6>
+       <span> {settings.level} </span>
+     </div>
+
+   </div>
+
+</div>
+</div> 
+</div>
   );
 }
 

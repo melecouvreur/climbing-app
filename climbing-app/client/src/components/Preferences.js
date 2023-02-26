@@ -1,4 +1,5 @@
 import React, { useState, useEffect} from "react";
+import "./Profile.css"
 
 function Preferences( {getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
 
@@ -62,87 +63,77 @@ useEffect(() => {
 
   return (
 
-    <div className="d-flex p-3 justify-content-center">
-     {/*<h2 className="text-center"> Settings </h2>*/}
+    <div className="bg-1 d-flex p-4 justify-content-center text-left">
 
-      <form onSubmit={handleSubmit}
-      className="d-flex p-3 m-1">
+      <form onSubmit={handleSubmit}>
+      <div className="form-row">
+         <div className="form-group col-md-6 p-3">
+            <label> Location </label>
+            <input
+              type="text"
+              name="location"
+              value={settings.location}
+              placeholder="Set location"
+              className="form-control"
+              onChange={(e) => handleInputChange(e)}
+            />
+         </div>
 
-      <div className="grid p-3">
-
-         <div className="form-group row p-3">
-          <label className="col-3"> Location </label>
-          <div className="col-9">
-          <input
-            type="text"
-            name="location"
-            value={settings.location}
-            placeholder="Set location"
-            className="form-control"
-            onChange={(e) => handleInputChange(e)}
-          />
-          </div>
-          </div>
-
-           <div className="form-group row p-3">
-           <label className="col-3"> Level </label>
-           <div className="col-9">
-           <select 
-            className="form-control"
-            id="level"
-            type="text"
-            name="level"
-            value={settings.level}
-            placeholder="Set level"
-            onChange={(e) => handleInputChange(e)}
-            >
-            <option>Beginner</option>
-            <option>Intermediate</option>
-            <option>Advanced</option>
-          </select>
-          </div>
+           <div className="form-group col-md-6 p-3">
+            <label> Level </label>
+            <select 
+              className="form-control"
+              id="level"
+              type="text"
+              name="level"
+              value={settings.level}
+              placeholder="Set level"
+              onChange={(e) => handleInputChange(e)}
+              >
+              <option>Beginner</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+            </select>
+            </div>
           </div>
          
 
-         <div className="form-group row p-3 m-3 list-group-horizontal">
-         {daysOfWeek.map(d => (
-          <div key={d.name}> 
-          <label className="p-1"> {d.name} </label>
-          <input
-          type="checkbox"
-          name="days"
-          value={d.name}
-          checked={daysOfWeek.checked}
-          className="p-1 control-input list-group-item flex-fill"
-          onChange={() => handleDaysChange(d)}/>
-          </div>
-          ))}
-          </div>
-
-          <div className="form-group row p-3">
-          <div className="custom-control custom-checkbox">
-           <label className="p-3"> Lead </label>
-           <input 
-           type="checkbox" 
-           className="custom-input" 
-           name="lead"
-           value={settings.lead}
-           checked={settings.lead === true}
-           onChange={() => setLead(settings.lead)}
-           />
-          
+          <div className="form-group row p-2 m-2 list-group-horizontal">
+          {daysOfWeek.map(d => (
+            <div 
+            key={d.name}> 
+            <label className="p-1"> {d.name} </label>
+            <div className="col">
+            <input
+            type="checkbox"
+            name="days"
+            value={d.name}
+            checked={daysOfWeek.checked}
+            className="m-2 control-input list-group-item flex-fill"
+            onChange={() => handleDaysChange(d)}/>
+            </div>
+            </div>
+            ))}
           </div>
 
-
-        
+          <div className="form-row p-3">
+            <div className="form-group col-md-6 p-2">
+            <label> Lead </label>
+            <input 
+            type="checkbox" 
+            className="form-row m-2" 
+            name="lead"
+            value={settings.lead}
+            checked={settings.lead === true}
+            onChange={() => setLead(settings.lead)}
+            />
+            </div>
           </div>
        
-          <div className="form-group row-md p-3">
+          <div className="form-row justify-content-center">
           <button className="btn btn-m btn-warning">Submit</button>
           </div>
 
-       
-      </div>
       </form>
 
     </div>
