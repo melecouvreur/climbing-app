@@ -66,6 +66,11 @@ useEffect(() => {
     <div className="bg-1 d-flex p-4 justify-content-center text-left">
 
       <form onSubmit={handleSubmit}>
+
+      <div>
+        <p>  </p>
+      </div>
+
       <div className="form-row">
          <div className="form-group col-md-6 p-3">
             <label> Location </label>

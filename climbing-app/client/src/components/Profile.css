@@ -4,10 +4,10 @@
 body {
     background-color: whitesmoke;
     font-family: "Poppins", sans-serif;
-    font-weight: 300;
+    font-weight: 500;
     }
 
-.card{
+.card {
     background-color: salmon;
     width: 380px;
     border: none;
@@ -26,7 +26,6 @@ height: 100px;
         width: 100%;
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
-
        }
 
 .user {
