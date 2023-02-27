@@ -9,12 +9,12 @@ body {
 
 .card {
     background-color: salmon;
-    width: 380px;
+    width: 360px;
     border: none;
     border-radius: 15px;
-    padding: 8px;
+    padding: 5px;
     position: relative;
-    height: 370px;
+    height: 350px;
     color: whitesmoke
        }
 

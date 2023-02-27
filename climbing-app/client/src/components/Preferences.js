@@ -122,6 +122,24 @@ useEffect(() => {
           </div>
 
           <div className="form-row p-3">
+          <div className="form-group col-md-6 p-2">
+          <label> Gender </label>
+            <select 
+              className="form-control"
+              id="gender"
+              type="text"
+              name="gender"
+              value={settings.gender}
+              placeholder="Set level"
+              onChange={(e) => handleInputChange(e)}
+              >
+              <option>Male</option>
+              <option>Female</option>
+              <option>Non-binary</option>
+              <option>Trans</option>
+            </select>
+            </div>
+
             <div className="form-group col-md-6 p-2">
             <label> Lead </label>
             <input 

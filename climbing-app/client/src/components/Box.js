@@ -5,7 +5,7 @@ function Box( {featured}) {
   return (
     <div className="justify-content">
       <h2> Name Climber </h2>
-      {featured.firstname && (
+      {featured.username && (
       <div>
       <span>{featured.firstname} {featured.lastname} </span>
       <span> {featured.location} </span>

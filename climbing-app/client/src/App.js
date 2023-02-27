@@ -22,6 +22,7 @@ function App() {
     lastName: "Couvreur",
     userName: "m_couvreur",
     email: "dummy@gmail.com",
+    gender: "Female",
     pronouns: "she/her",
     bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge. Coffee, climbing and coding-fanatic",
     img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
@@ -69,7 +70,7 @@ useEffect(() => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location: settings.location, days, level: settings.level}) 
+        body: JSON.stringify({ location: settings.location, days, level: settings.level, gender: settings.gender}) 
       });
       let users = await results.json();
       console.log(users)
