@@ -18,23 +18,33 @@ con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 
-  let sql = ` DROP TABLE user_info IF EXISTS;
-              CREATE TABLE user_info(
+  let sql =  `DROP TABLE IF EXISTS user_info_test;
+              CREATE TABLE user_info (
               uID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
               firstname VARCHAR(40) NOT NULL,
               lastname VARCHAR(40) NOT NULL,
               username VARCHAR(40),
               email VARCHAR(40),
-              pronouns VARCHAR(40),a
+              pronouns VARCHAR(40),
               avatar VARCHAR(5000),
               bio VARCHAR(5000),
               location VARCHAR(500),
-              level VARCHAR(200);
+              level VARCHAR(200),
               top TINYINT(1),
-              lead TINYINT(1));`
+              gender VARCHAR(50)
+              );
+              
+              DROP TABLE IF EXISTS days_test;
+              CREATE TABLE days (
+              dID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+              day VARCHAR(20),
+              uID INT REFERENCES user_info(uID)
+              SET CONNECTION TO user_info TABLE
+              );`
+
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table creation `user_info` was successful!");
+    console.log("Table creation `user_info_test` and 'days_test' was successful!");
 
     console.log("Closing...");
   });
@@ -42,5 +52,3 @@ con.connect(function(err) {
   con.end();
 });
 
-//here define tables
-//if run npm run migrate, create this table 

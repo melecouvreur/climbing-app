@@ -1,44 +1,30 @@
 # Climbing-app
 
-## **The problem**
+## Project Description
+
+### **The problem**
 
 Climbers struggle finding consistent belay partners that match their skills, schedule and location.
 
-## **How this app will solve it**
+### **How this app will solve it**
 
-It will connect fellow climbers based on matching skills, schedule and location
+It will connect fellow climbers based on level, climbing schedule, location and gender
 
-## **How is it different from other apps**
+## Userflow
 
-It will focus solely on matching climbers and solving this specific problem. Keeping it simple, but prioritizing user experience and needs
+![This is an image](/BelayMe%20UserFlow.png)
 
-## Features Phase 1
+### Features Phase 1
 
-- User can create, edit and delete climber profile containing:
-
-  - Name
-  - Email
-  - Username
-  - Pronouns
-  - Profile pic
-  - Bio
-
-- User can edit match preferences/filters containing:
+- User can create and edit personal climber profile
+- User can match with others climbers based on preferences:
   - Location
-  - Climbing category i.e. top rope & lead
-  - Skill level
+  - Lead
+  - Level
   - Days
+  - Gender
 
-- User can filter/match with others climbers based on preferences
-
-## **Technologies**
-
-- React
-- Node.js
-- Bootstrap
-- mySQL
-
-## **Future Features**
+### **Future features**
 
 - Account and profile set-up user flow including email verification & T&Cs
 - User can send/accept connection request to matched/filtered climbers
@@ -53,9 +39,19 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 - User gets notification when other user interacts i.e. send connection request, new message
 - User can choose to allow/disable notifications
 
-## API Routes
+## **Technical Specs**
 
-### Route 1
+### **Technologies**
+
+- React
+- React Router
+- Node.js
+- Bootstrap
+- mySQL
+
+### API Routes
+
+#### Route 1
 
 - URL: "/users"
 - METHOD: GET
@@ -64,7 +60,7 @@ It will focus solely on matching climbers and solving this specific problem. Kee
 - Res Obj: {ID: integer, firstname: string, lastname: string, email: string,
 username: string, pronouns: string, avatar: url, bio: string, location: string, top: Boolean, lead: Boolean, level: string}
 
-### Route 2
+#### Route 2
 
 - URL: "/users/:id"
 - METHOD: GET
@@ -73,7 +69,7 @@ username: string, pronouns: string, avatar: url, bio: string, location: string, 
 - Res Obj: {ID: integer, firstname: string, lastname: string, email: string,
 username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string}
 
-### Route 3
+#### Route 3
 
 - URL: "/users"
 - METHOD: POST
@@ -82,7 +78,7 @@ username: string, pronouns: string, avatar: url, bio: string,  location: string,
 - Res Obj {
 }
 
-### Route 4
+#### Route 4
 
 - URL: "/users/:id"
 - METHOD: PUT
@@ -91,7 +87,7 @@ username: string, pronouns: string, avatar: url, bio: string,  location: string,
 - Res Obj {
 }
 
-### Route 5
+#### Route 5
 
 - URL: "/users/recommend"
 - METHOD: POST
@@ -99,9 +95,11 @@ username: string, pronouns: string, avatar: url, bio: string,  location: string,
 - Req Body: {location, top, lead, level, days }
 - Res Obj: {username: string, username: string, pronouns: string, avatar: url, bio: string, location: string, lead: Boolean, top: boolean, level: string}
 
-## Database
+### Database info
 
-USER_INFO
+MAIN DATABASE = 'users' - containing two table, 'user_info' and 'days'
+
+TABLE 1: USER_INFO
 
 - uID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
 - firstname VARCHAR() NOT NULL; String
@@ -113,45 +111,41 @@ USER_INFO
 - bio VARCHAR(); String
 - location VARCHAR() NOT NULL; String
 - top BINARY(); Boolean
-- lead BINARY(); Boolean
 - level VARCHAR(); NOT NULL; String
+- gender VARCHAR(); String
 
-DAYS
+TABLE 2: DAYS
 
 - dID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
 - uID INT NOT NULL FOREIGN KEY; Number
 - day VARCHAR(20)
 
-MY SQL COMMANDS TO SET UP DATABASES
+## **Setup Instructions**
 
-USER_INFO DATABASE:
+### Dependencies
 
-`CREATE TABLE user_info (
-uID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-firstname VARCHAR(40) NOT NULL,
-lastname VARCHAR(40) NOT NULL,
-username VARCHAR(40),
-email VARCHAR(40),
-pronouns VARCHAR(40),a
-avatar VARCHAR(5000),
-bio VARCHAR(5000),
-location VARCHAR(500),
-level VARCHAR(200);
-top TINYINT(1),
-lead TINYINT(1));`
+- Run `npm install` in project directory. This will install server-related dependencies such as `express`.
+- `cd client` and run `npm install` and `npm install react-router-dom`. This will install client dependencies (React) and React Router.
 
-*TODO - add lead column! Can't seem to add.
+### Database Prep
 
-DAYS DATABASE
+- Access the MySQL interface in terminal by running `mysql -u root -p`
+- Create a new database called users: `create database users`
+- Add a `.env` file to the project folder of this repository containing MySQL authentication information:
+  - DB_HOST=localhost
+  - DB_USER=root
+  - DB_NAME=users
+  - DB_PASS=YOURPASSWORD
 
-`CREATE TABLE days (
-dID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-day VARCHAR(20),
-uID INT REFERENCES user_info(uID)
-SET CONNECTION TO user_info TABLE);`
+- Run `npm run migrate` in the project folder of this repository, in a new terminal window. This will create a tables called 'user_info' and 'days' in your database.**
 
-*TODO - check commands again on blank database
+- Populate 'user_info' and 'days' tables with the MYSQL COMMANDS in:
+  - model/days.sql
+  - model/user_info.sql
 
-## Userflow
+**If npm run migrate doesn't work, seperate instructions are included in model files to set-up tables in MYSQL interfact directly.
 
-![This is an image](/BelayMe%20UserFlow.png)
+### Development
+
+- Run `npm start` in project directory to start the Express server on port 5002
+- In another terminal, do `cd client` and run `npm start` to start the client in development mode with hot reloading in port 3000
