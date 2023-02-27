@@ -73,6 +73,28 @@ footer {
   background-size: cover;
 }
 
+.p-form {
+  background-color: salmon;
+  width: 600px;
+  border: none;
+  border-radius: 15px;
+  padding: 5px;
+  position: relative;
+  height: 450px;
+  color: whitesmoke
+}
+
+.s-form {
+  background-color: salmon;
+  width: 600px;
+  border: none;
+  border-radius: 15px;
+  padding: 5px;
+  position: relative;
+  height: 600px;
+  color: whitesmoke
+}
+
 .belayMe-logo {
   background-image: url(images/logo.png);
 }

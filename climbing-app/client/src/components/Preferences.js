@@ -55,11 +55,11 @@ useEffect(() => {
 
     <div className="bg-1 d-flex p-4 justify-content-center text-left">
 
-      <form onSubmit={handleSubmit}>
+      <form 
+      className="p-form align-self-center"
+      onSubmit={handleSubmit}>
 
-      <div>
-        <p>  </p>
-      </div>
+    
 
       <div className="form-row">
          <div className="form-group col-md-6 p-3">

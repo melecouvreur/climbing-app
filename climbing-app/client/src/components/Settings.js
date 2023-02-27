@@ -59,11 +59,11 @@ useEffect(() => {
 
     <form 
     onSubmit={handleSubmit}
-    className="py-2"
+    className="p-3 s-form align-self-center"
     >
 
-    <div className="form-row">
-        <div className="form-group col-md-6 p-2">
+    <div className="form-row px-2">
+        <div className="form-group col-md-6 px-2">
             <label> First name </label>
             <input
               type="text"
@@ -75,7 +75,7 @@ useEffect(() => {
             />
         </div>
           
-        <div className="form-group col-md-6 p-2">
+        <div className="form-group col-md-6">
             <label> Last name </label>
             <input
               type="text"
@@ -88,8 +88,8 @@ useEffect(() => {
         </div>
     </div>
     
-    <div className="form-row">
-       <div className="form-group col-md-6 p-2">
+    <div className="form-row px-2">
+       <div className="form-group col-md-6 px-2">
             <label> User name </label>
             <input
               type="text"
@@ -101,7 +101,7 @@ useEffect(() => {
             />
        </div>
      
-       <div className="form-group col-md-6 p-2">
+       <div className="form-group col-md-6 px-2">
           <label> Email </label>
             <input
               type="email"
@@ -114,8 +114,8 @@ useEffect(() => {
         </div>
     </div>
         
-      <div className="form-row">
-         <div className="form-group col-md-6 p-2">
+      <div className="form-row px-2">
+         <div className="form-group col-md-6 px-2">
             <label> Image </label>
             <input
               type="text"
@@ -127,7 +127,7 @@ useEffect(() => {
             />
         </div>
 
-         <div className="form-group col-md-6 p-2">
+         <div className="form-group col-md-6 px-2">
           <label> Location </label>
           <input
             type="text"
@@ -139,7 +139,7 @@ useEffect(() => {
           />
           </div>
 
-          <div className="form-group col-md-4 p-2">
+          <div className="form-group col-md-4 px-2">
          <label> Level </label>
            <select 
             className="form-control"
@@ -156,7 +156,7 @@ useEffect(() => {
           </select>
           </div>
 
-          <div className="form-group col-md-4 p-2">
+          <div className="form-group col-md-4 px-2">
           <label> Gender </label>
             <select 
               className="form-control"
@@ -174,7 +174,7 @@ useEffect(() => {
             </select>
             </div>
 
-          <div className="form-group col-md-4 p-2">
+          <div className="form-group col-md-4 px-2">
             <label> Lead </label>
             <input 
             type="checkbox" 
@@ -188,39 +188,39 @@ useEffect(() => {
 
         </div>
   
-        <div className="form-row">
-          <div className="form-group col-md-12 p-2">
+        <div className="form-row px-2">
+          <div className="form-group col-md-12 px-2">
             <label> Bio </label>
             <input
               type="text"
               name="bio"
               value={settings.bio}
               placeholder="Type bio"
-              className="form-control p-5"
+              className="form-control p-4"
               onChange={(e) => handleInputChange(e)}
             />
          </div>
       </div>
 
-         <div className="form-group row p-2 m-2 list-group-horizontal">
+         <div className="form-group row px-2 m-2 list-group-horizontal">
           {daysOfWeek.map(d => (
             <div 
             key={d.name}> 
-            <label className="p-1"> {d.name} </label>
+            <label className="px-1"> {d.name} </label>
             <div className="col">
             <input
             type="checkbox"
             name="days"
             value={d.name}
             checked={d.checked}
-            className="m-2 control-input list-group-item flex-fill"
+            className="m-1 control-input list-group-item flex-fill"
             onChange={() => handleDaysChange(d)}/>
             </div>
             </div>
             ))}
           </div>
         
-          <div className="form-row justify-content-center">
+          <div className="form-row justify-content-center p-3">
             <button className="btn btn-m btn-warning">Submit
             </button>
           </div>
