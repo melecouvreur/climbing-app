@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import "./Profile.css"
 
-function Preferences( {daysOfWeek, getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
+function Preferences( {preferences, setPreferences, daysOfWeek, getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
 
 
 
@@ -10,7 +10,7 @@ const handleInputChange = (event) => {
   const value = event.target.value;
   const name = event.target.name;
 
-  setSettings((state) => ({
+  setPreferences((state) => ({
     ...state,
   [name]: value,}
   ))
@@ -21,8 +21,8 @@ const handleInputChange = (event) => {
 //TO DO - refactor
 
 const setLead = () => {
-  setChecked(settings.lead = !settings.lead)
-  setSettings((state) => ({
+  setChecked(preferences.lead = !preferences.lead)
+  setPreferences((state) => ({
       ...state}))
   console.log(settings)
   }
@@ -43,7 +43,6 @@ const handleSubmit = (e) => {
   e.preventDefault();
   console.log(days)
   getRecommendations()
-  handleChangeView("List")
   navigate("/matches")
 }
 
@@ -68,7 +67,7 @@ useEffect(() => {
             <input
               type="text"
               name="location"
-              value={settings.location}
+              value={preferences.location}
               placeholder="Set location"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -82,7 +81,7 @@ useEffect(() => {
               id="level"
               type="text"
               name="level"
-              value={settings.level}
+              value={preferences.level}
               placeholder="Set level"
               onChange={(e) => handleInputChange(e)}
               >
@@ -120,7 +119,7 @@ useEffect(() => {
               id="gender"
               type="text"
               name="gender"
-              value={settings.gender}
+              value={preferences.gender}
               placeholder="Set level"
               onChange={(e) => handleInputChange(e)}
               >
@@ -137,9 +136,9 @@ useEffect(() => {
             type="checkbox" 
             className="form-row m-2" 
             name="lead"
-            value={settings.lead}
-            checked={settings.lead === true}
-            onChange={() => setLead(settings.lead)}
+            value={preferences.lead}
+            checked={preferences.lead === true}
+            onChange={() => setLead(preferences.lead)}
             />
             </div>
           </div>

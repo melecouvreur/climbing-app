@@ -3,7 +3,6 @@
 
 body {
     background-color: whitesmoke;
-    font-family: "Poppins", sans-serif;
     font-weight: 500;
     }
 
@@ -59,3 +58,7 @@ height: 100px;
 .stats span {
         font-size: 20px;
        }
+
+.bio {
+       font-size: 15px
+}

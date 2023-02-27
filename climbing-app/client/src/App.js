@@ -4,13 +4,13 @@ import Settings from "./components/Settings"
 import List from "./components/List"
 import Profile from "./components/Profile";
 import Preferences from "./components/Preferences";
+import logo from "./images/logo.png"
 import './App.css';
 import { Routes, Route, Link, NavLink, useNavigate} from "react-router-dom";
-import logo from "./images/logo.png"
+
 
 function App() {
 
-  const [isView, setView] = useState("home") // SetsView 
   const [isChecked, setChecked] = useState(false) // Sets top/lead within Preferences of "active user"
   const [recommendations, setRecommendations] = useState([]) // SetsRecommendations array (= recommended climbers) based on Preferences/filters
   const [days, setDays] = useState(["Saturday", "Monday", "Tuesday", "Friday"]) // Setsdays within Preferences/filter of "active user"
@@ -24,13 +24,20 @@ function App() {
     email: "dummy@gmail.com",
     gender: "Female",
     pronouns: "she/her",
-    bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge. Coffee, climbing and coding-fanatic",
+    bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge",
     img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
     location: "London",
     level: "Advanced",
     lead: false, 
    }
  )
+
+const [preferences, setPreferences] = useState({
+    gender: "Female",
+    location: "London",
+    level: "Advanced",
+    lead: false, 
+})
 
  const [daysOfWeek, setDaysOfWeek] = useState(
   [
@@ -43,37 +50,20 @@ function App() {
     {name: "Sunday", checked: false}
   ])
 
-//remove later with route
-const handleChangeView = (isView) => {
-  setView(isView)
-}
 
 useEffect(() => {
-  handleChangeView("Home")
   setSettings((state) => ({
     ...state}
     ));
-  getRecommendations() // makes sure myMatches is not empty when first loading app. Matched based on default values in settings object 
+    setPreferences((state) => ({
+      ...state}
+      ));
+  getRecommendations() // makes sure myMatches is not empty when first loading app. Matched based on default values in Prefrences stateVar
   navigate("/")
 }, [])
 
-/*
-  //Fetches all users. No filters applied. For testing.
-  const showUsers = () => {
-    fetch("/users")
-    .then(response => response.json())
-    .then(users => {
-    setRecommendations(users)
-    //handleChangeView("List")
-    })
-    .catch(error => {
-      console.log(error)
-    })
-  };
-*/
 
-//Fetches climbers based on Preferences/filter from db
-//To do - insert top/lead
+//Fetches climbers from db based on Preferences
   const getRecommendations = async () => {
     try {
       let results = await fetch("/recommend", {
@@ -81,20 +71,21 @@ useEffect(() => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location: settings.location, days, level: settings.level, gender: settings.gender}) 
+        body: JSON.stringify({ location: preferences.location, days, level: preferences.level, gender: preferences.gender}) 
       });
       let users = await results.json();
       console.log(users)
       //if db query successful > SetsRecommendations array with fetched climbers
       setRecommendations(users)
       console.log(recommendations)
-    }
+      }
     catch (error) {
       console.log(error)
     }
+  
   };
 
-  let activeClassName = "btn-outline-danger"
+  let activeClassName = "btn btn-sm btn-warning"
   
   return (
     <div className="main container-fluid text-center">
@@ -110,19 +101,21 @@ useEffect(() => {
     onClick={() => navigate("/")}/> 
     </NavLink>
     </div>
-
-    <nav className="nav nav-masthead justify-content-center p-2">
+  
+    <nav className="nav navbar nav-masthead p-2">
     
+    <div className="align-self-start">
        <NavLink 
         to="/settings"
         className={({isActive}) => 
         isActive ? activeClassName : undefined }>
-        <button
-        //onClick={() => handleChangeView("Settings")} //remove
-        className="text-white btn m-1">
-        Settings </button>
+       <span className="nav-item material-symbols-outlined m-2 icon">
+       settings
+       </span>
        </NavLink>
+    </div>
 
+    <div className="align-self-center">
         <NavLink 
         to="/preferences"
         className={({isActive}) => 
@@ -147,6 +140,19 @@ useEffect(() => {
         onClick={() => getRecommendations} 
         className="text-white btn m-1">
         myMatches </button></NavLink>
+    </div>
+
+       <div className="align-self-right">
+      
+        <NavLink 
+        to="/"
+        className={({isActive}) => 
+        isActive ? activeClassName : undefined }>
+       <span className="material-symbols-outlined m-2 icon">
+       home
+       </span>
+       </NavLink>
+       </div>
         </nav>
 
     </div>
@@ -163,7 +169,8 @@ useEffect(() => {
         <Settings
         settings={settings}
         setSettings={setSettings}
-        handleChangeView={handleChangeView}
+        preferences={preferences}
+        setPreferences={setPreferences}
         days={days}
         setDays={setDays}
         setChecked={setChecked}
@@ -179,7 +186,8 @@ useEffect(() => {
         <Preferences
         settings={settings}
         setSettings={setSettings}
-        handleChangeView={handleChangeView}
+        preferences={preferences}
+        setPreferences={setPreferences}
         days={days}
         setDays={setDays}
         setChecked={setChecked}
@@ -204,14 +212,16 @@ useEffect(() => {
 
       <Route path="/matches" 
         element={<List
-        handleChangeView={handleChangeView}
-        isView={isView}
         recommendations={recommendations}
         getRecommendations={getRecommendations}/>}>
           </Route>
 
      </Routes>
          
+
+     <footer className="p-2 text-white text-left">
+      <p> CodeOp Project 2023 </p>
+     </footer>
      </div>
   )
 }

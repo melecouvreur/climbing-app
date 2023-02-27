@@ -35,24 +35,33 @@ const findPartners = () => {
    <span className="d-block mb-2"> {settings.pronouns}</span>
 
    <button 
-   className="btn btn-warning btn-sm follow m-3"
+   className="btn btn-warning btn-sm follow"
    onClick={findPartners}>
     Get Matched
    </button>
 
    <div className="d-flex justify-content-between align-items-center mt-4 px-4">
+       <span className="bio col-12 text-center">{settings.bio}
+      </span>
+   </div>
 
+   <div className="d-flex justify-content-between align-items-center mt-4 px-4">
      <div className="stats">
        <h6 className="mb-0"> Location </h6>
-       <span> {settings.location}</span>
+       <span> {settings.location}
+       </span>
      </div>
 
      <div className="stats">
        <h6 className="mb-0"> Level </h6>
-       <span> {settings.level} </span>
+       <span> {settings.level} 
+       </span>
      </div>
+    
+     </div>
+ 
 
-   </div>
+ 
 
 </div>
 </div> 

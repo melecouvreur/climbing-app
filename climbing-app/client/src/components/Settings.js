@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
 import "./Profile.css"
 
-function Settings( {daysOfWeek, getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
+function Settings( {daysOfWeek, getRecommendations, navigate, settings, setSettings, days, setDays, setChecked }) {
 
 
 
@@ -14,6 +14,7 @@ const handleInputChange = (event) => {
     ...state,
   [name]: value,}
   ))
+
   }
 
 //sets true/false status for top and rope fields
@@ -28,10 +29,10 @@ const setLead = () => {
   }
 
 
-//Toggles checked/unchecked prop of days in daysOfWeek Array 
-//setsDays to "checked days" from daysOfWeek array to days Array
-//days array = obj.req for getRecommendations function
-//NB - pushes name prop (string) in days array only
+//Toggles checked/unchecked prop of days in daysOfWeek []
+//pushes "checked days" in days [] via SetDays()
+//new days [] => obj.req for getRecommendations function
+//NB - pushes name prop (string) in days [] only
 const handleDaysChange = (d) => {
 setChecked(d.checked = !d.checked)
   console.log(daysOfWeek)
@@ -44,7 +45,6 @@ const handleSubmit = (e) => {
   e.preventDefault();
   console.log(days)
   getRecommendations()
-  handleChangeView("Profile")
   navigate("/profile")
 }
 
@@ -57,7 +57,10 @@ useEffect(() => {
 
   <div className="bg-1 p-4 d-flex justify-content-center text-left">
 
-    <form onSubmit={handleSubmit}>
+    <form 
+    onSubmit={handleSubmit}
+    className="py-2"
+    >
 
     <div className="form-row">
         <div className="form-group col-md-6 p-2">

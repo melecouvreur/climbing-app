@@ -1,7 +1,15 @@
+* {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
 
 .logo {
   height: 7vmin;
   pointer-events: none;
+}
+
+.home-logo {
+  height: 30vmin;
 }
 
 .main {
@@ -24,6 +32,9 @@ nav {
   background-color: salmon;
 }
 
+footer {
+  background-color: salmon;
+}
 
 .avatar {
   height: 30vmin;
@@ -64,6 +75,14 @@ nav {
 
 .belayMe-logo {
   background-image: url(images/logo.png);
+}
+
+.icon {
+  color: whitesmoke
+}
+
+.strapline {
+  color: salmon
 }
 
 @media (prefers-reduced-motion: no-preference) {

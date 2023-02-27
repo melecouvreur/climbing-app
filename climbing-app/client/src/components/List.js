@@ -1,10 +1,18 @@
 import React, {useState} from "react";
 import Box from "./Box"
 import "./Profile.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function List( {recommendations, handleChangeView, isView}) {
 
 const [featured, setFeatured] = useState({})
+
+const showToast = () => {
+  toast.success(`Request been sent!`, {
+      position: toast.POSITION.TOP_RIGHT
+  });
+}
 
 async function featureUser(id) {
   try {
@@ -14,7 +22,6 @@ async function featureUser(id) {
     //if db query succesfull > sets featured user
     setFeatured(user)
     console.log(featured)
-    
     handleChangeView("Featured")
     console.log(isView)
   }
@@ -22,12 +29,12 @@ async function featureUser(id) {
     console.log(err)
   }
 }
-
   return (
     
     <div className="bg-3 d-flex justify-content-center align-items-center">
       <div className="card-deck">
-      {recommendations.map(user => (
+      {recommendations.length > 0 ? (
+       recommendations.map(user => (
         <div
          key={user.uID}
          className="card"
@@ -44,15 +51,22 @@ async function featureUser(id) {
 
   <div className="mt-5 text-center">
    <h4 className="p-2 mb-0"> {user.username} </h4>
-   <p className="d-block mb-2"> {user.firstname} {user.lastname} </p>
    <span className="d-block mb-2"> {user.pronouns}</span>
 
    <button 
-   className="btn btn-warning btn-sm follow m-3">
+   className="btn btn-warning btn-sm follow m-2"
+   onClick={showToast}>
     Send Request
    </button>
 
+   <ToastContainer/>
+
    <div className="d-flex justify-content-between align-items-center mt-4 px-4">
+       <span className="bio col-12 text-center">{user.bio}
+      </span>
+   </div>
+
+   <div className="d-flex justify-content-between align-items-start mt-4 px-4">
 
      <div className="stats">
        <h6 className="mb-0"> Location </h6>
@@ -68,12 +82,20 @@ async function featureUser(id) {
 
 </div>
 </div> 
-      ))}
+      ))) : (
+      <div className="card justify-content-center align-items-center">
+        <h4 className="p-4 display-4"> No matches found :( </h4>
+        <span> Try expanding your search </span>
+      </div>
+
+      )}
 </div>
+
       {isView === "Featured" && (
       <Box
        featured={featured}/>
        )}
+
 
     </div>
   );
