@@ -1,18 +1,9 @@
 import React, { useState, useEffect} from "react";
 import "./Profile.css"
 
-function Preferences( {getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
+function Preferences( {daysOfWeek, getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
 
-const [daysOfWeek, setDaysOfWeek] = useState(
-  [
-    {name: "Monday", checked: false} ,
-    {name: "Tuesday", checked: false} ,
-    {name: "Wednesday", checked: false} ,
-    {name: "Thursday", checked: false} ,
-    {name: "Friday", checked: false} ,
-    {name: "Saturday", checked: false} ,
-    {name: "Sunday", checked: false}
-  ])
+
 
 //handles form input for fields != checkbox
 const handleInputChange = (event) => {
@@ -113,7 +104,7 @@ useEffect(() => {
             type="checkbox"
             name="days"
             value={d.name}
-            checked={daysOfWeek.checked}
+            checked={d.checked}
             className="m-2 control-input list-group-item flex-fill"
             onChange={() => handleDaysChange(d)}/>
             </div>

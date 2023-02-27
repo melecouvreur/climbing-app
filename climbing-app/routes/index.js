@@ -31,13 +31,13 @@ router.get("/users/:id", async function(req, res, next) {
 
 /*Route 3 - POST new user*/
 router.post("/users", async function(req, res, next) {
-  const {firstname, lastname, username, email, pronouns, avatar, bio, location, level, top} = req.body
+  const {firstname, lastname, username, email, pronouns, avatar, bio, location, level, top, gender} = req.body
   try {
     await db(
       `INSERT INTO user_info 
-      (firstname, lastname, username, email, pronouns, avatar, bio, location, level, top) 
+      (firstname, lastname, username, email, pronouns, avatar, bio, location, level, top, gender) 
        VALUES ("${firstname}","${lastname}","${username}","${email}","${pronouns}","${avatar}","${bio}","${location}",
-       "${level}","${top}");`
+       "${level}","${top}", "${gender}");`
     )
     let results = await db(
       `SELECT * FROM user_info ORDER BY uID ASC;`

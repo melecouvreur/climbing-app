@@ -27,10 +27,21 @@ function App() {
     bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge. Coffee, climbing and coding-fanatic",
     img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
     location: "London",
-    level: "Intermediate",
+    level: "Advanced",
     lead: false, 
    }
  )
+
+ const [daysOfWeek, setDaysOfWeek] = useState(
+  [
+    {name: "Monday", checked: true} ,
+    {name: "Tuesday", checked: true} ,
+    {name: "Wednesday", checked: false} ,
+    {name: "Thursday", checked: false} ,
+    {name: "Friday", checked: false} ,
+    {name: "Saturday", checked: false} ,
+    {name: "Sunday", checked: false}
+  ])
 
 //remove later with route
 const handleChangeView = (isView) => {
@@ -158,6 +169,7 @@ useEffect(() => {
         setChecked={setChecked}
         navigate={navigate}
         getRecommendations={getRecommendations}
+        daysOfWeek={daysOfWeek}
         />
         }>
         </Route>
@@ -173,6 +185,7 @@ useEffect(() => {
         setChecked={setChecked}
         navigate={navigate}
         getRecommendations={getRecommendations}
+        daysOfWeek={daysOfWeek}
         />
         }>
         </Route>
