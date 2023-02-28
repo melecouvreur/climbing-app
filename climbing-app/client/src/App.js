@@ -220,7 +220,7 @@ useEffect(() => {
          
 
      <footer className="p-2 text-white text-left">
-      <p> CodeOp Project 2023 </p>
+      <p className="p-2 font-italic"> CodeOp Project 2023 </p>
      </footer>
      </div>
   )

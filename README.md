@@ -1,14 +1,14 @@
-# Climbing-app
+# BelayMe
 
 ## Project Description
 
 ### **The problem**
 
-Climbers struggle finding consistent belay partners that match their skills, schedule and location.
+Climbers struggle finding consistent belay partners.
 
 ### **How this app will solve it**
 
-It will connect fellow climbers based on level, climbing schedule, location and gender
+BelayMe connects climbers based on their level, location, gender and schedule.
 
 ## Userflow
 
@@ -16,26 +16,28 @@ It will connect fellow climbers based on level, climbing schedule, location and 
 
 ### Features Phase 1
 
-- User can create and edit personal climber profile
-- User can match with others climbers based on preferences:
+- User can set-up/edit personal profile
+- User get matched with others climbers based on:
   - Location
-  - Lead
   - Level
+  - Lead certified or not
   - Days
   - Gender
 
 ### **Future features**
 
-- Account and profile set-up user flow including email verification & T&Cs
-- User can send/accept connection request to matched/filtered climbers
-- User can message once connection request accepted
+- Account set-up process, including email verification & T&Cs
+- Add geolocation API to location filter, suggesting user's current location
+- User can select multiple levels and genders looking for matches
+- User can send/accept contact request
+- User can message once contact request accepted
 - User can see list of connected climbers (i.e. matched & accepted connection request)
-- User can see list of climbers of who sent connection request, but have not yet accepted
+- User can see list of climbers pending connected climbers (i.e. sent connection request, but not yet accepted)
 - User can link IG profile to climber profile
-- User can add time of Day  i.e. morning, lunch, afternoon, evening as filter
+- User can add time of day  i.e. morning, lunch, afternoon, evening as filter
 - User can add pre-defined interest categories to profile
-- User can find/search climbers based on username (irrespective of match)
-- User can follow/bookmark other climbers until user decides to send connection request
+- User can find/search climbers based on username
+- User can bookmark other climbers until user decides to send connection request
 - User gets notification when other user interacts i.e. send connection request, new message
 - User can choose to allow/disable notifications
 
@@ -66,34 +68,31 @@ username: string, pronouns: string, avatar: url, bio: string, location: string, 
 - METHOD: GET
 - Description: Gets user info by id
 - Req Body: N/A
-- Res Obj: {ID: integer, firstname: string, lastname: string, email: string,
-username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string}
+- Res Obj: {ID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
 
 #### Route 3
 
 - URL: "/users"
 - METHOD: POST
 - Description: Adds new user to db
-- Req Body {username: string, pronouns: string, avatar: url, bio: string,  location: string, tope: Boolean, lead: boolean, level: string}
-- Res Obj {
-}
+- Req Body {username: string, pronouns: string, avatar: url, bio: string,  location: string, tope: Boolean, lead: boolean, level: string, gender: string}
+- Res Obj: {ID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
 
 #### Route 4
 
 - URL: "/users/:id"
 - METHOD: PUT
 - Description: Edit user info in db
-- Req Body {username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: boolean, level: string}
-- Res Obj {
-}
+- Req Body {username: string, pronouns: string, avatar: url, bio: string, location: string, top: Boolean, lead: boolean, level: string, gender: string}
+- Res Obj: {ID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
 
 #### Route 5
 
 - URL: "/users/recommend"
 - METHOD: POST
 - Description: Gets recommended users based on matching criteria in Req Body
-- Req Body: {location, top, lead, level, days }
-- Res Obj: {username: string, username: string, pronouns: string, avatar: url, bio: string, location: string, lead: Boolean, top: boolean, level: string}
+- Req Body: {location, top, lead, level, days, gender }
+- Res Obj: {ID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
 
 ### Database info
 
@@ -125,7 +124,7 @@ TABLE 2: DAYS
 ### Dependencies
 
 - Run `npm install` in project directory. This will install server-related dependencies such as `express`.
-- `cd client` and run `npm install` and `npm install react-router-dom`. This will install client dependencies (React) and React Router.
+- `cd client` and run `npm install` , `npm install react-router-dom` and `npm install --save react-toastify`. This will install client dependencies (React, React Router and React Tostify (for pop-up messages).
 
 ### Database Prep
 
@@ -140,6 +139,7 @@ TABLE 2: DAYS
 - Run `npm run migrate` in the project folder of this repository, in a new terminal window. This will create a tables called 'user_info' and 'days' in your database.**
 
 - Populate 'user_info' and 'days' tables with the MYSQL COMMANDS in:
+
   - model/days.sql
   - model/user_info.sql
 

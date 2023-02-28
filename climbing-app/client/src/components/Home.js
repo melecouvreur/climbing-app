@@ -14,8 +14,8 @@ return (
 
 
        <div className="align-self-center p-5">
-        <p className="display-4 strapline"> 
-        "Get matched with a belay partner with BelayMe" </p>
+        <p className="display-4 strapline font-italic"> 
+        "Get matched with a belay partner" </p>
        </div>
 
 
