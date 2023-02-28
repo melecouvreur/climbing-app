@@ -49,6 +49,7 @@ BelayMe connects climbers based on their level, location, gender and schedule.
 
 - React
 - React Router
+- React Toastify
 - Node.js
 - Bootstrap
 - mySQL
@@ -98,9 +99,9 @@ username: string, pronouns: string, avatar: url, bio: string, location: string, 
 
 ### Database info
 
-MAIN DATABASE = 'users' - containing two table, 'user_info' and 'days'
+Main DATABASE = 'users' - containing two TABLES, 'user_info' and 'days'
 
-TABLE 1: USER_INFO
+TABLE 1: user_info
 
 - uID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
 - firstname VARCHAR() NOT NULL; String
@@ -115,7 +116,7 @@ TABLE 1: USER_INFO
 - level VARCHAR(); NOT NULL; String
 - gender VARCHAR(); String
 
-TABLE 2: DAYS
+TABLE 2: days
 
 - dID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
 - uID INT NOT NULL FOREIGN KEY; Number
@@ -125,27 +126,24 @@ TABLE 2: DAYS
 
 ### Dependencies
 
-- Run `npm install` in project directory. This will install server-related dependencies such as `express`.
-- `cd client` and run `npm install` , `npm install react-router-dom` and `npm install --save react-toastify`. This will install client dependencies (React, React Router and React Tostify (for pop-up messages).
+- Run `npm install` in project directory. This will install server dependencies such as `express`.
+- `cd client` and run `npm install` , `npm install react-router-dom` and `npm install --save react-toastify`. This will install client dependencies.
 
 ### Database Prep
 
 - Access the MySQL interface in terminal by running `mysql -u root -p`
 - Create a new database called users: `create database users`
-- Add a `.env` file to the project folder of this repository containing MySQL authentication information:
+- Add a `.env` file to the project folder of this repo containing MySQL authentication information:
   - DB_HOST=localhost
   - DB_USER=root
   - DB_NAME=users
   - DB_PASS=YOURPASSWORD
 
-- Run `npm run migrate` in the project folder of this repository, in a new terminal window. This will create a tables called 'user_info' and 'days' in your database.**
+- Run `npm run migrate` in the project folder of this repo, in a new terminal window. This will create the 'user_info' and 'days' tables in your database.**
 
-- Populate 'user_info' and 'days' tables with the MYSQL COMMANDS in:
+- In MySQL interface, run commands contained in days.sql and user_info.sql fildes in the project model folder. This will populate user_info and days tables with 'fake' user information.
 
-  - model/days.sql
-  - model/user_info.sql
-
-**If npm run migrate doesn't work, seperate instructions are included in model files to set-up tables in MYSQL interfact directly.
+**If npm run migrate doesn't work, seperate instructions are in days.sql and user_info.sql to set-up tables directly via MySQL interface.
 
 ### Development
 
