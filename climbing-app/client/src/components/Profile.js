@@ -1,10 +1,11 @@
 import React from "react";
-import "./Profile.css"
+//import "./Profile.css";
+import "../App.css"
 
 function Profile( {navigate, settings, getRecommendations}) {
 
-//Fetches recommended climbers from db and setsRecommendations array
-//Switches to myMatches screen where user sees recommendations 
+//Fetches recommended climbers from db and sets 'recommendations []'
+//Switches to myMatches vuew where user sees recommendations 
 const findPartners = () => {
     getRecommendations()
     navigate("/matches")
@@ -16,10 +17,6 @@ const findPartners = () => {
        
   <div 
     className="card">
-   {/* <div className="upper">
-      <img src="https://media.istockphoto.com/id/530731783/photo/woman-climbing-up-on-practice-wall.jpg?s=612x612&w=0&k=20&c=8R68VvcyMJVY2Qnsz0gHkfjabrRj1GTJn-CvCaVijWw=" 
-      className="img-fluid"/>
-  </div>*/}
 
     <div className="user text-center">
      <div className="profile">
@@ -59,9 +56,6 @@ const findPartners = () => {
      </div>
     
      </div>
- 
-
- 
 
 </div>
 </div> 

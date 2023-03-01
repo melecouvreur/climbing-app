@@ -1,11 +1,10 @@
-import React, { useState, useEffect} from "react";
-import "./Profile.css"
+import React from "react";
+//import "./Profile.css"
+import "../App.css"
 
 function Preferences( {preferences, setPreferences, daysOfWeek, getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
 
-
-
-//handles form input for fields != checkbox
+//Updates props in 'preferences {}'
 const handleInputChange = (event) => {
   const value = event.target.value;
   const name = event.target.name;
@@ -16,10 +15,7 @@ const handleInputChange = (event) => {
   ))
   }
 
-//sets true/false status for top and rope fields
-//updates settings
-//TO DO - refactor
-
+//sets true/false status for lead prop in 'preferences {}'
 const setLead = () => {
   setChecked(preferences.lead = !preferences.lead)
   setPreferences((state) => ({
@@ -27,29 +23,23 @@ const setLead = () => {
   console.log(settings)
   }
 
-//Toggles checked/unchecked prop of days in daysOfWeek Array 
-//setsDays to "checked days" from daysOfWeek array to days Array
-//days array = obj.req for getRecommendations function
-//NB - pushes name prop (string) in days array only
+//Toggles checked/unchecked prop of days in 'daysOfWeek []'
+//pushes "checked days" in 'days []' via SetDays()
+//'days []' => obj.req for getRecommendations function
+// NB - pushes value of name (string) in 'days []' only. 
 const handleDaysChange = (d) => {
   setChecked(d.checked = !d.checked)
     console.log(daysOfWeek)
     console.log(d)
   setDays(() => (daysOfWeek.filter((d) => d.checked === true).map(d => d.name)))
-  console.log(days)
+    console.log(days)
   }
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  console.log(days)
   getRecommendations()
   navigate("/matches")
 }
-
-useEffect(() => {
-//setDays()
-//getRecommendations()
-}, [])
 
   return (
 

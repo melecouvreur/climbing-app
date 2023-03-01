@@ -1,13 +1,15 @@
 import React, {useState} from "react";
 import Box from "./Box"
-import "./Profile.css"
-import { ToastContainer, toast } from 'react-toastify';
+import "../App.css"
+//import "./Profile.css"
+import { ToastContainer, toast } from 'react-toastify'; // imports toastify to create pop-up messages
 import 'react-toastify/dist/ReactToastify.css';
 
 function List( {recommendations, handleChangeView, isView}) {
 
 const [featured, setFeatured] = useState({})
 
+//When user clicks 'send request' btn, message appears
 const showToast = () => {
   toast.success(`Request been sent!`, {
       position: toast.POSITION.TOP_RIGHT
@@ -33,6 +35,9 @@ async function featureUser(id) {
     
     <div className="bg-3 d-flex justify-content-center align-items-center">
       <div className="card-deck">
+
+{/*if user from db matches preferences criteria, recommendations [] != empty, shows list.
+If empty shows default message*/}
       {recommendations.length > 0 ? (
        recommendations.map(user => (
         <div
@@ -56,7 +61,7 @@ async function featureUser(id) {
    <button 
    className="btn btn-warning btn-sm follow m-2"
    onClick={showToast}>
-    Send Request
+   Send Request
    </button>
 
    <ToastContainer/>

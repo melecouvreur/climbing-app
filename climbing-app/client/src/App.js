@@ -6,32 +6,35 @@ import Profile from "./components/Profile";
 import Preferences from "./components/Preferences";
 import logo from "./images/logo.png"
 import './App.css';
-import { Routes, Route, Link, NavLink, useNavigate} from "react-router-dom";
+import { Routes, Route, NavLink, useNavigate} from "react-router-dom";
 
 
 function App() {
 
-  const [isChecked, setChecked] = useState(false) // Sets top/lead within Preferences of "active user"
-  const [recommendations, setRecommendations] = useState([]) // SetsRecommendations array (= recommended climbers) based on Preferences/filters
-  const [days, setDays] = useState(["Saturday", "Monday", "Tuesday", "Friday"]) // Setsdays within Preferences/filter of "active user"
-  const navigate = useNavigate()
+  const [isChecked, setChecked] = useState(false) // Sets lead prop in preferences & settings {}'s
+  const [recommendations, setRecommendations] = useState([]) // SetsRecommendations [] (= recommended climbers) based on preferences {}
+  const [days, setDays] = useState(["Saturday", "Monday", "Tuesday", "Friday"]) // Setsdays "active user" wants to climb based on daysOfWeek []
+  const navigate = useNavigate() //Changes view
 
-  //"active user" default settings. Move to settings comp?
+//"active user" default settings. Sets user profile.
   const [settings, setSettings] = useState({ 
     firstName: "Mele",
     lastName: "Couvreur",
     userName: "m_couvreur",
     email: "dummy@gmail.com",
     gender: "Female",
-    pronouns: "she/her",
+    pronouns: "She/her",
     bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge",
     img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
     location: "London",
-    level: "Advanced",
+    level: "Intermediate",
     lead: false, 
    }
  )
 
+//"active user" default preferences. Sets user matching criteria. 
+// NB - lead, gender and level prop value in preferences can differ from lead, gender, level prop in settings.
+// User can be level = intermediate, but choose to match with advanced. Idem gender and lead.
 const [preferences, setPreferences] = useState({
     gender: "Female",
     location: "London",
@@ -39,6 +42,8 @@ const [preferences, setPreferences] = useState({
     lead: false, 
 })
 
+//"active user" default days of climbing. Replicated across settings and preferences forms.
+// Users must have matching days.
  const [daysOfWeek, setDaysOfWeek] = useState(
   [
     {name: "Monday", checked: true} ,
@@ -50,20 +55,21 @@ const [preferences, setPreferences] = useState({
     {name: "Sunday", checked: false}
   ])
 
-
 useEffect(() => {
   setSettings((state) => ({
     ...state}
     ));
-    setPreferences((state) => ({
+  setPreferences((state) => ({
       ...state}
       ));
-  getRecommendations() // makes sure myMatches is not empty when first loading app. Matched based on default values in Prefrences stateVar
-  navigate("/")
+  getRecommendations() 
+  //Makes sure myMatches is not empty when first loading. 
+  //Matched based on values preferences {}
+  navigate("/") //nagivates to homescreen when first loading.
 }, [])
 
 
-//Fetches climbers from db based on Preferences
+//Fetches users from db based on location, level, gender props in preferences {} & days []
   const getRecommendations = async () => {
     try {
       let results = await fetch("/recommend", {
@@ -75,7 +81,7 @@ useEffect(() => {
       });
       let users = await results.json();
       console.log(users)
-      //if db query successful > SetsRecommendations array with fetched climbers
+      //if db query successful > fetched users get pushed into recommendations []
       setRecommendations(users)
       console.log(recommendations)
       }
@@ -88,14 +94,16 @@ useEffect(() => {
   let activeClassName = "btn btn-sm btn-warning"
   
   return (
+
     <div className="main container-fluid text-center">
       
     <div className="flex-row">
-
+   
+   {/*Switches to different views using React Router Navlink*/}
     <div>
     <NavLink to="/">
     <img
-    className="logo m-2" 
+    className="nav-logo m-2" 
     src={logo}
     alt="logo"
     onClick={() => navigate("/")}/> 
@@ -121,7 +129,6 @@ useEffect(() => {
         className={({isActive}) => 
         isActive ? activeClassName : undefined }
         ><button
-        //onClick={() => handleChangeView("Preferences")} //remove
         className="text-white btn m-1">
         myPreferences</button></NavLink>
 
@@ -129,10 +136,10 @@ useEffect(() => {
          className={({isActive}) => 
          isActive ? activeClassName : undefined }
          ><button
-        //onClick={() => handleChangeView("Profile")} // remove
         className="text-white btn m-1" >
         myProfile </button></NavLink>
 
+       {/*Switches to different view + fetches new recommendations in case user edited preferences & not click submit*/}
         <NavLink to="/matches"
         className={({isActive}) => 
         isActive ? activeClassName : undefined }
@@ -143,7 +150,6 @@ useEffect(() => {
     </div>
 
        <div className="align-self-right">
-      
         <NavLink 
         to="/"
         className={({isActive}) => 
@@ -160,26 +166,25 @@ useEffect(() => {
 
     <Routes>
       <Route path="/"
-        element={<Home
-        navigate={navigate}/>}>
-    </Route>
+        element={
+        <Home
+        navigate={navigate}/>
+        }>
+      </Route>
 
       <Route path="/settings" 
         element={
         <Settings
         settings={settings}
         setSettings={setSettings}
-        preferences={preferences}
-        setPreferences={setPreferences}
         days={days}
         setDays={setDays}
         setChecked={setChecked}
         navigate={navigate}
-        getRecommendations={getRecommendations}
         daysOfWeek={daysOfWeek}
         />
         }>
-        </Route>
+      </Route>
 
         <Route path="/preferences" 
         element={
@@ -198,7 +203,6 @@ useEffect(() => {
         }>
         </Route>
   
-
         <Route path="/profile"
          element={
          <Profile
@@ -207,14 +211,16 @@ useEffect(() => {
         recommendations={recommendations}
         days={days}
         navigate={navigate}/>
-       }>
+        }>
        </Route>
 
       <Route path="/matches" 
-        element={<List
+        element={
+        <List
         recommendations={recommendations}
-        getRecommendations={getRecommendations}/>}>
-          </Route>
+        getRecommendations={getRecommendations}/>
+        }>
+      </Route>
 
      </Routes>
          
