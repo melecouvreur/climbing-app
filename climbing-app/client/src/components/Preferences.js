@@ -49,8 +49,8 @@ const handleSubmit = (e) => {
       onSubmit={handleSubmit}>
 
 
-      <div className="form-row">
-         <div className="form-group col-md-6 p-3">
+      <div className="form-row px-4 pt-4">
+         <div className="form-group col-md-6 px-2">
             <label> Location </label>
             <input
               type="text"
@@ -62,7 +62,7 @@ const handleSubmit = (e) => {
             />
          </div>
 
-           <div className="form-group col-md-6 p-3">
+           <div className="form-group col-md-6 px-2">
             <label> Level </label>
             <select 
               className="form-control"
@@ -81,26 +81,26 @@ const handleSubmit = (e) => {
           </div>
          
 
-          <div className="form-group row p-2 m-2 list-group-horizontal">
+          <div className="form-group row px-2 m-2 list-group-horizontal">
           {daysOfWeek.map(d => (
             <div 
             key={d.name}> 
-            <label className="p-1"> {d.name} </label>
+            <label className="px-2"> {d.name} </label>
             <div className="col">
             <input
             type="checkbox"
             name="days"
             value={d.name}
             checked={d.checked}
-            className="m-2 control-input list-group-item flex-fill"
+            className="m-2 px-2 control-input list-group-item flex-fill"
             onChange={() => handleDaysChange(d)}/>
             </div>
             </div>
             ))}
           </div>
 
-          <div className="form-row p-3">
-          <div className="form-group col-md-6 p-2">
+          <div className="form-row px-2">
+          <div className="form-group col-md-6 px-3">
           <label> Gender </label>
             <select 
               className="form-control"
@@ -117,19 +117,20 @@ const handleSubmit = (e) => {
               <option>Trans</option>
             </select>
             </div>
+            </div>
 
-            <div className="form-group col-md-6 p-2">
+            <div className="form-group form-check col-md-6 px-4 pt-2">
             <label> Lead certified </label>
             <input 
             type="checkbox" 
-            className="form-row m-2" 
+            className="form-check-input m-2 form-check-inline p-2" 
             name="lead"
             value={preferences.lead}
             checked={preferences.lead === true}
             onChange={() => setLead(preferences.lead)}
             />
             </div>
-          </div>
+        
        
           <div className="form-row justify-content-center">
           <button className="btn btn-m btn-warning">Submit</button>

@@ -167,7 +167,7 @@ const handleSubmit = (e) => {
             <label> Lead certified </label>
             <input 
             type="checkbox" 
-            className="form-row m-2" 
+            className="form-row form-check-input mx-3" 
             name="lead"
             value={settings.lead}
             checked={settings.lead === true}

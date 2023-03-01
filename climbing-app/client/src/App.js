@@ -117,7 +117,7 @@ useEffect(() => {
         to="/settings"
         className={({isActive}) => 
         isActive ? activeClassName : undefined }>
-       <span className="nav-item material-symbols-outlined m-2 icon">
+       <span className="nav-item material-symbols-outlined m-2 p-1 icon">
        settings
        </span>
        </NavLink>
@@ -154,7 +154,7 @@ useEffect(() => {
         to="/"
         className={({isActive}) => 
         isActive ? activeClassName : undefined }>
-       <span className="material-symbols-outlined m-2 icon">
+       <span className="material-symbols-outlined m-2 p-1 icon">
        home
        </span>
        </NavLink>
