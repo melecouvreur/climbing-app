@@ -1,5 +1,4 @@
 import React from "react";
-//import "./Profile.css"
 import "../App.css"
 
 function Preferences( {preferences, setPreferences, daysOfWeek, getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
@@ -49,7 +48,6 @@ const handleSubmit = (e) => {
       className="p-form align-self-center"
       onSubmit={handleSubmit}>
 
-    
 
       <div className="form-row">
          <div className="form-group col-md-6 p-3">
@@ -121,7 +119,7 @@ const handleSubmit = (e) => {
             </div>
 
             <div className="form-group col-md-6 p-2">
-            <label> Lead </label>
+            <label> Lead certified </label>
             <input 
             type="checkbox" 
             className="form-row m-2" 

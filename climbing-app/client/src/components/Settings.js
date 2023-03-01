@@ -164,7 +164,7 @@ const handleSubmit = (e) => {
             </div>
 
           <div className="form-group col-md-4 px-2">
-            <label> Lead </label>
+            <label> Lead certified </label>
             <input 
             type="checkbox" 
             className="form-row m-2" 

@@ -28,16 +28,16 @@ BelayMe connects climbers based on their level, location, gender and schedule.
 
 ### **Future features**
 
-- Account set-up process, including email verification & T&Cs
-- Add geolocation API to location filter, suggesting user's current location
-- User can select multiple levels and genders looking for matches
+- Account authentication & verification
+- Geolocation API to location field
+- User can set multiple levels and genders in preferences
+- User can specify time of day  (i.e. morning, lunch, afternoon, evening) in preferences
+- User can add pre-defined interest categories/tags to profile
 - User can send/accept contact request
 - User can message once contact request accepted
 - User can see list of connected climbers (i.e. matched & accepted connection request)
 - User can see list of climbers pending connected climbers (i.e. sent connection request, but not yet accepted)
 - User can link IG profile to climber profile
-- User can add time of day  i.e. morning, lunch, afternoon, evening as filter
-- User can add pre-defined interest categories to profile
 - User can find/search climbers based on username
 - User can bookmark other climbers until user decides to send connection request
 - User gets notification when other user interacts i.e. send connection request, new message
@@ -50,6 +50,7 @@ BelayMe connects climbers based on their level, location, gender and schedule.
 - React
 - React Router
 - React Toastify
+- Express
 - Node.js
 - Bootstrap
 - mySQL
@@ -106,21 +107,21 @@ TABLE 1: user_info
 - uID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
 - firstname VARCHAR() NOT NULL; String
 - lastname VARCHAR() NOT NULL; String
-- email VARCHAR() NOT NULL; String
-- username VARCHAR() NOT NULL; String
-- pronouns VARCHAR() NOT NULL; String
+- email VARCHAR() String
+- username VARCHAR() String
+- pronouns VARCHAR() String
 - avatar VARCHAR(); String
 - bio VARCHAR(); String
-- location VARCHAR() NOT NULL; String
+- location VARCHAR() String
 - top BINARY(); Boolean
-- level VARCHAR(); NOT NULL; String
+- level VARCHAR(); String
 - gender VARCHAR(); String
 
 TABLE 2: days
 
 - dID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
 - uID INT NOT NULL FOREIGN KEY; Number
-- day VARCHAR(20)
+- day VARCHAR(20); String
 
 ## **Setup Instructions**
 

@@ -10,7 +10,7 @@ const con = mysql.createConnection({
   host: DB_HOST || "127.0.0.1",
   user: DB_USER || "root",
   password: DB_PASS,
-  database: DB_NAME || "users",
+  database: DB_NAME || "database",
   multipleStatements: true
 });
 
@@ -18,7 +18,7 @@ con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 
-  let sql =  `DROP TABLE IF EXISTS user_info_test;
+  let sql =  `DROP TABLE IF EXISTS user_info;
               CREATE TABLE user_info (
               uID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
               firstname VARCHAR(40) NOT NULL,
@@ -34,17 +34,15 @@ con.connect(function(err) {
               gender VARCHAR(50)
               );
               
-              DROP TABLE IF EXISTS days_test;
-              CREATE TABLE days (
+              DROP TABLE IF EXISTS days;
+              CREATE TABLE days(
               dID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-              day VARCHAR(20),
-              uID INT REFERENCES user_info(uID)
-              SET CONNECTION TO user_info TABLE
-              );`
+              uID INTEGER REFERENCES user_info(uID),
+              day VARCHAR(20));`
 
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table creation `user_info_test` and 'days_test' was successful!");
+    console.log("Table creation `user_info` and 'days' was successful!");
 
     console.log("Closing...");
   });

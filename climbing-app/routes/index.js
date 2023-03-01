@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const db = require("../model/helper");
 
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.send({ title: 'Express' });
@@ -18,6 +17,7 @@ router.get("/users", function(req, res, next) {
 });
  
 /*Route 2 - GET users by uID*/
+//NB - To use for FeaturedUser functionality Phase 2?
 router.get("/users/:id", async function(req, res, next) {
   try {
     let results = await db(
@@ -27,7 +27,7 @@ router.get("/users/:id", async function(req, res, next) {
   } catch (err) {
     res.status(500).send(err);
   } 
-});     
+});    
 
 /*Route 3 - POST new user*/
 router.post("/users", async function(req, res, next) {
@@ -67,7 +67,7 @@ router.put("/users/:id", async function(req, res, next) {
 })
 
 /* Route 5 - POST/recommends users based on matching days & location*/
-//change to GET
+// To do - to add lead as filter. Didn't want to overcomplicate and have to add more fake users.
 router.post("/recommend", async function(req, res, next) {
       const {days, location, level, gender} = req.body
       let queryList = "('" + days.join("','") + "')"
@@ -102,7 +102,7 @@ router.get("/recommend", async function(req, res, next) {
   } 
 })
       
-/* POST climbing days for user (for testing)*/
+/*POST climbing days for user (for testing)*/
 router.post("/days", async function(req, res, next) {
   const {uID, day} = req.body
   try {
@@ -128,6 +128,3 @@ router.get("/days", async function(req, res, next) {
 
 
 module.exports = router;
-
-//removed render and index l6
-//here you specify apis 

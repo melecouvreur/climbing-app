@@ -19,7 +19,7 @@ gender VARCHAR(50)
 "TABLE population commands. 
 Copy & paste commands directly in mySQL to poplate table" 
 
-INSERT INTO user_info 
+INSERT INTO user_info
 (firstname, lastname, username, pronouns, avatar,
 bio, location, level, top, gender)
 VALUES 
@@ -30,7 +30,7 @@ VALUES
 "Huzzaaah", "London","Advanced", 0, "Male"),
 
 ("Simon","Bond","RockHopper","He/His","https://climbinghouse.com/wp-content/uploads/2022/09/how_do_climbers_make_money-1024x692.jpg",
-"Professional intructor for +5 years. Looking for outdoor partner", "Sheffield", "Advanced", 0,"Male")
+"Professional intructor for +5 years. Looking for outdoor partner", "Sheffield", "Advanced", 0,"Male"),
 
 ("Tom","Walker","Tommy","He/His", "https://ichef.bbci.co.uk/news/976/cpsprodpb/12E12/production/_124403377_climb1.jpg.webp", 
 "Dad of three and fond climber","London","Beginner", 1, "Male"),

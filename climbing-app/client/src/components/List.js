@@ -1,13 +1,12 @@
 import React, {useState} from "react";
 import Box from "./Box"
 import "../App.css"
-//import "./Profile.css"
 import { ToastContainer, toast } from 'react-toastify'; // imports toastify to create pop-up messages
 import 'react-toastify/dist/ReactToastify.css';
 
 function List( {recommendations, handleChangeView, isView}) {
 
-const [featured, setFeatured] = useState({})
+const [featured, setFeatured] = useState({}) //not finished
 
 //When user clicks 'send request' btn, message appears
 const showToast = () => {
@@ -16,6 +15,7 @@ const showToast = () => {
   });
 }
 
+//Not finished
 async function featureUser(id) {
   try {
     let results = await fetch(`/users/${id}`);
@@ -30,7 +30,7 @@ async function featureUser(id) {
   catch (err) {
     console.log(err)
   }
-}
+} 
   return (
     
     <div className="bg-3 d-flex justify-content-center align-items-center">

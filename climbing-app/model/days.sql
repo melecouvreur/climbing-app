@@ -3,10 +3,10 @@ DROP TABLE IF EXISTS days;
 
 CREATE TABLE days (
 dID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-day VARCHAR(20),
-uID INT REFERENCES user_info(uID)
-SET CONNECTION TO user_info TABLE
+uID INT REFERENCES user_info(uID),
+day VARCHAR(20)
 );
+
 
 "TABLE population commands.
 Copy & paste commands directly in mySQL to poplate table" 
