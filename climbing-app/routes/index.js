@@ -69,7 +69,7 @@ router.put("/users/:id", async function(req, res, next) {
 /* Route 5 - POST/recommends users based on matching days & location*/
 // To do - to add lead as filter. Didn't want to overcomplicate and have to add more fake users.
 router.post("/recommend", async function(req, res, next) {
-      const {days, location, level, gender} = req.body
+      const {days, location, level, gender, top} = req.body
       let queryList = "('" + days.join("','") + "')"
             try {
               let results = await db(`SELECT 
@@ -78,7 +78,7 @@ router.post("/recommend", async function(req, res, next) {
               FROM user_info 
               LEFT JOIN days ON user_info.uID = days.uID WHERE days.day in ${queryList} 
               AND user_info.location = "${location}" 
-              AND user_info.level = "${level}" AND user_info.gender = "${gender}";`)
+              AND user_info.level = "${level}" AND user_info.gender = "${gender}" AND user_info.top = ${top};`)
               res.status(200).send(results.data);
             } catch (err) {
               res.status(500).send(err); 

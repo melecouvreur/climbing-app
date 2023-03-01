@@ -77,7 +77,7 @@ useEffect(() => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location: preferences.location, days, level: preferences.level, gender: preferences.gender}) 
+        body: JSON.stringify({ location: preferences.location, days, level: preferences.level, gender: preferences.gender, top: preferences.lead}) 
       });
       let users = await results.json();
       console.log(users)
