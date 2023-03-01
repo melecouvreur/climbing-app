@@ -14,7 +14,7 @@ BelayMe connects climbers based on their level, location, gender and schedule.
 
 ## Userflow
 
-![This is an image](/BelayMe%20UserFlow.png)
+![This is an image](/userflow.png)
 
 ### Features Phase 1
 
@@ -38,7 +38,6 @@ BelayMe connects climbers based on their level, location, gender and schedule.
 - User can see list of connected climbers (i.e. matched & accepted connection request)
 - User can see list of climbers pending connected climbers (i.e. sent connection request, but not yet accepted)
 - User can link IG profile to climber profile
-- User can find/search climbers based on username
 - User can bookmark other climbers until user decides to send connection request
 - User gets notification when other user interacts i.e. send connection request, new message
 - User can choose to allow/disable notifications
@@ -120,7 +119,7 @@ TABLE 1: user_info
 TABLE 2: days
 
 - dID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
-- uID INT NOT NULL FOREIGN KEY; Number
+- uID INT NOT NULL FOREIGN KEY; Number ----- REFERENCES user_info.UID
 - day VARCHAR(20); String
 
 ## **Setup Instructions**
