@@ -12,19 +12,29 @@ Climbers struggle finding consistent belay partners.
 
 BelayMe connects climbers based on their level, location, gender and schedule.
 
-## Userflow
+## **Userflow**
 
 ![This is an image](/userflow.png)
 
-### Features Phase 1
+### **Features Phase 1**
 
 - User can set-up/edit personal profile
-- User get matched with others climbers based on:
+- User gets matched with others climbers based on:
   - Location
   - Level
   - Lead certified or not
   - Days
   - Gender
+
+### React Structure Phase 1**
+
+- Parent: App.js (settings & preferences data, React Routes & NavLinks)
+- Children:
+  - Home
+  - Preferences (preferences form)
+  - Settings (settings form)
+  - Profile ('active user' profile)
+  - List (displays recommended users/climbers)
 
 ### **Future features**
 
