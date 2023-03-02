@@ -15,7 +15,7 @@ const showToast = () => {
   });
 }
 
-//Not finished
+//Not finished - probably remove as not useful feature for App
 async function featureUser(id) {
   try {
     let results = await fetch(`/users/${id}`);
@@ -95,7 +95,8 @@ If empty shows default message*/}
 
       )}
 </div>
-
+      
+      {/*not finished. Probably remove as not necessary functionality*/}
       {isView === "Featured" && (
       <Box
        featured={featured}/>

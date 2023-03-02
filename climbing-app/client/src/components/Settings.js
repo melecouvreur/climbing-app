@@ -24,8 +24,8 @@ const setLead = () => {
   console.log(settings)
   }
 
-//Toggles checked/unchecked prop of days in 'daysOfWeek []'
-//pushes "checked days" in 'days []' via SetDays()
+//Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
+//pushes "checked days" in 'days []' via setDays()
 //'days []' => obj.req for getRecommendations function
 // NB - pushes value of name (string) in 'days []' only. 
 const handleDaysChange = (d) => {

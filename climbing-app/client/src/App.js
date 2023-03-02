@@ -11,9 +11,13 @@ import { Routes, Route, NavLink, useNavigate} from "react-router-dom";
 
 function App() {
 
-  const [isChecked, setChecked] = useState(false) // Sets lead prop in preferences & settings {}'s
-  const [recommendations, setRecommendations] = useState([]) // SetsRecommendations [] (= recommended climbers) based on preferences {}
-  const [days, setDays] = useState(["Saturday", "Monday", "Tuesday", "Friday"]) // Setsdays "active user" wants to climb based on daysOfWeek []
+  const [isChecked, setChecked] = useState(false) 
+  //Sets lead prop in preferences & settings {}'s. 
+  //Modified in Settings form.
+  const [recommendations, setRecommendations] = useState([]) 
+  //SetsRecommendations [] (= recommended climbers) based on preferences {}. 
+  //Modified in Preferences form
+  const [days, setDays] = useState(["Saturday", "Monday", "Tuesday", "Friday"]) // Setsdays "active user" wants to climb based on daysOfWeek []. daysOfWeeks gets modified in Pref & Settings forms
   const navigate = useNavigate() //Changes view
 
 //"active user" default settings. Sets user profile.
@@ -34,7 +38,7 @@ function App() {
 
 //"active user" default preferences. Sets user matching criteria. 
 // NB - lead, gender and level prop value in preferences can differ from lead, gender, level prop in settings.
-// User can be level = intermediate, but choose to match with advanced. Idem gender and lead.
+// i.e. User can be level = intermediate, but choose to match with advanced. Idem gender and lead.
 const [preferences, setPreferences] = useState({
     gender: "Female",
     location: "London",
@@ -43,7 +47,7 @@ const [preferences, setPreferences] = useState({
 })
 
 //"active user" default days of climbing. Replicated across settings and preferences forms.
-// Users must have matching days.
+// i.e. Users must have matching days.
  const [daysOfWeek, setDaysOfWeek] = useState(
   [
     {name: "Monday", checked: true} ,
@@ -69,7 +73,7 @@ useEffect(() => {
 }, [])
 
 
-//Fetches users from db based on location, level, gender props in preferences {} & days []
+//Fetches users from db based on location, level, gender, lead props in preferences {} & days []
   const getRecommendations = async () => {
     try {
       let results = await fetch("/recommend", {
@@ -139,7 +143,7 @@ useEffect(() => {
         className="text-white btn m-1" >
         myProfile </button></NavLink>
 
-       {/*Switches to different view + fetches new recommendations in case user edited preferences & not click submit*/}
+       {/*Switches to different view + fetches new recommendations in case User edited preferences != click submit*/}
         <NavLink to="/matches"
         className={({isActive}) => 
         isActive ? activeClassName : undefined }
