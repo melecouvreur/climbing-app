@@ -137,7 +137,7 @@ TABLE 2: days
 ### Dependencies
 
 - `cd climbing-app` and run `npm install` in project directory. This will install server dependencies such as `express`.
-- `cd climbing-app/client` and run `npm install` , `npm install react-router-dom` and `npm install --save react-toastify`. This will install client dependencies.
+- `cd client` and run `npm install`. This will install client dependencies.
 
 ### Database Prep
 
@@ -149,13 +149,13 @@ TABLE 2: days
   - DB_NAME=users
   - DB_PASS=YOURPASSWORD
 
-- Run `npm run migrate` in the project folder of this repo, in a new terminal window. This will create the 'user_info' and 'days' tables in your database.**
+- Run `npm run migrate` in the `climbing-app` folder in a new terminal window. This will create the 'user_info' and 'days' tables in your database.**
 
-- In MySQL interface, run commands contained in `days.sql` and `user_info.sql` fildes in the project model folder. This will populate user_info and days tables with 'fake' user information.
+- In MySQL interface, run `use users` followed by the commands contained in `days.sql` and `user_info.sql` files in the `model` folder. This will populate user_info and days tables with 'fake' user information.
 
 **If npm run migrate doesn't work, seperate instructions are in days.sql and user_info.sql to set-up tables directly via MySQL interface.
 
 ### Development
 
-- Run `npm start` in project directory to start the Express server on port 5002
+- `cd climbing-app` and run `npm start` in to start the Express server on port 5002
 - In another terminal, do `cd client` and run `npm start` to start the client in development mode with hot reloading in port 3000
