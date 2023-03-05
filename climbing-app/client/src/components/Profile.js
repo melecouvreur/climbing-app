@@ -1,7 +1,7 @@
 import React from "react";
 import "../App.css"
 
-function Profile( {navigate, settings, getRecommendations}) {
+function Profile( {location, navigate, settings, getRecommendations}) {
 
 //Fetches recommended climbers from db and sets 'recommendations []'
 //Switches to myMatches vuew where user sees recommendations 
@@ -21,6 +21,7 @@ const findPartners = () => {
      <div className="profile">
       <img 
         src={settings.img} 
+        alt="profile_avatar"
         className="rounded-circle" 
         width="100"/>
     </div>
@@ -44,7 +45,7 @@ const findPartners = () => {
    <div className="d-flex justify-content-between align-items-center mt-4 px-4">
      <div className="stats">
        <h6 className="mb-0"> Location </h6>
-       <span> {settings.location}
+       <span> {location}
        </span>
      </div>
 

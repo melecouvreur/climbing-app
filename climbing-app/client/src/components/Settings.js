@@ -1,8 +1,7 @@
 import React from "react";
-//import "./Profile.css"
 import "../App.css"
 
-function Settings( {daysOfWeek, navigate, settings, setSettings, days, setDays, setChecked }) {
+function Settings( {location, setLocation, daysOfWeek, navigate, settings, setSettings, days, setDays, setChecked }) {
 
 //updates props in 'settings {}'
 const handleInputChange = (event) => {
@@ -15,6 +14,12 @@ const handleInputChange = (event) => {
   ))
   }
 
+//Allows user to edit location inititally fetched via external geolocation api
+const handleLocationChange = (e) => {
+  setLocation(e.target.value);
+  e.preventDefault();
+    }
+  
 //sets true/false status for lead prop in 'settings {}'
 const setLead = () => {
   setChecked(settings.lead = !settings.lead)
@@ -116,7 +121,7 @@ const handleSubmit = (e) => {
             />
         </div>
 
-         <div className="form-group col-md-6 px-2">
+        {/* <div className="form-group col-md-6 px-2">
           <label> Location </label>
           <input
             type="text"
@@ -126,7 +131,18 @@ const handleSubmit = (e) => {
             className="form-control"
             onChange={(e) => handleInputChange(e)}
           />
-          </div>
+          </div>*/}
+
+          <div className="form-group col-md-6 px-2">
+            <label> Location </label>
+            <input
+              type="text"
+              value={location}
+              placeholder="Set location"
+              className="form-control"
+              onChange={(e) => handleLocationChange(e)}
+            />
+         </div>
 
           <div className="form-group col-md-4 px-2">
          <label> Level </label>

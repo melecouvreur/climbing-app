@@ -26,21 +26,10 @@ BelayMe connects climbers based on their level, location, gender and schedule.
   - Days
   - Gender
 
-### React Structure Phase 1**
-
-- Parent: App.js (settings & preferences data, React Routes & NavLinks)
-- Children:
-  - Home
-  - Preferences (preferences form)
-  - Settings (settings form)
-  - Profile ('active user' profile)
-  - List (displays recommended users/climbers)
-
 ### **Future features**
 
 - Account authentication & verification
-- Geolocation API to location field
-- User can set multiple levels and genders in preferences
+- User can select multiple levels and genders in preferences
 - User can specify time of day  (i.e. morning, lunch, afternoon, evening) in preferences
 - User can add pre-defined interest categories/tags to profile
 - User can send/accept contact request
@@ -57,12 +46,11 @@ BelayMe connects climbers based on their level, location, gender and schedule.
 ### **Technologies**
 
 - React
-- React Router
-- React Toastify
 - Express
-- Node.js
+- Node.js (v16.14.2)
 - Bootstrap
-- mySQL
+- MySQL
+- RAPID API - IP Geo Location
 
 ### API Routes
 
@@ -72,7 +60,7 @@ BelayMe connects climbers based on their level, location, gender and schedule.
 - METHOD: GET
 - Description: Gets all users
 - Req Body: N/A
-- Res Obj: {ID: integer, firstname: string, lastname: string, email: string,
+- Res Obj: {uID: integer, firstname: string, lastname: string, email: string,
 username: string, pronouns: string, avatar: url, bio: string, location: string, top: Boolean, lead: Boolean, level: string}
 
 #### Route 2
@@ -81,7 +69,7 @@ username: string, pronouns: string, avatar: url, bio: string, location: string, 
 - METHOD: GET
 - Description: Gets user info by id
 - Req Body: N/A
-- Res Obj: {ID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
+- Res Obj: {uID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
 
 #### Route 3
 
@@ -95,9 +83,9 @@ username: string, pronouns: string, avatar: url, bio: string, location: string, 
 
 - URL: "/users/:id"
 - METHOD: PUT
-- Description: Edit user info in db
+- Description: Edits user info in db
 - Req Body {username: string, pronouns: string, avatar: url, bio: string, location: string, top: Boolean, lead: boolean, level: string, gender: string}
-- Res Obj: {ID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
+- Res Obj: {uID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
 
 #### Route 5
 
@@ -105,13 +93,21 @@ username: string, pronouns: string, avatar: url, bio: string, location: string, 
 - METHOD: POST
 - Description: Gets recommended users based on matching criteria in Req Body
 - Req Body: {location, top, lead, level, days, gender }
-- Res Obj: {ID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
+- Res Obj: {uID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
 
-### Database info
+#### Route 6
 
-Main DATABASE = 'users' - containing two TABLES, 'user_info' and 'days'
+- URL: "/users/days"
+- METHOD: POST
+- Description: Adds days a user climbs to db
+- Req Body: {uID, day}
+- Res Obj: {uID: number, dID: number, day: string}
 
-TABLE 1: user_info
+### Database Info
+
+DATABASE 'users' > TABLES 'user_info' & 'days'
+
+TABLE 'user_info'
 
 - uID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
 - firstname VARCHAR() NOT NULL; String
@@ -126,7 +122,7 @@ TABLE 1: user_info
 - level VARCHAR(); String
 - gender VARCHAR(); String
 
-TABLE 2: days
+TABLE 'days'
 
 - dID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
 - uID INT NOT NULL FOREIGN KEY; Number ----- REFERENCES user_info.UID
@@ -143,7 +139,7 @@ TABLE 2: days
 
 - Access the MySQL interface in terminal by running `mysql -u root -p`
 - Create a new database called users: `create database users`
-- Add a `.env` file to the project folder of this repo containing MySQL authentication information:
+- Add a `.env` file to the climbing-app folder of this repo containing MySQL authentication information:
   - DB_HOST=localhost
   - DB_USER=root
   - DB_NAME=users
@@ -154,6 +150,12 @@ TABLE 2: days
 - In MySQL interface, run `use users` followed by the commands contained in `days.sql` and `user_info.sql` files in the `model` folder. This will populate user_info and days tables with 'fake' user information.
 
 **If npm run migrate doesn't work, seperate instructions are in days.sql and user_info.sql to set-up tables directly via MySQL interface.
+
+### External API Prep
+
+- Go to `https://rapidapi.com/damngoodapis/api/geolocation`. You will need to create an account to access the API Key.
+- Add a `.env` file to the client folder containing your API Key:
+  - REACT_APP_API_KEY=YOUR_KEY
 
 ### Development
 

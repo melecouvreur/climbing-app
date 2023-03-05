@@ -1,7 +1,7 @@
 import React from "react";
 import "../App.css"
 
-function Preferences( {preferences, setPreferences, daysOfWeek, getRecommendations, navigate, settings, setSettings, handleChangeView, days, setDays, setChecked }) {
+function Preferences( {location, setLocation, preferences, setPreferences, daysOfWeek, getRecommendations, navigate, setDays, setChecked }) {
 
 //Updates props in 'preferences {}'
 const handleInputChange = (event) => {
@@ -14,12 +14,18 @@ const handleInputChange = (event) => {
   ))
   }
 
+//Allows user to edit location inititally fetched via external geolocation api
+const handleLocationChange = (e) => {
+  setLocation(e.target.value);
+  e.preventDefault();
+    }
+
 //sets true/false status for lead prop in 'preferences {}'
 const setLead = () => {
   setChecked(preferences.lead = !preferences.lead)
   setPreferences((state) => ({
       ...state}))
-  console.log(settings)
+  //console.log(settings)
   }
 
 //Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
@@ -28,10 +34,10 @@ const setLead = () => {
 // NB - pushes value of name (string) in 'days []' only. 
 const handleDaysChange = (d) => {
   setChecked(d.checked = !d.checked)
-    console.log(daysOfWeek)
-    console.log(d)
+    //console.log(daysOfWeek)
+    //console.log(d)
   setDays(() => (daysOfWeek.filter((d) => d.checked === true).map(d => d.name)))
-    console.log(days)
+    //console.log(days)
   }
 
 const handleSubmit = (e) => {
@@ -54,11 +60,10 @@ const handleSubmit = (e) => {
             <label> Location </label>
             <input
               type="text"
-              name="location"
-              value={preferences.location}
+              value={location}
               placeholder="Set location"
               className="form-control"
-              onChange={(e) => handleInputChange(e)}
+              onChange={(e) => handleLocationChange(e)}
             />
          </div>
 

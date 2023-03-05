@@ -102,7 +102,7 @@ router.get("/recommend", async function(req, res, next) {
   } 
 })
       
-/*POST climbing days for user (for testing)*/
+/*POST climbing days for user*/
 router.post("/days", async function(req, res, next) {
   const {uID, day} = req.body
   try {

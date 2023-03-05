@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import Box from "./Box"
+//import Box from "./Box"
 import "../App.css"
 import { ToastContainer, toast } from 'react-toastify'; // imports toastify to create pop-up messages
 import 'react-toastify/dist/ReactToastify.css';
 
-function List( {recommendations, handleChangeView, isView}) {
+function List( {recommendations}) {
 
 const [featured, setFeatured] = useState({}) //not finished
 
@@ -24,8 +24,6 @@ async function featureUser(id) {
     //if db query succesfull > sets featured user
     setFeatured(user)
     console.log(featured)
-    handleChangeView("Featured")
-    console.log(isView)
   }
   catch (err) {
     console.log(err)
@@ -49,6 +47,7 @@ If empty shows default message*/}
      <div className="profile">
       <img 
         src={user.avatar} 
+        alt="user_avatar"
         className="rounded-circle" 
         width="100"/>
     </div>
@@ -96,12 +95,12 @@ If empty shows default message*/}
       )}
 </div>
       
-      {/*not finished. Probably remove as not necessary functionality*/}
+      {/*not finished. Probably remove as not necessary functionality
       {isView === "Featured" && (
       <Box
        featured={featured}/>
        )}
-
+      */}
 
     </div>
   );

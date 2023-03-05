@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from "react";
 import Home from "./components/Home"
 import Settings from "./components/Settings"
@@ -8,46 +9,44 @@ import logo from "./images/logo.png"
 import './App.css';
 import { Routes, Route, NavLink, useNavigate} from "react-router-dom";
 
-
 function App() {
 
   const [isChecked, setChecked] = useState(false) 
   //Sets lead prop in preferences & settings {}'s. 
-  //Modified in Settings form.
   const [recommendations, setRecommendations] = useState([]) 
   //SetsRecommendations [] (= recommended climbers) based on preferences {}. 
-  //Modified in Preferences form
-  const [days, setDays] = useState(["Saturday", "Monday", "Tuesday", "Friday"]) // Setsdays "active user" wants to climb based on daysOfWeek []. daysOfWeeks gets modified in Pref & Settings forms
-  const navigate = useNavigate() //Changes view
+  const [days, setDays] = useState(["Saturday", "Monday", "Tuesday", "Friday"]) 
+  //Setsdays "active user" wants to climb based on daysOfWeek []. daysOfWeeks gets modified in Preferences & Settings forms
+  const [location, setLocation] = useState("London")
+  //setsLocation "active user" profile.
+  const navigate = useNavigate() 
 
-//"active user" default settings. Sets user profile.
+//"active user" default settings. Displayed on Profile page
   const [settings, setSettings] = useState({ 
     firstName: "Mele",
     lastName: "Couvreur",
     userName: "m_couvreur",
     email: "dummy@gmail.com",
     gender: "Female",
-    pronouns: "She/her",
+    pronouns: "She/Her",
     bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge",
     img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
-    location: "London",
     level: "Intermediate",
     lead: false, 
    }
  )
 
 //"active user" default preferences. Sets user matching criteria. 
-// NB - lead, gender and level prop value in preferences can differ from lead, gender, level prop in settings.
+// NB - lead, gender and level prop value in preferences can differ from lead, gender, levelprop in Settings.
 // i.e. User can be level = intermediate, but choose to match with advanced. Idem gender and lead.
 const [preferences, setPreferences] = useState({
     gender: "Female",
-    location: "London",
     level: "Advanced",
     lead: false, 
 })
 
-//"active user" default days of climbing. Replicated across settings and preferences forms.
-// i.e. Users must have matching days.
+//"active user" default days of climbing. 
+//Replicated across settings and preferences forms i.e. Users must have matching days.
  const [daysOfWeek, setDaysOfWeek] = useState(
   [
     {name: "Monday", checked: true} ,
@@ -59,21 +58,28 @@ const [preferences, setPreferences] = useState({
     {name: "Sunday", checked: false}
   ])
 
-useEffect(() => {
-  setSettings((state) => ({
-    ...state}
-    ));
-  setPreferences((state) => ({
-      ...state}
-      ));
-  getRecommendations() 
-  //Makes sure myMatches is not empty when first loading. 
-  //Matched based on values preferences {}
-  navigate("/") //nagivates to homescreen when first loading.
-}, [])
+//Fetches and setsLocation of "active user" using external API.
+//Replicated across settings and preferences forms i.e. Users must have matching location.
+  const getLocation = () => {
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': process.env.REACT_APP_API_KEY ,
+        'X-RapidAPI-Host': 'ip-geo-location.p.rapidapi.com'
+      }
+    };
+    
+    fetch('https://ip-geo-location.p.rapidapi.com/ip/check?format=json', options)
+      .then(response => response.json())
+      .then(response => {
+        console.log(JSON.stringify(response.city.name))
+        setLocation(response.city.name)
+      })
+       .catch(err => console.error(err));
+  
+  }
 
-
-//Fetches users from db based on location, level, gender, lead props in preferences {} & days []
+//Fetches users from db based on level, gender, lead props in preferences {}, days [] & location
   const getRecommendations = async () => {
     try {
       let results = await fetch("/recommend", {
@@ -81,7 +87,7 @@ useEffect(() => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location: preferences.location, days, level: preferences.level, gender: preferences.gender, top: preferences.lead}) 
+        body: JSON.stringify({ location, days, level: preferences.level, gender: preferences.gender, top: preferences.lead}) 
       });
       let users = await results.json();
       console.log(users)
@@ -91,9 +97,21 @@ useEffect(() => {
       }
     catch (error) {
       console.log(error)
-    }
-  
+    } 
   };
+
+  useEffect(() => {
+    setSettings((state) => ({
+      ...state}
+      ));
+    setPreferences((state) => ({
+        ...state}
+        ));
+    getRecommendations() //Makes sure myMatches is not empty when first loading. 
+    //Matched based on default values preferences {}, days [] & location.
+    getLocation() // sets "active user" geolocation when first loading
+    navigate("/") //nagivates to homescreen when first loading.
+  }, []) 
 
   let activeClassName = "btn btn-sm btn-warning"
   
@@ -143,7 +161,7 @@ useEffect(() => {
         className="text-white btn m-1" >
         myProfile </button></NavLink>
 
-       {/*Switches to different view + fetches new recommendations in case User edited preferences != click submit*/}
+       {/*Switches to different view AND fetches new recommendations*/}
         <NavLink to="/matches"
         className={({isActive}) => 
         isActive ? activeClassName : undefined }
@@ -171,9 +189,7 @@ useEffect(() => {
     <Routes>
       <Route path="/"
         element={
-        <Home
-        navigate={navigate}/>
-        }>
+        <Home/>}>
       </Route>
 
       <Route path="/settings" 
@@ -186,6 +202,8 @@ useEffect(() => {
         setChecked={setChecked}
         navigate={navigate}
         daysOfWeek={daysOfWeek}
+        location={location}
+        setLocation={setLocation}
         />
         }>
       </Route>
@@ -193,16 +211,15 @@ useEffect(() => {
         <Route path="/preferences" 
         element={
         <Preferences
-        settings={settings}
-        setSettings={setSettings}
         preferences={preferences}
         setPreferences={setPreferences}
-        days={days}
         setDays={setDays}
         setChecked={setChecked}
         navigate={navigate}
         getRecommendations={getRecommendations}
         daysOfWeek={daysOfWeek}
+        location={location}
+        setLocation={setLocation}
         />
         }>
         </Route>
@@ -212,8 +229,7 @@ useEffect(() => {
          <Profile
         settings={settings}
         getRecommendations={getRecommendations}
-        recommendations={recommendations}
-        days={days}
+        location={location}
         navigate={navigate}/>
         }>
        </Route>
@@ -221,8 +237,7 @@ useEffect(() => {
       <Route path="/matches" 
         element={
         <List
-        recommendations={recommendations}
-        getRecommendations={getRecommendations}/>
+        recommendations={recommendations}/>
         }>
       </Route>
 
