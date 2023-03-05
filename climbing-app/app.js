@@ -19,4 +19,3 @@ app.use('/users', usersRouter);
 
 module.exports = app;
 
-//already two routes > / and /users
