@@ -140,10 +140,13 @@ TABLE 'days'
 - Access the MySQL interface in terminal by running `mysql -u root -p`
 - Create a new database called users: `create database users`
 - Add a `.env` file to the climbing-app folder of this repo containing MySQL authentication information:
-  - DB_HOST=localhost
-  - DB_USER=root
-  - DB_NAME=users
-  - DB_PASS=YOURPASSWORD
+
+```
+  DB_HOST=localhost
+  DB_USER=root
+  DB_NAME=users
+  DB_PASS=YOURPASSWORD
+```
 
 - Run `npm run migrate` in the `climbing-app` folder in a new terminal window. This will create the 'user_info' and 'days' tables in your database.**
 
@@ -155,7 +158,10 @@ TABLE 'days'
 
 - Go to `https://rapidapi.com/damngoodapis/api/geolocation`. You will need to create an account to access the API Key.
 - Add a `.env` file to the client folder containing your API Key:
-  - REACT_APP_API_KEY=YOUR_KEY
+
+```
+REACT_APP_API_KEY=YOUR_KEY
+```
 
 ### Development
 
