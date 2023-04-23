@@ -132,7 +132,7 @@ TABLE 'days'
 
 ### Dependencies
 
-- `cd climbing-app` and run `npm install` in project directory. This will install server dependencies such as `express`.
+- `cd my-app` and run `npm install` in project directory. This will install server dependencies such as `express`.
 - `cd client` and run `npm install`. This will install client dependencies.
 
 ### Database Prep
@@ -148,7 +148,7 @@ TABLE 'days'
   DB_PASS=YOURPASSWORD
 ```
 
-- Run `npm run migrate` in the `climbing-app` folder in a new terminal window. This will create the 'user_info' and 'days' tables in your database and populate with fake user info.**
+- Run `npm run migrate` in the `my-app` folder in a new terminal window. This will create the 'user_info' and 'days' tables in your database and populate with fake user info.**
 
 **If npm run migrate doesn't work, seperate instructions are in days.sql and user_info.sql to set-up tables directly via MySQL interface.
 
