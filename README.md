@@ -1,6 +1,6 @@
 # Code-Op MVP
 
-![This is an image](./climbing-app/client/src/images/logo.png)
+![This is an image](./my-app/client/src/images/logo.png)
 
 ## Project Description
 
