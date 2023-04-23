@@ -148,9 +148,7 @@ TABLE 'days'
   DB_PASS=YOURPASSWORD
 ```
 
-- Run `npm run migrate` in the `climbing-app` folder in a new terminal window. This will create the 'user_info' and 'days' tables in your database.**
-
-- In MySQL interface, run `use users` followed by the commands contained in `days.sql` and `user_info.sql` files in the `model` folder. This will populate user_info and days tables with 'fake' user information.
+- Run `npm run migrate` in the `climbing-app` folder in a new terminal window. This will create the 'user_info' and 'days' tables in your database and populate with fake user info.**
 
 **If npm run migrate doesn't work, seperate instructions are in days.sql and user_info.sql to set-up tables directly via MySQL interface.
 
