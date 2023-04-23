@@ -163,5 +163,5 @@ REACT_APP_API_KEY=YOUR_KEY
 
 ### Development
 
-- `cd climbing-app` and run `npm start` in to start the Express server on port 5002
+- `cd my-app` and run `npm start` in to start the Express server on port 5002
 - In another terminal, do `cd client` and run `npm start` to start the client in development mode with hot reloading in port 3000
