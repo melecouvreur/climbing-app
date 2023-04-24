@@ -132,7 +132,7 @@ TABLE 'days'
 
 ### Dependencies
 
-- `cd climbing-app` and run `npm install` in project directory. This will install server dependencies such as `express`.
+- `cd my-app` and run `npm install` in project directory. This will install server dependencies such as `express`.
 - `cd client` and run `npm install`. This will install client dependencies.
 
 ### Database Prep
