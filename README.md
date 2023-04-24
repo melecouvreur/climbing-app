@@ -148,7 +148,7 @@ TABLE 'days'
   DB_PASS=YOURPASSWORD
 ```
 
-- Run `npm run migrate` in the `climbing-app` folder in a new terminal window. This will create the 'user_info' and 'days' tables in your database and populate with fake user info.**
+- Run `npm run migrate` in the `my-app` folder in a new terminal window. This will create the 'user_info' and 'days' tables in your database and populate with fake user info.**
 
 **If npm run migrate doesn't work, seperate instructions are in days.sql and user_info.sql to set-up tables directly via MySQL interface.
 
@@ -163,5 +163,5 @@ REACT_APP_API_KEY=YOUR_KEY
 
 ### Development
 
-- `cd climbing-app` and run `npm start` in to start the Express server on port 5002
+- `cd my-app` and run `npm start` in to start the Express server on port 5002
 - In another terminal, do `cd client` and run `npm start` to start the client in development mode with hot reloading in port 3000
