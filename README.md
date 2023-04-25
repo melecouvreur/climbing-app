@@ -26,6 +26,8 @@ BelayMe connects climbers based on their level, location, gender and schedule.
   - Days
   - Gender
 
+You can find a live version of phase 1 [here] (https://climbingapp.herokuapp.com/)
+
 ### **Future features**
 
 - Account authentication & verification
@@ -165,3 +167,4 @@ REACT_APP_API_KEY=YOUR_KEY
 
 - `cd my-app` and run `npm start` in to start the Express server on port 5002
 - In another terminal, do `cd client` and run `npm start` to start the client in development mode with hot reloading in port 3000
+
