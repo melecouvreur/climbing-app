@@ -26,7 +26,7 @@ BelayMe connects climbers based on their level, location, gender and schedule.
   - Days
   - Gender
 
-You can find a live version of phase 1 [here] (https://climbingapp.herokuapp.com/)
+You can find a live version of phase 1 [here](https://climbingapp.herokuapp.com/)
 
 ### **Future features**
 
