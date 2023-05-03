@@ -1,6 +1,13 @@
 var express = require('express');
 var router = express.Router();
 const db = require("../model/helper");
+const jwt = require("jsonwebtoken")
+//const ensureUserLoggedIn = require("../guards/ensureUserLoggedIn")
+//const ensureUserExists = require("../guards/ensureUserExists")
+const bcrypt = require("bcrypt");
+const saltRounds = 7;
+const supersecret = process.env.SUPER_SECRET;
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -125,6 +132,49 @@ router.get("/days", async function(req, res, next) {
       res.status(500).send(err);
     }
   })
+
+/* POST username, password, email to register new user */
+router.post("/register", async (req, res) => {
+  const { username, email, password } = req.body;
+  const hashedPWD = await bcrypt.hash(password, saltRounds)
+  try {
+    await db(
+    `INSERT into users (username, email, password) VALUES ("${username}", "${email}", "${hashedPWD}")`);
+    res.status(200).send({message: "Registration successful"})
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+}); 
+
+/* POST username and password to login user */
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const results = await db(
+    `SELECT * FROM users WHERE username = "${username}";`
+    );
+    const user = results.data[0];
+    //if user found, compare pw
+    if (user) {
+    const user_id = user.id;
+    const correctPassword = await bcrypt.compare(password, user.password); 
+      // compare pw req body to db pw. returns boolean. bcrypt method
+
+    if (!correctPassword) throw new Error("Incorrect password");
+      //if pw patches create token
+    const token = jwt.sign({ user_id: user.id }, supersecret); 
+      //jwt method, takes param user_id as payload and supersecret key .env
+      //send token and user id to user
+    console.log(token)
+
+    res.send({ message: "Login successful, here is your token and id", token, user_id });
+    } else {
+      throw new Error("User does not exist");
+    }
+  } catch (err) {
+    res.status(400).send({ message: err.message });
+  }
+});
 
 
 module.exports = router;

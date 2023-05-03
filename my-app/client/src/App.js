@@ -1,6 +1,7 @@
 
 import React, {useState, useEffect} from "react";
 import Home from "./components/Home"
+import DashBoard from "./components/DashBoard";
 import Settings from "./components/Settings"
 import List from "./components/List"
 import Profile from "./components/Profile";
@@ -110,7 +111,7 @@ const [preferences, setPreferences] = useState({
     getRecommendations() //Makes sure myMatches is not empty when first loading. 
     //Matched based on default values preferences {}, days [] & location.
     getLocation() // sets "active user" geolocation when first loading
-    navigate("/") //nagivates to homescreen when first loading.
+    //navigate("/") //nagivates to homescreen when first loading.
   }, []) 
 
   let activeClassName = "btn btn-sm btn-warning"
@@ -191,6 +192,8 @@ const [preferences, setPreferences] = useState({
         element={
         <Home/>}>
       </Route>
+
+      <Route path="/login" element={<DashBoard/>} />
 
       <Route path="/settings" 
         element={
