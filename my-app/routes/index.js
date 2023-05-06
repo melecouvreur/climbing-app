@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 
 /*Route 1 - GET all users */
 router.get("/users", function(req, res, next) {
-  db("SELECT * FROM user_info;")
+  db("SELECT * FROM users;")
     .then(results => {
       res.send(results.data);
     })
@@ -24,30 +24,33 @@ router.get("/users", function(req, res, next) {
 });
  
 /*Route 2 - GET users by uID*/
-//NB - To use for FeaturedUser functionality Phase 2?
-router.get("/users/:id", async function(req, res, next) {
+router.get("/profile", async function(req, res, next) {
   try {
+    let id = 1
     let results = await db(
-      `SELECT * FROM user_info where uID = ${req.params.id} ORDER BY uID ASC;`
+      `SELECT * FROM users where uID = ${id} ORDER BY uID ASC;`
     );
     res.status(200).send(results.data);
+    console.log(results.data)
   } catch (err) {
     res.status(500).send(err);
   } 
 });    
 
-/*Route 3 - POST new user*/
-router.post("/users", async function(req, res, next) {
-  const {firstname, lastname, username, email, pronouns, avatar, bio, location, level, top, gender} = req.body
+/*Route 3 - POST new user info*/
+//
+router.post("/profile/:id", async function(req, res, next) {
+  let id = 2
+  const {firstname, lastname, username, email, pronouns, avatar, bio, location, level, cert, gender} = req.body
   try {
     await db(
-      `INSERT INTO user_info 
-      (firstname, lastname, username, email, pronouns, avatar, bio, location, level, top, gender) 
-       VALUES ("${firstname}","${lastname}","${username}","${email}","${pronouns}","${avatar}","${bio}","${location}",
-       "${level}","${top}", "${gender}");`
+     `UPDATE users SET pronouns = "${pronouns}", 
+      avatar = "${avatar}", bio = "${bio}",
+      location = "${location}", level = "${level}", 
+      gender = "${gender}" WHERE uID = ${id};`
     )
     let results = await db(
-      `SELECT * FROM user_info ORDER BY uID ASC;`
+      `SELECT * FROM users ORDER BY uID ASC;`
     );
     res.status(200).send(results.data);
   } catch (err) {
@@ -56,16 +59,20 @@ router.post("/users", async function(req, res, next) {
 })
 
 /*Route 4 - EDIT user info*/
-router.put("/users/:id", async function(req, res, next) {
-  const {username, email, pronouns, avatar, bio, location, level, top, gender} = req.body
+router.put("/profile/:id", async function(req, res, next) {
+  let id = 1
+  const {username, firstname, lastname, email, pronouns, avatar, bio, location, level, top, gender} = req.body
   try {
     await db(
-     `UPDATE user_info SET username = "${username}", email = "${email}", pronouns = "${pronouns}", avatar = "${avatar}", bio = "${bio}",
+     `UPDATE users SET username = "${username}", firstname = "${firstname}",
+      lastname = "${lastname}", email = "${email}", 
+      pronouns = "${pronouns}", avatar = "${avatar}", bio = "${bio}",
       location = "${location}", level = "${level}",
-      top = ${top}, gender = "${gender}" WHERE uID = ${req.params.id};`
+      gender = "${gender}" 
+      WHERE uID = ${id};`
     )
     let results = await db(
-      `SELECT * FROM user_info ORDER BY uID ASC;`
+      `SELECT * FROM users ORDER BY uID ASC;`
     );
     res.status(200).send(results.data);
   } catch (err) {
@@ -135,11 +142,11 @@ router.get("/days", async function(req, res, next) {
 
 /* POST username, password, email to register new user */
 router.post("/register", async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, firstname, lastname } = req.body;
   const hashedPWD = await bcrypt.hash(password, saltRounds)
   try {
     await db(
-    `INSERT into users (username, email, password) VALUES ("${username}", "${email}", "${hashedPWD}")`);
+    `INSERT into users (username, firstname, lastname, email, password) VALUES ("${username}","${firstname}","${lastname}", "${email}", "${hashedPWD}")`);
     res.status(200).send({message: "Registration successful"})
   } catch (err) {
     res.status(400).send({ message: err.message });

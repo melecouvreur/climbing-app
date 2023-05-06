@@ -10,8 +10,9 @@ function Login() {
   const [isRegistered, setIsRegistered] = useState(false)
   const [credentials, setCredentials] = useState({
     username: "",
-    email: "",
     password: "",
+    firstname: "",
+    lastname: "",
   });
 
  const [message, setMessage] = useState("");
@@ -110,6 +111,24 @@ function Login() {
           value={credentials.username}
           onChange={handleChange}
           name="username"
+          type="text"
+          className="form-control mb-2"
+        />
+
+<label className="p-2"> Lastname </label>
+        <input
+          value={credentials.lastname}
+          onChange={handleChange}
+          name="lastname"
+          type="text"
+          className="form-control mb-2"
+        />
+
+<label className="p-2"> Firstname </label>
+        <input
+          value={credentials.firstname}
+          onChange={handleChange}
+          name="firstname"
           type="text"
           className="form-control mb-2"
         />

@@ -41,10 +41,34 @@ setDays(() => (daysOfWeek.filter((d) => d.checked === true).map(d => d.name)))
 console.log(days)
 }
 
+const setProfile = async () => {
+  try {
+    let results = await fetch("/profile/:id", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        location, days, level: settings.level, 
+        gender: settings.gender, 
+        cert: settings.lead, 
+        pronouns: settings.pronouns, avatar: settings.img,
+        bio: settings.bio}) 
+    });
+    let profile = await results.json();
+    console.log(profile)
+    }
+  catch (error) {
+    console.log(error)
+  } 
+};
+
+
 const handleSubmit = (e) => {
   e.preventDefault();
+  setProfile()
   //getRecommendations()
-  navigate("/profile")
+  //navigate("/profile")
 }
  
   return (

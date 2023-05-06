@@ -30,7 +30,7 @@ function App() {
     email: "dummy@gmail.com",
     gender: "Female",
     pronouns: "She/Her",
-    bio: "Sometimes I make myself proud, sometimes I put my keys in the fridge",
+    bio: "Sometimes I make myself proud and sometimes I put my keys in the fridge",
     img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
     level: "Intermediate",
     lead: false, 
@@ -110,7 +110,7 @@ const [preferences, setPreferences] = useState({
         ));
     getRecommendations() //Makes sure myMatches is not empty when first loading. 
     //Matched based on default values preferences {}, days [] & location.
-    getLocation() // sets "active user" geolocation when first loading
+    //getLocation() // sets "active user" geolocation when first loading
     //navigate("/") //nagivates to homescreen when first loading.
   }, []) 
 
