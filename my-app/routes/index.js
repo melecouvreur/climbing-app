@@ -24,9 +24,10 @@ router.get("/users", function(req, res, next) {
 });
  
 /*Route 2 - GET users by uID*/
-router.get("/profile", async function(req, res, next) {
+router.get("/profile/:id", async function(req, res, next) {
   try {
-    let id = 1
+    //let id = 2
+    let id = req.params.id
     let results = await db(
       `SELECT * FROM users where uID = ${id} ORDER BY uID ASC;`
     );
@@ -40,7 +41,8 @@ router.get("/profile", async function(req, res, next) {
 /*Route 3 - POST new user info*/
 //
 router.post("/profile/:id", async function(req, res, next) {
-  let id = 2
+  //let id = 2
+  let id = req.params.id
   const {firstname, lastname, username, email, pronouns, avatar, bio, location, level, cert, gender} = req.body
   try {
     await db(
@@ -60,7 +62,8 @@ router.post("/profile/:id", async function(req, res, next) {
 
 /*Route 4 - EDIT user info*/
 router.put("/profile/:id", async function(req, res, next) {
-  let id = 1
+  //let id = 2
+  let id = req.params.id
   const {username, firstname, lastname, email, pronouns, avatar, bio, location, level, top, gender} = req.body
   try {
     await db(
@@ -164,6 +167,7 @@ router.post("/login", async (req, res) => {
     //if user found, compare pw
     if (user) {
     const user_id = user.id;
+    console.log(user_id)
     const correctPassword = await bcrypt.compare(password, user.password); 
       // compare pw req body to db pw. returns boolean. bcrypt method
 

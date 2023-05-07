@@ -7,6 +7,7 @@ import List from "./components/List"
 import Profile from "./components/Profile";
 import Preferences from "./components/Preferences";
 import logo from "./images/logo.png"
+import { UserContext } from "./Context/userContext";
 import './App.css';
 import { Routes, Route, NavLink, useNavigate} from "react-router-dom";
 
@@ -59,6 +60,27 @@ const [preferences, setPreferences] = useState({
     {name: "Sunday", checked: false}
   ])
 
+  const [profile, setProfile] = useState([])
+  const [userId, setUserId] = useState(2)
+
+  const getProfile = async () => {
+    try {
+      let id = userId
+      let results = await fetch(`/profile/${id}`);
+      let user = await results.json();
+      console.log(user[0])
+      //if db query successful > fetched user get pushed into profile []
+      let userInfo = user[0]
+      console.log(userInfo)
+      setProfile(userInfo)
+      //setProfile((userInfo) => ({...userInfo}))
+      console.log(profile.firstname)
+      }
+    catch (error) {
+      console.log(error)
+    } 
+  };
+  
 //Fetches and setsLocation of "active user" using external API.
 //Replicated across settings and preferences forms i.e. Users must have matching location.
   const getLocation = () => {
@@ -101,7 +123,11 @@ const [preferences, setPreferences] = useState({
     } 
   };
 
+  let userObj = {userId, setUserId, profile, getProfile, setProfile}
+
   useEffect(() => {
+    getProfile()
+    console.log(profile)
     setSettings((state) => ({
       ...state}
       ));
@@ -121,6 +147,7 @@ const [preferences, setPreferences] = useState({
     <div className="main container-fluid text-center">
       
     <div className="flex-row">
+      <p> {profile.uID} </p>
    
    {/*Switches to different views using React Router Navlink*/}
     <div>
@@ -186,7 +213,7 @@ const [preferences, setPreferences] = useState({
 
     </div>
    
-
+    <UserContext.Provider value={userObj}>
     <Routes>
       <Route path="/"
         element={
@@ -245,7 +272,7 @@ const [preferences, setPreferences] = useState({
       </Route>
 
      </Routes>
-         
+     </UserContext.Provider>
 
      <footer className="p-2 text-white text-left">
       <p className="p-2 font-italic"> CodeOp Project 2023 </p>

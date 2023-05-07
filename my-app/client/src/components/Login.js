@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-//import {useContext } from 'react'; 
-//import {UserContext}  from './UserContext'
-
+import { useContext } from "react";
+import { UserContext } from "../Context/userContext";
 
 function Login() {
   
-  const [userId, setUserId] = useState(0)
+  //const [userId, setUserId] = useState(0)
   const [isRegistered, setIsRegistered] = useState(false)
   const [credentials, setCredentials] = useState({
     username: "",
@@ -18,11 +17,11 @@ function Login() {
  const [message, setMessage] = useState("");
  const navigate = useNavigate();
 
- //let {userId, setUserId} = useContext(UserContext);
+ let {userId, setUserId} = useContext(UserContext);
 
- //const changeId = (newId) => {
- // setUserId(newId)
-//}
+ const changeId = (newId) => {
+  setUserId(newId)
+ }
 
   //Toggles between login / register view & funct
   const changeRegistered = () => {
@@ -82,6 +81,7 @@ function Login() {
       localStorage.setItem("token", data.token, "id", data.user_id)
       //userId = data.user_id
       console.log(userId)
+      setUserId(userId)
       //changeId(data.user_id) //for multi-user login. WIP!
       //Attempt to update userId from <UserContext.Provider>
       //Seems to be updating id on Auth (with delay) but not in UserLibraryView comp.

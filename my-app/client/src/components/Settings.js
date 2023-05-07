@@ -1,14 +1,22 @@
-import React from "react";
+import {React, useState, useEffect} from "react";
+import { useContext } from "react";
+import { UserContext } from "../Context/userContext";
 import "../App.css"
 
 function Settings( {location, setLocation, daysOfWeek, navigate, settings, setSettings, days, setDays, setChecked }) {
+
+let {profile, getProfile, setProfile, userId} = useContext(UserContext)
 
 //updates props in 'settings {}'
 const handleInputChange = (event) => {
   const value = event.target.value;
   const name = event.target.name;
-
+  
   setSettings((state) => ({
+    ...state,
+  [name]: value,}
+  ))
+  setProfile((state) => ({
     ...state,
   [name]: value,}
   ))
@@ -41,9 +49,10 @@ setDays(() => (daysOfWeek.filter((d) => d.checked === true).map(d => d.name)))
 console.log(days)
 }
 
-const setProfile = async () => {
+const updateProfile = async () => {
   try {
-    let results = await fetch("/profile/:id", {
+    let id = userId
+    let results = await fetch(`/profile/${id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,15 +75,16 @@ const setProfile = async () => {
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  setProfile()
+  updateProfile()
   //getRecommendations()
   //navigate("/profile")
 }
  
+
   return (
 
   <div className="bg-1 p-4 d-flex justify-content-center text-left">
-
+    <p>{profile.username}</p>
     <form 
     onSubmit={handleSubmit}
     className="p-3 s-form align-self-center"
@@ -86,7 +96,7 @@ const handleSubmit = (e) => {
             <input
               type="text"
               name="firstName"
-              value={settings.firstName}
+              value={profile.firstname}
               placeholder="Type first name"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -98,7 +108,8 @@ const handleSubmit = (e) => {
             <input
               type="text"
               name="lastName"
-              value={settings.lastName}
+              value={profile.lastname}
+              //value={settings.lastName}
               placeholder="Type last name"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -112,7 +123,8 @@ const handleSubmit = (e) => {
             <input
               type="text"
               name="userName"
-              value={settings.userName}
+              value={profile.username}
+              //value={settings.userName}
               placeholder="Type user name"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -124,7 +136,8 @@ const handleSubmit = (e) => {
             <input
               type="email"
               name="email"
-              value={settings.email}
+              value={profile.email}
+              //value={settings.email}
               placeholder="Type email"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -138,7 +151,8 @@ const handleSubmit = (e) => {
             <input
               type="text"
               name="img"
-              value={settings.img}
+              value={profile.avatar}
+              //value={settings.img}
               placeholder="https://example.com/users/"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -175,7 +189,8 @@ const handleSubmit = (e) => {
             id="level"
             type="text"
             name="level"
-            value={settings.level}
+            value={profile.level}
+            //value={settings.level}
             placeholder="Set level"
             onChange={(e) => handleInputChange(e)}
             >
@@ -192,7 +207,8 @@ const handleSubmit = (e) => {
               id="gender"
               type="text"
               name="gender"
-              value={settings.gender}
+              value={profile.gender}
+              //value={settings.gender}
               placeholder="Set level"
               onChange={(e) => handleInputChange(e)}
               >
@@ -223,7 +239,8 @@ const handleSubmit = (e) => {
             <input
               type="text"
               name="bio"
-              value={settings.bio}
+              value={profile.bio}
+              //value={settings.bio}
               placeholder="Type bio"
               className="form-control p-4"
               onChange={(e) => handleInputChange(e)}

@@ -1,30 +1,40 @@
 import {React, useEffect, useState} from "react";
+import { useContext } from "react";
+import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function Profile( {location, navigate, settings, getRecommendations}) {
+function Profile( {location, navigate, getRecommendations}) {
 
-const [profile, setProfile] = useState([])
-//Fetches users from db based on level, gender, lead props in preferences {}, days [] & location
+let {profile, getProfile, setProfile} = useContext(UserContext)
+
+//const [profile, setProfile] = useState([])
+
+/*
 const getProfile = async () => {
   try {
     let results = await fetch("/profile");
     let user = await results.json();
-    console.log(user)
-    //if db query successful > fetches users get pushed into profile []
-    setProfile((user) => ({...user}))
-    //setProfile(user)
-    console.log(profile)
+    console.log(user[0])
+    //if db query successful > fetched user get pushed into profile []
+    let userInfo = user[0]
+    console.log(userInfo)
+    //setProfile(userInfo)
+    setProfile((userInfo) => ({...userInfo}))
+    console.log(profile.firstname)
     }
   catch (error) {
     console.log(error)
   } 
 };
+*/
+
+//const updateProfile = () => {
+// setProfile()
+//}
 
 useEffect(() => {
-  //getProfile((state) => ({
-  //  ...state}
-  //  ));
   getProfile()
+  console.log(profile)
 }, []) 
 
 
@@ -46,7 +56,7 @@ const findPartners = () => {
      <div className="profile">
       <img 
        //fix image local storage
-        src={settings.img} 
+        src={profile.avatar} 
         alt="profile_avatar"
         className="rounded-circle" 
         width="100"/>
@@ -54,8 +64,8 @@ const findPartners = () => {
    </div>
 
   <div className="mt-5 text-center">
-   <h4 className="p-2 mb-0"> {} </h4>
-   <span className="d-block mb-2"> {}</span>
+   <h4 className="p-2 mb-0"> {profile.username} </h4>
+   <span className="d-block mb-2"> {profile.pronouns}</span>
 
    <button 
    className="btn btn-warning btn-sm follow"
@@ -64,7 +74,7 @@ const findPartners = () => {
    </button>
 
    <div className="d-flex justify-content-between align-items-center mt-4 px-4">
-       <span className="bio col-12 text-center">{}
+       <span className="bio col-12 text-center">{profile.bio}
       </span>
    </div>
 
@@ -77,7 +87,7 @@ const findPartners = () => {
 
      <div className="stats">
        <h6 className="mb-0"> Level </h6>
-       <span> {} 
+       <span> {profile.level} 
        </span>
      </div>
     
