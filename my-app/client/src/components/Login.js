@@ -79,7 +79,7 @@ function Login() {
       else {
       //if crededentials correct, stores token & directs user to "/private" page (=protected home page)
       localStorage.setItem("token", data.token, "id", data.user_id)
-      //userId = data.user_id
+      userId = data.user_id
       console.log(userId)
       setUserId(userId)
       //changeId(data.user_id) //for multi-user login. WIP!

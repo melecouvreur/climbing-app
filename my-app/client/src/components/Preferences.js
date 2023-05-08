@@ -1,7 +1,7 @@
 import React from "react";
 import "../App.css"
 
-function Preferences( {location, setLocation, preferences, setPreferences, daysOfWeek, getRecommendations, navigate, setDays, setChecked }) {
+function Preferences( {location, setLocation, preferences, setPreferences, daysOfWeek, getRecommendations, navigate, setDays, setSelected }) {
 
 //Updates props in 'preferences {}'
 const handleInputChange = (event) => {
@@ -22,7 +22,7 @@ const handleLocationChange = (e) => {
 
 //sets true/false status for lead prop in 'preferences {}'
 const setLead = () => {
-  setChecked(preferences.lead = !preferences.lead)
+  setSelected(preferences.lead = !preferences.lead)
   setPreferences((state) => ({
       ...state}))
   //console.log(settings)
@@ -33,10 +33,10 @@ const setLead = () => {
 //'days []' => obj.req for getRecommendations function
 // NB - pushes value of name (string) in 'days []' only. 
 const handleDaysChange = (d) => {
-  setChecked(d.checked = !d.checked)
+  setSelected(d.selected = !d.selected)
     //console.log(daysOfWeek)
     //console.log(d)
-  setDays(() => (daysOfWeek.filter((d) => d.checked === true).map(d => d.name)))
+  setDays(() => (daysOfWeek.filter((d) => d.selected === true).map(d => d.name)))
     //console.log(days)
   }
 

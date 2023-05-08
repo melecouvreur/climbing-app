@@ -5,6 +5,7 @@ import DashBoard from "./components/DashBoard";
 import Settings from "./components/Settings"
 import List from "./components/List"
 import Profile from "./components/Profile";
+import ProfileSetUp from "./components/ProfileSetUp";
 import Preferences from "./components/Preferences";
 import logo from "./images/logo.png"
 import { UserContext } from "./Context/userContext";
@@ -13,12 +14,13 @@ import { Routes, Route, NavLink, useNavigate} from "react-router-dom";
 
 function App() {
 
-  const [isChecked, setChecked] = useState(false) 
+  const [isSelected, setSelected] = useState(false) 
   //Sets lead prop in preferences & settings {}'s. 
   const [recommendations, setRecommendations] = useState([]) 
   //SetsRecommendations [] (= recommended climbers) based on preferences {}. 
   const [days, setDays] = useState(["Saturday", "Monday", "Tuesday", "Friday"]) 
   //Setsdays "active user" wants to climb based on daysOfWeek []. daysOfWeeks gets modified in Preferences & Settings forms
+  const [daysToDelete, setDaysToDelete] = useState([""])
   const [location, setLocation] = useState("London")
   //setsLocation "active user" profile.
   const navigate = useNavigate() 
@@ -51,17 +53,17 @@ const [preferences, setPreferences] = useState({
 //Replicated across settings and preferences forms i.e. Users must have matching days.
  const [daysOfWeek, setDaysOfWeek] = useState(
   [
-    {name: "Monday", checked: true} ,
-    {name: "Tuesday", checked: true} ,
-    {name: "Wednesday", checked: false} ,
-    {name: "Thursday", checked: false} ,
-    {name: "Friday", checked: false} ,
-    {name: "Saturday", checked: false} ,
-    {name: "Sunday", checked: false}
+    {name: "Monday", selected: false} ,
+    {name: "Tuesday", selected: false} ,
+    {name: "Wednesday", selected: false} ,
+    {name: "Thursday", selected: false} ,
+    {name: "Friday", selected: false} ,
+    {name: "Saturday", selected: false} ,
+    {name: "Sunday", selected: false}
   ])
 
   const [profile, setProfile] = useState([])
-  const [userId, setUserId] = useState(2)
+  const [userId, setUserId] = useState(3)
 
   const getProfile = async () => {
     try {
@@ -110,7 +112,7 @@ const [preferences, setPreferences] = useState({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location, days, level: preferences.level, gender: preferences.gender, top: preferences.lead}) 
+        body: JSON.stringify({ location, days, level: preferences.level, gender: preferences.gender}) 
       });
       let users = await results.json();
       console.log(users)
@@ -124,6 +126,13 @@ const [preferences, setPreferences] = useState({
   };
 
   let userObj = {userId, setUserId, profile, getProfile, setProfile}
+
+  const logout = () => {
+    localStorage.removeItem("token")
+    //setIsLoggedIn(false)
+    navigate("/login")
+    console.log("logged out")
+  };
 
   useEffect(() => {
     getProfile()
@@ -148,6 +157,13 @@ const [preferences, setPreferences] = useState({
       
     <div className="flex-row">
       <p> {profile.uID} </p>
+
+      <button 
+              className="btn"
+              onClick={logout}
+              >
+              <h5> Logout </h5>
+              </button> 
    
    {/*Switches to different views using React Router Navlink*/}
     <div>
@@ -222,14 +238,30 @@ const [preferences, setPreferences] = useState({
 
       <Route path="/login" element={<DashBoard/>} />
 
+      <Route path="/setup" element={<ProfileSetUp
+      settings={settings}
+      setSettings={setSettings}
+      days={days}
+      daysToDelete={daysToDelete}
+      setDaysToDelete={setDaysToDelete}
+      setDays={setDays}
+      setSelected={setSelected}
+      navigate={navigate}
+      daysOfWeek={daysOfWeek}
+      location={location}
+      setLocation={setLocation}
+      />} />
+
       <Route path="/settings" 
         element={
         <Settings
         settings={settings}
         setSettings={setSettings}
         days={days}
+        daysToDelete={daysToDelete}
+        setDaysToDelete={setDaysToDelete}
         setDays={setDays}
-        setChecked={setChecked}
+        setSelected={setSelected}
         navigate={navigate}
         daysOfWeek={daysOfWeek}
         location={location}
@@ -244,7 +276,7 @@ const [preferences, setPreferences] = useState({
         preferences={preferences}
         setPreferences={setPreferences}
         setDays={setDays}
-        setChecked={setChecked}
+        setSelected={setSelected}
         navigate={navigate}
         getRecommendations={getRecommendations}
         daysOfWeek={daysOfWeek}

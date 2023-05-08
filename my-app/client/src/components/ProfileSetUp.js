@@ -1,166 +1,121 @@
-import {React, useState, useEffect} from "react";
+import {React, useEffect, useState} from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function Settings( {location, setLocation, daysOfWeek, navigate, settings, setSettings, days, setDays, setSelected }) {
+function ProfileSetUp( {location, setLocation, daysOfWeek, navigate, settings, setSettings, days, setDays, setSelected}) {
 
 let {profile, getProfile, setProfile, userId} = useContext(UserContext)
 
 //updates props in 'settings {}'
 const handleInputChange = (event) => {
-  const value = event.target.value;
-  const name = event.target.name;
-  setProfile((state) => ({
-    ...state,
-  [name]: value,}
-  ))
-  console.log(profile)
-  }
-
-//Allows user to edit location inititally fetched via external geolocation api
-const handleLocationChange = (e) => {
-  setLocation(e.target.value);
-  e.preventDefault();
+    const value = event.target.value;
+    const name = event.target.name;
+    setProfile((state) => ({
+      ...state,
+    [name]: value,}
+    ))
+    console.log(profile)
     }
   
-//sets true/false status for lead prop in 'settings {}'
-const setLead = () => {
-  setSelected(settings.lead = !settings.lead)
-  setSettings((state) => ({
-    ...state}))
-  console.log(settings)
+  //Allows user to edit location inititally fetched via external geolocation api
+  const handleLocationChange = (e) => {
+    setLocation(e.target.value);
+    e.preventDefault();
+      }
+    
+  //sets true/false status for lead prop in 'settings {}'
+  const setLead = () => {
+    setSelected(settings.lead = !settings.lead)
+    setSettings((state) => ({
+      ...state}))
+    console.log(settings)
+    }
+  
+  //Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
+  //pushes "checked days" in 'days []' via setDays()
+  //'days []' => obj.req for getRecommendations function
+  // NB - pushes value of name (string) in 'days []' only. 
+  const handleDaysChange = (d) => {
+    setSelected(d.selected = !d.selected)
+    console.log(daysOfWeek)
+    console.log(d.selected)
+    setDays(daysOfWeek)
+  //setDays(() => (daysOfWeek.filter((d) => d.selected === true).map(d => d)))
+  //setDaysToDelete(() => daysOfWeek.filter((d) => d.selected === false).map(d => d.name))
+  //console.log("deleted days", daysToDelete)
+  console.log("active days", days)
   }
 
-//Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
-//pushes "checked days" in 'days []' via setDays()
-//'days []' => obj.req for getRecommendations function
-// NB - pushes value of name (string) in 'days []' only. 
-const handleDaysChange = (d) => {
-  setSelected(d.selected = !d.selected)
-  console.log(daysOfWeek)
-  console.log(d.selected)
-  setDays(daysOfWeek)
-//setDays(() => (daysOfWeek.filter((d) => d.selected === true).map(d => d)))
-//setDaysToDelete(() => daysOfWeek.filter((d) => d.selected === false).map(d => d.name))
-//console.log("deleted days", daysToDelete)
-console.log("active days", days)
-}
 
+const setDBProfile = async () => {
+    try {
+      let id = userId
+      let results = await fetch(`/profile/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          username: profile.username, 
+          firstname: profile.firstname,
+          lastname: profile.lastname,
+          email: profile. email,
+          location, days, 
+          level: profile.level, 
+          gender: profile.gender, 
+          cert: settings.lead, 
+          pronouns: profile.pronouns, 
+          avatar: profile.avatar,
+          bio: profile.bio
+        }) 
+      });
+      let updatedProfile = await results.json();
+      console.log(updatedProfile)
+      }
+      catch (error) {
+      console.log(error)
+    } 
+  };
 
-const updateDBProfile = async () => {
-  try {
-    let id = userId
-    let results = await fetch(`/profile/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ 
-        username: profile.username, 
-        firstname: profile.firstname,
-        lastname: profile.lastname,
-        email: profile. email,
-        location, days, 
-        level: profile.level, 
-        gender: profile.gender, 
-        cert: settings.lead, 
-        pronouns: profile.pronouns, 
-        avatar: profile.avatar,
-        bio: profile.bio
-      }) 
-    });
-    let updatedProfile = await results.json();
-    console.log(updatedProfile)
-    }
-    catch (error) {
-    console.log(error)
-  } 
-};
+  const setDBDays = async () => {
+    try {
+      let id = userId
+      let results = await fetch(`/days/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ days }) 
+      });
+      let updatedDays = await results.json();
+      console.log(updatedDays)
+      }
+      catch (error) {
+      console.log(error)
+    } 
+  };
 
-const setDBDays = async () => {
-  try {
-    let id = userId
-    let results = await fetch(`/days/${id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ days }) 
-    });
-    let updatedDays = await results.json();
-    console.log(updatedDays)
-    }
-    catch (error) {
-    console.log(error)
-  } 
-};
-
-const updateDBDays = async () => {
-  try {
-    let id = userId
-    let results = await fetch(`/days/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ days }) 
-    });
-    let updatedDays = await results.json();
-    console.log(updatedDays)
-    }
-    catch (error) {
-    console.log(error)
-  } 
-};
-
-const deleteDays = async (userId, daysToDelete) => {
-  try {
-    const response = await fetch(`/days/${userId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ daysToDelete })
-    });
-
-    if (response.status === 204) {
-      console.log("Days deleted successfully");
-    } else if (response.ok) {
-      const deletedDays = await response.json();
-      console.log(deletedDays);
-    } else {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-
-/*
 useEffect(() => {
   getProfile()
   console.log(profile)
-},[updateProfile]) 
-*/
+}, []) 
 
 
 const handleSubmit = (e) => {
-  e.preventDefault();
-  updateDBProfile()
-  //setDBDays()
-  updateDBDays()
-  //deleteDays(userId, daysToDelete)
-  //setProfile()
-  //getRecommendations()
-  //navigate("/profile")
-}
- 
+    e.preventDefault();
+    setDBProfile()
+    //setDBDays()
+    setDBDays()
+    //deleteDays(userId, daysToDelete)
+    //setProfile()
+    //getRecommendations()
+    //navigate("/profile")
+  }
 
   return (
 
-  <div className="bg-1 p-4 d-flex justify-content-center text-left">
+<div className="bg-1 p-4 d-flex justify-content-center text-left">
     <p>{profile.username}</p>
     <form 
     onSubmit={handleSubmit}
@@ -296,17 +251,6 @@ const handleSubmit = (e) => {
             </select>
             </div>
 
-          <div className="form-group col-md-4 px-2">
-            <label> Lead certified </label>
-            <input 
-            type="checkbox" 
-            className="form-row form-check-input mx-3" 
-            name="lead"
-            value={settings.lead}
-            checked={settings.lead === true}
-            onChange={() => setLead(settings.lead)}
-            />
-            </div>
 
         </div>
   
@@ -355,4 +299,4 @@ const handleSubmit = (e) => {
   );
 }
 
-export default Settings;
+export default ProfileSetUp;
