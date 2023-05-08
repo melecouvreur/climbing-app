@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
   res.send({ title: 'Express' });
 });
 
-/*Route 1 - GET all users */
+/*GET all users */
 router.get("/users", function(req, res, next) {
   db("SELECT * FROM users;")
     .then(results => {
@@ -23,10 +23,9 @@ router.get("/users", function(req, res, next) {
     .catch(err => res.status(500).send(err));
 });
  
-/*Route 2 - GET users by uID*/
+/*GET user by uID*/
 router.get("/profile/:id", async function(req, res, next) {
   try {
-    //let id = 2
     let id = req.params.id
     let results = await db(
       `SELECT * FROM users where uID = ${id} 
@@ -39,9 +38,8 @@ router.get("/profile/:id", async function(req, res, next) {
   } 
 });    
 
-/*Route 3 - POST user info*/
+/*POST user info*/
 router.post("/profile/:id", async function(req, res, next) {
-  //let id = 2
   let id = req.params.id
   const {firstname, lastname, username, email, pronouns, avatar, bio, location, level, cert, gender} = req.body
   try {
@@ -62,9 +60,8 @@ router.post("/profile/:id", async function(req, res, next) {
   }
 })
 
-/*Route 4 - EDIT user info*/
+/*EDIT user info*/
 router.put("/profile/:id", async function(req, res, next) {
-  //let id = 2
   let id = req.params.id
   const {username, firstname, lastname, email, pronouns, avatar, bio, location, level, cert, gender} = req.body
   try {
@@ -85,7 +82,7 @@ router.put("/profile/:id", async function(req, res, next) {
   }
 })
 
-/* Route 5 - POST/recommends users based on matching days & location*/
+/* POST/recommends users based on matching days & location*/
 // To do - add cert as filter. Didn't want to overcomplicate and have to add more fake users.
 router.post("/recommend", async function(req, res, next) {
       const {days, location, level, gender} = req.body
@@ -104,24 +101,22 @@ router.post("/recommend", async function(req, res, next) {
             } 
           })
 
-/*GET/recommended users based on match criteria ( = testing route. remove later)*/
-router.get("/recommend", async function(req, res, next) {
+/*GET days by uID*/
+router.get("/days/:id", async function(req, res, next) {
   try {
-    let days = ["Tuesday", "Monday", "Saturday"]
-    let queryList = "('" + days.join("','") + "')"
-    let results = await db(`SELECT 
-    DISTINCT user_info.firstname, user_info.lastname, user_info.username, user_info.bio,
-    user_info.pronouns, user_info.avatar, user_info.location, user_info.level, user_info.top, user_info.email, user_info.uID
-    FROM user_info 
-    LEFT JOIN days ON user_info.uID = days.uID 
-    WHERE days.day in ${queryList} AND user_info.location = "London";`)
+    let id = req.params.id
+    let results = await db(
+      `SELECT * FROM days where uID = ${id} 
+       ORDER BY uID ASC;`
+    );
     res.status(200).send(results.data);
+    console.log(results.data)
   } catch (err) {
-    res.status(500).send(err); 
+    res.status(500).send(err);
   } 
-})
+});  
       
-/*POST climbing days for user*/
+/*POST climbing days of user*/
 router.post("/days/:id", async function(req, res, next) {
   let id = req.params.id
   const {days} = req.body
@@ -130,7 +125,6 @@ router.post("/days/:id", async function(req, res, next) {
     for (let day of days) {
     let name = day.name
     let selected = day.selected
-
     await db(`INSERT INTO days (uID, day, selected) VALUES (${id},"${name}", ${selected});`)
     }
     let results = await db(
@@ -152,7 +146,6 @@ router.put("/days/:id", async function(req, res, next) {
     for (let day of days) {
     let name = day.name
     let selected = day.selected
-
     await db(`UPDATE days SET selected = ${selected} 
     WHERE uID = ${id} AND day = "${name}";`)
     }
@@ -185,7 +178,7 @@ router.delete("/days/:id", async function(req, res, next) {
 })
 
 /*GET all days (for testing)*/
-router.get("/days/:id", async function(req, res, next) {
+router.get("/days", async function(req, res, next) {
     try {
       let results = await db(`SELECT * FROM days ORDER BY dID ASC;`);
       res.status(200).send(results.data);
@@ -200,7 +193,8 @@ router.post("/register", async (req, res) => {
   const hashedPWD = await bcrypt.hash(password, saltRounds)
   try {
     await db(
-    `INSERT into users (username, firstname, lastname, email, password) VALUES ("${username}","${firstname}","${lastname}", "${email}", "${hashedPWD}")`);
+    `INSERT into users (username, firstname, lastname, email, password) 
+     VALUES ("${username}","${firstname}","${lastname}", "${email}", "${hashedPWD}")`);
     res.status(200).send({message: "Registration successful"})
   } catch (err) {
     res.status(400).send({ message: err.message });

@@ -94,13 +94,6 @@ If empty shows default message*/}
 
       )}
 </div>
-      
-      {/*not finished. Probably remove as not necessary functionality
-      {isView === "Featured" && (
-      <Box
-       featured={featured}/>
-       )}
-      */}
 
     </div>
   );

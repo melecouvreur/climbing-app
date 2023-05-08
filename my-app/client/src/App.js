@@ -18,31 +18,18 @@ function App() {
   //Sets lead prop in preferences & settings {}'s. 
   const [recommendations, setRecommendations] = useState([]) 
   //SetsRecommendations [] (= recommended climbers) based on preferences {}. 
-  const [days, setDays] = useState(["Saturday", "Monday", "Tuesday", "Friday"]) 
+  const [days, setDays] = useState([]) 
   //Setsdays "active user" wants to climb based on daysOfWeek []. daysOfWeeks gets modified in Preferences & Settings forms
-  const [daysToDelete, setDaysToDelete] = useState([""])
   const [location, setLocation] = useState("London")
   //setsLocation "active user" profile.
   const navigate = useNavigate() 
 
 //"active user" default settings. Displayed on Profile page
-  const [settings, setSettings] = useState({ 
-    firstName: "Mele",
-    lastName: "Couvreur",
-    userName: "m_couvreur",
-    email: "dummy@gmail.com",
-    gender: "Female",
-    pronouns: "She/Her",
-    bio: "Sometimes I make myself proud and sometimes I put my keys in the fridge",
-    img: "https://www.climbing.com/wp-content/uploads/2017/11/womenclimbingtimeline.jpg?crop=16:9&width=1500",
-    level: "Intermediate",
-    lead: false, 
-   }
- )
+  const [settings, setSettings] = useState({ lead: false})
 
 //"active user" default preferences. Sets user matching criteria. 
-// NB - lead, gender and level prop value in preferences can differ from lead, gender, levelprop in Settings.
-// i.e. User can be level = intermediate, but choose to match with advanced. Idem gender and lead.
+//NB - lead, gender and level prop value in preferences can differ from lead, gender, levelprop in Settings.
+//i.e. User can be level = intermediate, but choose to match with advanced. Idem gender and lead.
 const [preferences, setPreferences] = useState({
     gender: "Female",
     level: "Advanced",
@@ -63,9 +50,9 @@ const [preferences, setPreferences] = useState({
   ])
 
   const [profile, setProfile] = useState([])
-  const [userId, setUserId] = useState(3)
+  const [userId, setUserId] = useState(1)
 
-  const getProfile = async () => {
+  const getDBProfile = async () => {
     try {
       let id = userId
       let results = await fetch(`/profile/${id}`);
@@ -75,11 +62,26 @@ const [preferences, setPreferences] = useState({
       let userInfo = user[0]
       console.log(userInfo)
       setProfile(userInfo)
-      //setProfile((userInfo) => ({...userInfo}))
-      console.log(profile.firstname)
+      console.log("profile", profile)
       }
     catch (error) {
       console.log(error)
+    } 
+  };
+
+  const getDBDays = async () => {
+    try {
+      let id = userId
+      let results = await fetch(`/days/${id}`);
+      let userDays = await results.json();
+      console.log(userDays[0])
+      //if db query successful > fetched days get pushed into days []
+      console.log(userDays)
+      setDays(userDays)
+      console.log("days", userDays)
+      }
+    catch (error) {
+    console.log(error)
     } 
   };
   
@@ -118,14 +120,25 @@ const [preferences, setPreferences] = useState({
       console.log(users)
       //if db query successful > fetched users get pushed into recommendations []
       setRecommendations(users)
-      console.log(recommendations)
+      console.log("recommendations", recommendations)
       }
     catch (error) {
       console.log(error)
     } 
   };
 
-  let userObj = {userId, setUserId, profile, getProfile, setProfile}
+  let userObj = {
+    userId, setUserId, profile, 
+    getDBProfile, setProfile, 
+    location, setLocation,
+    days, setDays, 
+    daysOfWeek,
+    setSelected,
+    preferences, setPreferences,
+    settings, setSettings,
+    recommendations, getRecommendations,
+    navigate
+    }
 
   const logout = () => {
     localStorage.removeItem("token")
@@ -135,8 +148,8 @@ const [preferences, setPreferences] = useState({
   };
 
   useEffect(() => {
-    getProfile()
-    console.log(profile)
+    getDBProfile()
+    getDBDays()
     setSettings((state) => ({
       ...state}
       ));
@@ -156,14 +169,6 @@ const [preferences, setPreferences] = useState({
     <div className="main container-fluid text-center">
       
     <div className="flex-row">
-      <p> {profile.uID} </p>
-
-      <button 
-              className="btn"
-              onClick={logout}
-              >
-              <h5> Logout </h5>
-              </button> 
    
    {/*Switches to different views using React Router Navlink*/}
     <div>
@@ -215,6 +220,16 @@ const [preferences, setPreferences] = useState({
         myMatches </button></NavLink>
     </div>
 
+    <NavLink to="/login"
+        className={({isActive}) => 
+        isActive ? activeClassName : undefined }
+        ><button
+        onClick={() => logout()} 
+        className="text-white btn m-1">
+        logOut </button>
+    </NavLink>
+   
+
        <div className="align-self-right">
         <NavLink 
         to="/"
@@ -242,8 +257,6 @@ const [preferences, setPreferences] = useState({
       settings={settings}
       setSettings={setSettings}
       days={days}
-      daysToDelete={daysToDelete}
-      setDaysToDelete={setDaysToDelete}
       setDays={setDays}
       setSelected={setSelected}
       navigate={navigate}
@@ -258,8 +271,6 @@ const [preferences, setPreferences] = useState({
         settings={settings}
         setSettings={setSettings}
         days={days}
-        daysToDelete={daysToDelete}
-        setDaysToDelete={setDaysToDelete}
         setDays={setDays}
         setSelected={setSelected}
         navigate={navigate}

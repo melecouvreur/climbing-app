@@ -5,9 +5,7 @@ import "../App.css"
 
 function Profile( {location, navigate, getRecommendations}) {
 
-let {profile, getProfile, setProfile} = useContext(UserContext)
-
-//const [profile, setProfile] = useState([])
+let {profile, getDBProfile, setProfile} = useContext(UserContext)
 
 /*
 const getProfile = async () => {
@@ -28,15 +26,10 @@ const getProfile = async () => {
 };
 */
 
-//const updateProfile = () => {
-// setProfile()
-//}
-
 useEffect(() => {
-  getProfile()
+  getDBProfile()
   console.log(profile)
 }, []) 
-
 
 //Fetches recommended climbers from db and sets 'recommendations []'
 //Switches to myMatches view where user sees recommendations 

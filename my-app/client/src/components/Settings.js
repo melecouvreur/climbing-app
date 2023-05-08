@@ -3,11 +3,11 @@ import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function Settings( {location, setLocation, daysOfWeek, navigate, settings, setSettings, days, setDays, setSelected }) {
+function Settings() {
 
-let {profile, getProfile, setProfile, userId} = useContext(UserContext)
+let {profile, setProfile, userId, location, setLocation, navigate, daysOfWeek, days, setDays, setSelected, settings, setSettings} = useContext(UserContext)
 
-//updates props in 'settings {}'
+//updates profile
 const handleInputChange = (event) => {
   const value = event.target.value;
   const name = event.target.name;
@@ -33,20 +33,15 @@ const setLead = () => {
   }
 
 //Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
-//pushes "checked days" in 'days []' via setDays()
-//'days []' => obj.req for getRecommendations function
-// NB - pushes value of name (string) in 'days []' only. 
+//pushes "checked/undchecked days" in 'days []' via setDays()
+//'days []' => obj.req for updateDBProfile & getRecommendations function
+// NB - pushes value of name (string) and selected (boolean)  in 'days []' 
 const handleDaysChange = (d) => {
   setSelected(d.selected = !d.selected)
-  console.log(daysOfWeek)
   console.log(d.selected)
   setDays(daysOfWeek)
-//setDays(() => (daysOfWeek.filter((d) => d.selected === true).map(d => d)))
-//setDaysToDelete(() => daysOfWeek.filter((d) => d.selected === false).map(d => d.name))
-//console.log("deleted days", daysToDelete)
-console.log("active days", days)
+  console.log("days", days)
 }
-
 
 const updateDBProfile = async () => {
   try {
@@ -71,25 +66,7 @@ const updateDBProfile = async () => {
       }) 
     });
     let updatedProfile = await results.json();
-    console.log(updatedProfile)
-    }
-    catch (error) {
-    console.log(error)
-  } 
-};
-
-const setDBDays = async () => {
-  try {
-    let id = userId
-    let results = await fetch(`/days/${id}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ days }) 
-    });
-    let updatedDays = await results.json();
-    console.log(updatedDays)
+    console.log("updatedProfile", updatedProfile)
     }
     catch (error) {
     console.log(error)
@@ -137,31 +114,18 @@ const deleteDays = async (userId, daysToDelete) => {
   }
 };
 
-
-/*
-useEffect(() => {
-  getProfile()
-  console.log(profile)
-},[updateProfile]) 
-*/
-
-
 const handleSubmit = (e) => {
   e.preventDefault();
   updateDBProfile()
-  //setDBDays()
   updateDBDays()
-  //deleteDays(userId, daysToDelete)
-  //setProfile()
   //getRecommendations()
-  //navigate("/profile")
+  navigate("/profile")
 }
  
 
   return (
 
   <div className="bg-1 p-4 d-flex justify-content-center text-left">
-    <p>{profile.username}</p>
     <form 
     onSubmit={handleSubmit}
     className="p-3 s-form align-self-center"
@@ -186,7 +150,6 @@ const handleSubmit = (e) => {
               type="text"
               name="lastname"
               value={profile.lastname}
-              //value={settings.lastName}
               placeholder="Type last name"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -201,7 +164,6 @@ const handleSubmit = (e) => {
               type="text"
               name="username"
               value={profile.username}
-              //value={settings.userName}
               placeholder="Type user name"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -214,7 +176,6 @@ const handleSubmit = (e) => {
               type="email"
               name="email"
               value={profile.email}
-              //value={settings.email}
               placeholder="Type email"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -229,7 +190,6 @@ const handleSubmit = (e) => {
               type="text"
               name="avatar"
               value={profile.avatar}
-              //value={settings.img}
               placeholder="https://example.com/users/"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -267,7 +227,6 @@ const handleSubmit = (e) => {
             type="text"
             name="level"
             value={profile.level}
-            //value={settings.level}
             placeholder="Set level"
             onChange={(e) => handleInputChange(e)}
             >
@@ -285,7 +244,6 @@ const handleSubmit = (e) => {
               type="text"
               name="gender"
               value={profile.gender}
-              //value={settings.gender}
               placeholder="Set level"
               onChange={(e) => handleInputChange(e)}
               >
@@ -317,7 +275,6 @@ const handleSubmit = (e) => {
               type="text"
               name="bio"
               value={profile.bio}
-              //value={settings.bio}
               placeholder="Type bio"
               className="form-control p-4"
               onChange={(e) => handleInputChange(e)}
@@ -326,16 +283,16 @@ const handleSubmit = (e) => {
       </div>
 
          <div className="form-group row px-2 m-2 list-group-horizontal">
-          {daysOfWeek.map(d => (
+          {days.map(d => (
             <div 
-            key={d.name}> 
-            <label className="px-1"> {d.name} </label>
+            key={d.day}> 
+            <label className="px-1"> {d.day} </label>
             <div className="col">
             <input
             type="checkbox"
             name="days"
             value={d.name}
-            checked={d.checked}
+            checked={d.selected}
             className="m-1 control-input list-group-item flex-fill"
             onChange={() => handleDaysChange(d)}/>
             </div>

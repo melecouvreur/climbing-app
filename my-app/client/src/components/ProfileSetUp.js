@@ -5,7 +5,7 @@ import "../App.css"
 
 function ProfileSetUp( {location, setLocation, daysOfWeek, navigate, settings, setSettings, days, setDays, setSelected}) {
 
-let {profile, getProfile, setProfile, userId} = useContext(UserContext)
+let {profile, getDBProfile, setProfile, userId} = useContext(UserContext)
 
 //updates props in 'settings {}'
 const handleInputChange = (event) => {
@@ -34,19 +34,15 @@ const handleInputChange = (event) => {
   
   //Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
   //pushes "checked days" in 'days []' via setDays()
-  //'days []' => obj.req for getRecommendations function
+  //'days []' => obj.req for setDBDays & getRecommendations function
   // NB - pushes value of name (string) in 'days []' only. 
   const handleDaysChange = (d) => {
     setSelected(d.selected = !d.selected)
     console.log(daysOfWeek)
     console.log(d.selected)
     setDays(daysOfWeek)
-  //setDays(() => (daysOfWeek.filter((d) => d.selected === true).map(d => d)))
-  //setDaysToDelete(() => daysOfWeek.filter((d) => d.selected === false).map(d => d.name))
-  //console.log("deleted days", daysToDelete)
-  console.log("active days", days)
+    console.log("active days", days)
   }
-
 
 const setDBProfile = async () => {
     try {
@@ -97,7 +93,7 @@ const setDBProfile = async () => {
   };
 
 useEffect(() => {
-  getProfile()
+  getDBProfile()
   console.log(profile)
 }, []) 
 
@@ -105,12 +101,8 @@ useEffect(() => {
 const handleSubmit = (e) => {
     e.preventDefault();
     setDBProfile()
-    //setDBDays()
     setDBDays()
-    //deleteDays(userId, daysToDelete)
-    //setProfile()
-    //getRecommendations()
-    //navigate("/profile")
+    navigate("/profile")
   }
 
   return (
