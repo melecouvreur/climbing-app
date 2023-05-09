@@ -1,13 +1,13 @@
 
 import React, {useState, useEffect} from "react";
-import Home from "./components/Home"
-import DashBoard from "./components/DashBoard";
-import Settings from "./components/Settings"
-import List from "./components/List"
-import Profile from "./components/Profile";
-import ProfileSetUp from "./components/ProfileSetUp";
-import Preferences from "./components/Preferences";
-import logo from "./images/logo.png"
+import Home from "./Pages/Home"
+import DashBoard from "./Pages/DashBoard";
+import Settings from "./Components/Settings"
+import List from "./Pages/List"
+import Profile from "./Pages/Profile";
+import ProfileSetUp from "./Components/ProfileSetUp";
+import Preferences from "./Components/Preferences";
+import logo from "./Images/logo.png"
 import { UserContext } from "./Context/userContext";
 import './App.css';
 import { Routes, Route, NavLink, useNavigate} from "react-router-dom";
