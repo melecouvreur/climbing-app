@@ -1,17 +1,25 @@
-import React from "react";
+import React, {useEffect} from "react";
+import { useContext } from "react";
+import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function Preferences( {location, setLocation, preferences, setPreferences, daysOfWeek, getRecommendations, navigate, setDays, setSelected }) {
+function Preferences( {preferences, setPreferences, getRecommendations }) {
+
+  let {location, setLocation, navigate, daysOfWeek, setDaysOfWeek, days, setDays, setSelected, climbingCert, setClimbingCert, certifications, setCert} = useContext(UserContext)
 
 //Updates props in 'preferences {}'
-const handleInputChange = (event) => {
-  const value = event.target.value;
-  const name = event.target.name;
-
-  setPreferences((state) => ({
-    ...state,
-  [name]: value,}
-  ))
+  const handlePrefChange = (e) => {
+    setSelected(e.selected = !e.selected)
+    const value = e.selected;
+    const name = e.name;
+    setPreferences((state) => ({
+      ...state,
+    [name]: value,}))
+    console.log(
+     "gender", preferences.gender,
+     "level", preferences.level, 
+     "cert", preferences.cert,
+     "days", preferences.days)
   }
 
 //Allows user to edit location inititally fetched via external geolocation api
@@ -20,30 +28,29 @@ const handleLocationChange = (e) => {
   e.preventDefault();
     }
 
-//sets true/false status for lead prop in 'preferences {}'
-const setLead = () => {
-  setSelected(preferences.lead = !preferences.lead)
-  setPreferences((state) => ({
-      ...state}))
-  //console.log(settings)
-  }
-
 //Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
 //pushes "checked days" in 'days []' via setDays()
 //'days []' => obj.req for getRecommendations function
 // NB - pushes value of name (string) in 'days []' only. 
 const handleDaysChange = (d) => {
   setSelected(d.selected = !d.selected)
-    //console.log(daysOfWeek)
-    //console.log(d)
-  setDays(() => (daysOfWeek.filter((d) => d.selected === true).map(d => d.name)))
-    //console.log(days)
-  }
+  console.log(daysOfWeek, d.name, d.selected)
+  setDaysOfWeek((state) => [...state])
+  console.log("days", daysOfWeek)
+}
+
+const handleCertChange = (c) => {
+  setSelected(c.selected = !c.selected)
+  console.log(climbingCert, c.name, c.selected)
+  console.log(c.selected)
+  setClimbingCert((state) => [...state])
+  console.log("certifications", climbingCert)
+}
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  getRecommendations()
-  navigate("/matches")
+  //getRecommendations()
+  //navigate("/matches")
 }
 
   return (
@@ -54,7 +61,7 @@ const handleSubmit = (e) => {
       className="p-form align-self-center"
       onSubmit={handleSubmit}>
 
-
+  
       <div className="form-row px-4 pt-4">
          <div className="form-group col-md-6 px-2">
             <label> Location </label>
@@ -67,27 +74,12 @@ const handleSubmit = (e) => {
             />
          </div>
 
-           <div className="form-group col-md-6 px-2">
-            <label> Level </label>
-            <select 
-              className="form-control"
-              id="level"
-              type="text"
-              name="level"
-              value={preferences.level}
-              placeholder="Set level"
-              onChange={(e) => handleInputChange(e)}
-              >
-              <option>Beginner</option>
-              <option>Intermediate</option>
-              <option>Advanced</option>
-            </select>
-            </div>
           </div>
          
 
           <div className="form-group row px-2 m-2 list-group-horizontal">
-          {daysOfWeek.map(d => (
+          <div className="form-row px-4 pt-4">
+          {preferences.days.map(d => (
             <div 
             key={d.name}> 
             <label className="px-2"> {d.name} </label>
@@ -96,47 +88,66 @@ const handleSubmit = (e) => {
             type="checkbox"
             name="days"
             value={d.name}
-            checked={d.checked}
+            checked={d.selected}
             className="m-2 px-2 control-input list-group-item flex-fill"
-            onChange={() => handleDaysChange(d)}/>
+            onChange={() => handlePrefChange(d)}/>
             </div>
             </div>
             ))}
           </div>
+          </div>
 
-          <div className="form-row px-2">
-          <div className="form-group col-md-6 px-3">
-          <label> Gender </label>
-            <select 
-              className="form-control"
-              id="gender"
-              type="text"
-              name="gender"
-              value={preferences.gender}
-              placeholder="Set level"
-              onChange={(e) => handleInputChange(e)}
-              >
-              <option>Male</option>
-              <option>Female</option>
-              <option>Non-binary</option>
-              <option>Trans</option>
-            </select>
-            </div>
-            </div>
-
-            <div className="form-group form-check col-md-6 px-4 pt-2">
-            <label> Lead certified </label>
-            <input 
+            <div className="form-row px-4 pt-4">
+            {preferences.gender.map(g => (
+            <div className="form-group col-md-4 px-2">
+            <label> {g.name} </label>
+            <input
+            key={g.name}
             type="checkbox" 
-            className="form-check-input m-2 form-check-inline p-2" 
-            name="lead"
-            value={preferences.lead}
-            checked={preferences.lead === true}
-            onChange={() => setLead(preferences.lead)}
-            />
+            className="m-1 control-input list-group-item flex-fill"
+            name="gender"
+            value={g.name}
+            checked={g.selected}
+            onChange={() => handlePrefChange(g)}
+              >
+            </input>
+            </div> ))}
             </div>
-        
-       
+
+            <div className="form-row px-4 pt-4">
+            {preferences.level.map(l => (
+            <div className="form-group col-md-4 px-2">
+            <label> {l.name} </label>
+            <input
+            key={l.name}
+            type="checkbox" 
+            className="m-1 control-input list-group-item flex-fill"
+            name="gender"
+            value={l.name}
+            checked={l.selected}
+            onChange={() => handlePrefChange(l)}
+              >
+            </input>
+            </div> ))}
+            </div>
+
+            <div className="form-row px-4 pt-4">
+            {preferences.cert.map(c => (
+            <div className="form-group col-md-4 px-2">
+            <label> {c.name} </label>
+            <input
+            key={c.name}
+            type="checkbox" 
+            className="m-1 control-input list-group-item flex-fill"
+            name="cert"
+            value={c.name}
+            checked={c.selected}
+            onChange={() => handlePrefChange(c)}
+              >
+            </input>
+            </div> ))}
+            </div>
+          
           <div className="form-row justify-content-center">
           <button className="btn btn-m btn-warning">Submit</button>
           </div>

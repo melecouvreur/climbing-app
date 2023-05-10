@@ -3,9 +3,9 @@ import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function ProfileSetUp( {location, setLocation, daysOfWeek, navigate, settings, setSettings, days, setDays, setSelected}) {
+function SetUp( {location, setLocation, daysOfWeek, navigate, settings, setSettings, days, setDays, setSelected}) {
 
-let {profile, getDBProfile, setProfile, userId} = useContext(UserContext)
+let {profile, getDBProfile, setProfile, userId, climbingCert, certifications, setCert} = useContext(UserContext)
 
 //updates props in 'settings {}'
 const handleInputChange = (event) => {
@@ -24,14 +24,7 @@ const handleInputChange = (event) => {
     e.preventDefault();
       }
     
-  //sets true/false status for lead prop in 'settings {}'
-  const setLead = () => {
-    setSelected(settings.lead = !settings.lead)
-    setSettings((state) => ({
-      ...state}))
-    console.log(settings)
-    }
-  
+
   //Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
   //pushes "checked days" in 'days []' via setDays()
   //'days []' => obj.req for setDBDays & getRecommendations function
@@ -42,6 +35,14 @@ const handleInputChange = (event) => {
     console.log(d.selected)
     setDays(daysOfWeek)
     console.log("active days", days)
+  }
+
+  const handleCertChange = (c) => {
+    setSelected(c.selected = !c.selected)
+    console.log(climbingCert)
+    console.log(c.selected)
+    setCert(climbingCert)
+    console.log("certifications", certifications)
   }
 
 const setDBProfile = async () => {
@@ -56,11 +57,10 @@ const setDBProfile = async () => {
           username: profile.username, 
           firstname: profile.firstname,
           lastname: profile.lastname,
-          email: profile. email,
+          email: profile.email,
           location, days, 
           level: profile.level, 
-          gender: profile.gender, 
-          cert: settings.lead, 
+          gender: profile.gender,
           pronouns: profile.pronouns, 
           avatar: profile.avatar,
           bio: profile.bio
@@ -176,7 +176,6 @@ const handleSubmit = (e) => {
               type="text"
               name="avatar"
               value={profile.avatar}
-              //value={settings.img}
               placeholder="https://example.com/users/"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -214,7 +213,6 @@ const handleSubmit = (e) => {
             type="text"
             name="level"
             value={profile.level}
-            //value={settings.level}
             placeholder="Set level"
             onChange={(e) => handleInputChange(e)}
             >
@@ -243,8 +241,23 @@ const handleSubmit = (e) => {
             </select>
             </div>
 
-
+           {climbingCert.map(c => (
+            <div className="form-group col-md-4 px-2">
+            <label> {c.name} </label>
+            <input
+            key={c.name}
+            type="checkbox" 
+            className="m-1 control-input list-group-item flex-fill"
+            name="cert"
+            value={c.name}
+            checked={c.checked}
+            placeholder="Set certifications"
+            onChange={() => handleCertChange(c)}
+              >
+            </input>
+            </div> ))}
         </div>
+       
   
         <div className="form-row px-2">
           <div className="form-group col-md-12 px-2">
@@ -253,7 +266,6 @@ const handleSubmit = (e) => {
               type="text"
               name="bio"
               value={profile.bio}
-              //value={settings.bio}
               placeholder="Type bio"
               className="form-control p-4"
               onChange={(e) => handleInputChange(e)}
@@ -291,4 +303,4 @@ const handleSubmit = (e) => {
   );
 }
 
-export default ProfileSetUp;
+export default SetUp;

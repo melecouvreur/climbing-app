@@ -4,7 +4,7 @@ import "../App.css"
 import { ToastContainer, toast } from 'react-toastify'; // imports toastify to create pop-up messages
 import 'react-toastify/dist/ReactToastify.css';
 
-function List( {recommendations}) {
+function Matches( {recommendations}) {
 
 const [featured, setFeatured] = useState({}) //not finished
 
@@ -99,4 +99,4 @@ If empty shows default message*/}
   );
 }
 
-export default List;
+export default Matches;

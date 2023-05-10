@@ -1,16 +1,16 @@
 
 import React, {useState, useEffect} from "react";
 import Home from "./Pages/Home"
+import NavBar from "./Components/NavBar"
 import DashBoard from "./Pages/DashBoard";
 import Settings from "./Components/Settings"
-import List from "./Pages/List"
+import Matches from "./Pages/Matches"
 import Profile from "./Pages/Profile";
-import ProfileSetUp from "./Components/ProfileSetUp";
+import SetUp from "./Components/SetUp";
 import Preferences from "./Components/Preferences";
-import logo from "./Images/logo.png"
 import { UserContext } from "./Context/userContext";
 import './App.css';
-import { Routes, Route, NavLink, useNavigate} from "react-router-dom";
+import { Routes, Route, useNavigate} from "react-router-dom";
 
 function App() {
 
@@ -21,20 +21,41 @@ function App() {
   const [days, setDays] = useState([]) 
   //Setsdays "active user" wants to climb based on daysOfWeek []. daysOfWeeks gets modified in Preferences & Settings forms
   const [location, setLocation] = useState("London")
+  const [certifications, setCert] = useState([])
   //setsLocation "active user" profile.
   const navigate = useNavigate() 
 
-//"active user" default settings. Displayed on Profile page
-  const [settings, setSettings] = useState({ lead: false})
-
 //"active user" default preferences. Sets user matching criteria. 
-//NB - lead, gender and level prop value in preferences can differ from lead, gender, levelprop in Settings.
-//i.e. User can be level = intermediate, but choose to match with advanced. Idem gender and lead.
+//NB - cert, gender and level prop value in preferences can differ from cert, gender, level prop in Settings.
+//i.e. User can be level = intermediate, but choose to match with advanced. Idem gender and cert
+
 const [preferences, setPreferences] = useState({
-    gender: "Female",
-    level: "Advanced",
-    lead: false, 
-})
+      days: [
+        {name: "Monday", selected: false} ,
+        {name: "Tuesday", selected: false} ,
+        {name: "Wednesday", selected: false} ,
+        {name: "Thursday", selected: false} ,
+        {name: "Friday", selected: false} ,
+        {name: "Saturday", selected: false} ,
+        {name: "Sunday", selected: false}
+      ],
+      gender: [
+        {name: "Male", selected: false},
+        {name: "Female", selected: false},
+        {name: "Trans", selected: false},
+        {name: "Non-binary", selected: false},
+        ],
+      level: [
+      {name: "Advanced", selected: false},
+      {name: "Intermediate", selected: false},
+      {name: "Beginner", selected: false}
+      ],
+      cert: [
+        {name: "Lead certified", selected: false},
+        {name: "Top certified", selected: false},
+        {name: "None", selected: false}
+      ]
+      })
 
 //"active user" default days of climbing. 
 //Replicated across settings and preferences forms i.e. Users must have matching days.
@@ -48,6 +69,13 @@ const [preferences, setPreferences] = useState({
     {name: "Saturday", selected: false} ,
     {name: "Sunday", selected: false}
   ])
+
+  const [climbingCert, setClimbingCert] = useState(
+    [
+      {name: "Lead certified", selected: false} ,
+      {name: "Rope certified", selected: false} ,
+      {name: "None", selected: false}
+    ])
 
   const [profile, setProfile] = useState([])
   const [userId, setUserId] = useState(1)
@@ -127,32 +155,24 @@ const [preferences, setPreferences] = useState({
     } 
   };
 
+ 
   let userObj = {
     userId, setUserId, profile, 
     getDBProfile, setProfile, 
     location, setLocation,
     days, setDays, 
-    daysOfWeek,
+    daysOfWeek, setDaysOfWeek,
     setSelected,
+    certifications, setCert,
+    climbingCert, setClimbingCert,
     preferences, setPreferences,
-    settings, setSettings,
     recommendations, getRecommendations,
     navigate
     }
 
-  const logout = () => {
-    localStorage.removeItem("token")
-    //setIsLoggedIn(false)
-    navigate("/login")
-    console.log("logged out")
-  };
-
   useEffect(() => {
     getDBProfile()
     getDBDays()
-    setSettings((state) => ({
-      ...state}
-      ));
     setPreferences((state) => ({
         ...state}
         ));
@@ -162,87 +182,11 @@ const [preferences, setPreferences] = useState({
     //navigate("/") //nagivates to homescreen when first loading.
   }, []) 
 
-  let activeClassName = "btn btn-sm btn-warning"
   
   return (
 
     <div className="main container-fluid text-center">
-      
-    <div className="flex-row">
-   
-   {/*Switches to different views using React Router Navlink*/}
-    <div>
-    <NavLink to="/">
-    <img
-    className="nav-logo m-2" 
-    src={logo}
-    alt="logo"
-    onClick={() => navigate("/")}/> 
-    </NavLink>
-    </div>
-  
-    <nav className="nav navbar nav-masthead p-2">
-    
-    <div className="align-self-start">
-       <NavLink 
-        to="/settings"
-        className={({isActive}) => 
-        isActive ? activeClassName : undefined }>
-       <span className="nav-item material-symbols-outlined m-2 p-1 icon">
-       settings
-       </span>
-       </NavLink>
-    </div>
-
-    <div className="align-self-center">
-        <NavLink 
-        to="/preferences"
-        className={({isActive}) => 
-        isActive ? activeClassName : undefined }
-        ><button
-        className="text-white btn m-1">
-        myPreferences</button></NavLink>
-
-        <NavLink to="/profile"
-         className={({isActive}) => 
-         isActive ? activeClassName : undefined }
-         ><button
-        className="text-white btn m-1" >
-        myProfile </button></NavLink>
-
-       {/*Switches to different view AND fetches new recommendations*/}
-        <NavLink to="/matches"
-        className={({isActive}) => 
-        isActive ? activeClassName : undefined }
-        ><button
-        onClick={() => getRecommendations} 
-        className="text-white btn m-1">
-        myMatches </button></NavLink>
-    </div>
-
-    <NavLink to="/login"
-        className={({isActive}) => 
-        isActive ? activeClassName : undefined }
-        ><button
-        onClick={() => logout()} 
-        className="text-white btn m-1">
-        logOut </button>
-    </NavLink>
-   
-
-       <div className="align-self-right">
-        <NavLink 
-        to="/"
-        className={({isActive}) => 
-        isActive ? activeClassName : undefined }>
-       <span className="material-symbols-outlined m-2 p-1 icon">
-       home
-       </span>
-       </NavLink>
-       </div>
-        </nav>
-
-    </div>
+    <NavBar/>
    
     <UserContext.Provider value={userObj}>
     <Routes>
@@ -253,9 +197,7 @@ const [preferences, setPreferences] = useState({
 
       <Route path="/login" element={<DashBoard/>} />
 
-      <Route path="/setup" element={<ProfileSetUp
-      settings={settings}
-      setSettings={setSettings}
+      <Route path="/setup" element={<SetUp
       days={days}
       setDays={setDays}
       setSelected={setSelected}
@@ -268,8 +210,6 @@ const [preferences, setPreferences] = useState({
       <Route path="/settings" 
         element={
         <Settings
-        settings={settings}
-        setSettings={setSettings}
         days={days}
         setDays={setDays}
         setSelected={setSelected}
@@ -300,7 +240,6 @@ const [preferences, setPreferences] = useState({
         <Route path="/profile"
          element={
          <Profile
-        settings={settings}
         getRecommendations={getRecommendations}
         location={location}
         navigate={navigate}/>
@@ -309,14 +248,15 @@ const [preferences, setPreferences] = useState({
 
       <Route path="/matches" 
         element={
-        <List
+        <Matches
         recommendations={recommendations}/>
         }>
       </Route>
 
      </Routes>
      </UserContext.Provider>
-
+     
+     
      <footer className="p-2 text-white text-left">
       <p className="p-2 font-italic"> CodeOp Project 2023 </p>
      </footer>

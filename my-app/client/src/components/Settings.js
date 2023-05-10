@@ -5,7 +5,7 @@ import "../App.css"
 
 function Settings() {
 
-let {profile, setProfile, userId, location, setLocation, navigate, daysOfWeek, days, setDays, setSelected, settings, setSettings} = useContext(UserContext)
+let {profile, setProfile, userId, location, setLocation, navigate, daysOfWeek, days, setDays, setSelected, settings, setSettings, climbingCert, certifications, setCert} = useContext(UserContext)
 
 //updates profile
 const handleInputChange = (event) => {
@@ -24,13 +24,6 @@ const handleLocationChange = (e) => {
   e.preventDefault();
     }
   
-//sets true/false status for lead prop in 'settings {}'
-const setLead = () => {
-  setSelected(settings.lead = !settings.lead)
-  setSettings((state) => ({
-    ...state}))
-  console.log(settings)
-  }
 
 //Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
 //pushes "checked/undchecked days" in 'days []' via setDays()
@@ -42,6 +35,15 @@ const handleDaysChange = (d) => {
   setDays(daysOfWeek)
   console.log("days", days)
 }
+
+const handleCertChange = (c) => {
+  setSelected(c.selected = !c.selected)
+  console.log(climbingCert)
+  console.log(c.selected)
+  setCert(climbingCert)
+  console.log("certifications", certifications)
+}
+
 
 const updateDBProfile = async () => {
   try {
@@ -59,7 +61,7 @@ const updateDBProfile = async () => {
         location, days, 
         level: profile.level, 
         gender: profile.gender, 
-        cert: settings.lead, 
+        certifications,
         pronouns: profile.pronouns, 
         avatar: profile.avatar,
         bio: profile.bio
@@ -254,6 +256,7 @@ const handleSubmit = (e) => {
             </select>
             </div>
 
+          {/*
           <div className="form-group col-md-4 px-2">
             <label> Lead certified </label>
             <input 
@@ -264,7 +267,24 @@ const handleSubmit = (e) => {
             checked={settings.lead === true}
             onChange={() => setLead(settings.lead)}
             />
-            </div>
+          </div>
+        */}
+            
+            {climbingCert.map(c => (
+            <div className="form-group col-md-4 px-2">
+            <label> {c.name} </label>
+            <input
+            key={c.name}
+            type="checkbox" 
+            className="m-1 control-input list-group-item flex-fill"
+            name="cert"
+            value={c.name}
+            checked={c.checked}
+            placeholder="Set certifications"
+            onChange={() => handleCertChange(c)}
+              >
+            </input>
+            </div> ))}
 
         </div>
   
@@ -285,7 +305,7 @@ const handleSubmit = (e) => {
          <div className="form-group row px-2 m-2 list-group-horizontal">
           {days.map(d => (
             <div 
-            key={d.day}> 
+            key={d.dID}> 
             <label className="px-1"> {d.day} </label>
             <div className="col">
             <input
