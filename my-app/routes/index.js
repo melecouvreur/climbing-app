@@ -41,7 +41,7 @@ router.get("/profile/:id", async function(req, res, next) {
 /*POST user info*/
 router.post("/profile/:id", async function(req, res, next) {
   let id = req.params.id
-  const {firstname, lastname, username, email, pronouns, avatar, bio, location, level, cert, gender} = req.body
+  const {firstname, lastname, username, email, pronouns, avatar, bio, location, level, gender} = req.body
   try {
     await db(
      `UPDATE users SET firstname = ${firstname},
@@ -63,7 +63,7 @@ router.post("/profile/:id", async function(req, res, next) {
 /*EDIT user info*/
 router.put("/profile/:id", async function(req, res, next) {
   let id = req.params.id
-  const {username, firstname, lastname, email, pronouns, avatar, bio, location, level, cert, gender} = req.body
+  const {username, firstname, lastname, email, pronouns, avatar, bio, location, level, gender} = req.body
   try {
     await db(
      `UPDATE users SET username = "${username}",
@@ -85,16 +85,22 @@ router.put("/profile/:id", async function(req, res, next) {
 /* POST/recommends users based on matching days & location*/
 // To do - add cert as filter. Didn't want to overcomplicate and have to add more fake users.
 router.post("/recommend", async function(req, res, next) {
-      const {days, location, level, gender} = req.body
-      let queryList = "('" + days.join("','") + "')"
+      const {dayNames, location, levelNames, genderNames} = req.body
+      let dayList = "('" + dayNames.join("','") + "')"
+      let levelList = "('" + levelNames.join("','") + "')"
+      let genderList = "('" + genderNames.join("','") + "')"
             try {
               let results = await db(`SELECT 
-              DISTINCT users.firstname, users.lastname, users.username, users.bio,
-              users.pronouns, users.avatar, users.location, users.level, users.cert, users.email, users.uID
+              DISTINCT users.firstname, users.lastname, 
+              users.username, users.bio, users.pronouns, 
+              users.avatar, users.location, users.level, 
+              users.email, users.uID
               FROM users 
-              LEFT JOIN days ON users.uID = days.uID WHERE days.day in ${queryList} AND days.selected = 1
-              AND users.location = "${location}" 
-              AND users.level = "${level}" AND users.gender = "${gender}";`)
+              LEFT JOIN days ON users.uID = days.uID 
+              WHERE days.day in ${dayList} AND days.selected = 1
+              AND users.level in ${levelList} 
+              AND users.gender in ${genderList}
+              AND users.location = "${location}";`)
               res.status(200).send(results.data);
             } catch (err) {
               res.status(500).send(err); 
@@ -122,9 +128,9 @@ router.post("/days/:id", async function(req, res, next) {
   const {days} = req.body
   //let queryList = "('" + days.join("','") + "')"
   try {
-    for (let day of days) {
-    let name = day.name
-    let selected = day.selected
+    for (let d of days) {
+    let name = d.day
+    let selected = d.selected
     await db(`INSERT INTO days (uID, day, selected) VALUES (${id},"${name}", ${selected});`)
     }
     let results = await db(
@@ -143,9 +149,9 @@ router.put("/days/:id", async function(req, res, next) {
   const {days} = req.body
   //let queryList = "('" + days.join("','") + "')"
   try {
-    for (let day of days) {
-    let name = day.name
-    let selected = day.selected
+    for (let d of days) {
+    let name = d.day
+    let selected = d.selected
     await db(`UPDATE days SET selected = ${selected} 
     WHERE uID = ${id} AND day = "${name}";`)
     }
@@ -177,15 +183,64 @@ router.delete("/days/:id", async function(req, res, next) {
   }
 })
 
-/*GET all days (for testing)*/
-router.get("/days", async function(req, res, next) {
-    try {
-      let results = await db(`SELECT * FROM days ORDER BY dID ASC;`);
-      res.status(200).send(results.data);
-    } catch (err) {
-      res.status(500).send(err);
+/*GET cert by uID*/
+router.get("/cert/:id", async function(req, res, next) {
+  try {
+    let id = req.params.id
+    let results = await db(
+      `SELECT * FROM certifications where uID = ${id} 
+       ORDER BY uID ASC;`
+    );
+    res.status(200).send(results.data);
+    console.log(results.data)
+  } catch (err) {
+    res.status(500).send(err);
+  } 
+});  
+      
+/*POST climbing cert of user*/
+router.post("/cert/:id", async function(req, res, next) {
+  let id = req.params.id
+  const {certifications} = req.body
+  //let queryList = "('" + days.join("','") + "')"
+  try {
+    for (let c of certifications) {
+    let type = c.name
+    let selected = c.selected
+    await db(`INSERT INTO certifications (uID, type, selected) VALUES (${id},"${type}", ${selected});`)
     }
-  })
+    let results = await db(
+      `SELECT * FROM certifications WHERE uID = ${id} ORDER BY uID ASC;`
+    );
+    res.status(200).send(results.data);
+  } 
+  catch (err) {
+    res.status(500).send(err);
+  }
+})
+
+/*PUT climbing cert for user*/
+router.put("/cert/:id", async function(req, res, next) {
+  let id = req.params.id
+  const {certifications} = req.body
+  //let queryList = "('" + days.join("','") + "')"
+  try {
+    for (let c of certifications) {
+    let type = c.name
+    let selected = c.selected
+    await db(`UPDATE certifications SET selected = ${selected} 
+    WHERE uID = ${id} AND type = "${type}";`)
+    }
+    let results = await db(
+      `SELECT * FROM certifications WHERE uID = ${id} ORDER BY uID ASC;`
+    );
+    res.status(200).send(results.data);
+  } 
+  catch (err) {
+    res.status(500).send(err);
+  }
+})
+
 
 /* POST username, password, email to register new user */
 router.post("/register", async (req, res) => {

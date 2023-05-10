@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS users;
               bio VARCHAR(5000),
               location VARCHAR(500),
               level VARCHAR(200),
-              cert TINYINT(1),
               gender VARCHAR(50),
               PRIMARY KEY (uID),
               UNIQUE KEY unique_username (username));
@@ -21,7 +20,17 @@ DROP TABLE IF EXISTS days;
               dID INTEGER NOT NULL AUTO_INCREMENT,
               uID INTEGER NOT NULL,
               day VARCHAR(20) NOT NULL,
+              selected BOOLEAN NOT NULL,
               PRIMARY KEY (dID),
+              FOREIGN KEY (uID) REFERENCES users(uID) ON DELETE CASCADE);
+
+              DROP TABLE IF EXISTS certifications;
+              CREATE TABLE certifications(
+              cID INTEGER NOT NULL AUTO_INCREMENT,
+              uID INTEGER NOT NULL,
+              type VARCHAR(20) NOT NULL,
+              selected BOOLEAN NOT NULL,
+              PRIMARY KEY (cID),
               FOREIGN KEY (uID) REFERENCES users(uID) ON DELETE CASCADE);
 
          

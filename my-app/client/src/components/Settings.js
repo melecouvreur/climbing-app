@@ -23,7 +23,6 @@ const handleLocationChange = (e) => {
   setLocation(e.target.value);
   e.preventDefault();
     }
-  
 
 //Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
 //pushes "checked/undchecked days" in 'days []' via setDays()
@@ -32,8 +31,9 @@ const handleLocationChange = (e) => {
 const handleDaysChange = (d) => {
   setSelected(d.selected = !d.selected)
   console.log(d.selected)
-  setDays(daysOfWeek)
-  console.log("days", days)
+  //setDays(daysOfWeek)
+  setDays((state) => [...state])
+  console.log("days", days, d.day, d.selected)
 }
 
 const handleCertChange = (c) => {
@@ -57,7 +57,7 @@ const updateDBProfile = async () => {
         username: profile.username, 
         firstname: profile.firstname,
         lastname: profile.lastname,
-        email: profile. email,
+        email: profile.email,
         location, days, 
         level: profile.level, 
         gender: profile.gender, 
@@ -86,12 +86,31 @@ const updateDBDays = async () => {
       body: JSON.stringify({ days }) 
     });
     let updatedDays = await results.json();
-    console.log(updatedDays)
+    console.log("updatedDays", updatedDays)
     }
     catch (error) {
     console.log(error)
   } 
 };
+
+const updateDBCert = async () => {
+  try {
+    let id = userId
+    let results = await fetch(`/cert/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ certifications }) 
+    });
+    let updatedCert = await results.json();
+    console.log("updatedCert", updatedCert)
+    }
+    catch (error) {
+    console.log(error)
+  } 
+};
+
 
 const deleteDays = async (userId, daysToDelete) => {
   try {
@@ -119,9 +138,13 @@ const deleteDays = async (userId, daysToDelete) => {
 const handleSubmit = (e) => {
   e.preventDefault();
   updateDBProfile()
+  console.log(profile)
   updateDBDays()
+  console.log(days)
+  updateDBCert()
+  console.log(certifications)
   //getRecommendations()
-  navigate("/profile")
+  //navigate("/profile")
 }
  
 

@@ -79,6 +79,16 @@ const [preferences, setPreferences] = useState({
 
   const [profile, setProfile] = useState([])
   const [userId, setUserId] = useState(1)
+  
+  let dayNames = days.filter((d) => d.selected == true).map((d) => d.day)
+  console.log(dayNames)
+
+  let levelNames = preferences.level.filter((l) => l.selected == true).map((l) => l.name)
+  console.log(levelNames)
+  
+  let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) => g.name)
+  console.log(genderNames)
+
 
   const getDBProfile = async () => {
     try {
@@ -142,7 +152,7 @@ const [preferences, setPreferences] = useState({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ location, days, level: preferences.level, gender: preferences.gender}) 
+        body: JSON.stringify({ location, dayNames, levelNames, genderNames}) 
       });
       let users = await results.json();
       console.log(users)

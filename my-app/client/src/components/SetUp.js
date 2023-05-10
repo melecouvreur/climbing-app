@@ -24,7 +24,6 @@ const handleInputChange = (event) => {
     e.preventDefault();
       }
     
-
   //Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
   //pushes "checked days" in 'days []' via setDays()
   //'days []' => obj.req for setDBDays & getRecommendations function
@@ -34,7 +33,7 @@ const handleInputChange = (event) => {
     console.log(daysOfWeek)
     console.log(d.selected)
     setDays(daysOfWeek)
-    console.log("active days", days)
+    console.log("days", days)
   }
 
   const handleCertChange = (c) => {
@@ -58,7 +57,7 @@ const setDBProfile = async () => {
           firstname: profile.firstname,
           lastname: profile.lastname,
           email: profile.email,
-          location, days, 
+          location,
           level: profile.level, 
           gender: profile.gender,
           pronouns: profile.pronouns, 
@@ -66,8 +65,8 @@ const setDBProfile = async () => {
           bio: profile.bio
         }) 
       });
-      let updatedProfile = await results.json();
-      console.log(updatedProfile)
+      let newProfile = await results.json();
+      console.log(newProfile)
       }
       catch (error) {
       console.log(error)
@@ -84,8 +83,26 @@ const setDBProfile = async () => {
         },
         body: JSON.stringify({ days }) 
       });
-      let updatedDays = await results.json();
-      console.log(updatedDays)
+      let newDays = await results.json();
+      console.log(newDays)
+      }
+      catch (error) {
+      console.log(error)
+    } 
+  };
+
+  const setDBCert = async () => {
+    try {
+      let id = userId
+      let results = await fetch(`/cert/${id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ certifications }) 
+      });
+      let newCert = await results.json();
+      console.log(newCert)
       }
       catch (error) {
       console.log(error)
@@ -100,9 +117,10 @@ useEffect(() => {
 
 const handleSubmit = (e) => {
     e.preventDefault();
-    setDBProfile()
-    setDBDays()
-    navigate("/profile")
+    //setDBProfile()
+    //setDBDays()
+    setDBCert()
+    //navigate("/profile")
   }
 
   return (

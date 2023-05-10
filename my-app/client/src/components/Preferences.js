@@ -16,6 +16,7 @@ function Preferences( {preferences, setPreferences, getRecommendations }) {
       ...state,
     [name]: value,}))
     console.log(
+     "preferences", preferences,
      "gender", preferences.gender,
      "level", preferences.level, 
      "cert", preferences.cert,
@@ -32,6 +33,7 @@ const handleLocationChange = (e) => {
 //pushes "checked days" in 'days []' via setDays()
 //'days []' => obj.req for getRecommendations function
 // NB - pushes value of name (string) in 'days []' only. 
+/*
 const handleDaysChange = (d) => {
   setSelected(d.selected = !d.selected)
   console.log(daysOfWeek, d.name, d.selected)
@@ -46,11 +48,12 @@ const handleCertChange = (c) => {
   setClimbingCert((state) => [...state])
   console.log("certifications", climbingCert)
 }
+*/
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  //getRecommendations()
-  //navigate("/matches")
+  getRecommendations()
+  navigate("/matches")
 }
 
   return (
