@@ -1,5 +1,8 @@
 
 import React, {useState, useEffect} from "react";
+import prefTemplate from "./Data/prefTemplate"
+import daysTemplate from "./Data/daysTemplate";
+import certTemplate from "./Data/certTemplate";
 import Home from "./Pages/Home"
 import NavBar from "./Components/NavBar"
 import DashBoard from "./Pages/DashBoard";
@@ -14,80 +17,31 @@ import { Routes, Route, useNavigate} from "react-router-dom";
 
 function App() {
 
-  const [isSelected, setSelected] = useState(false) 
-  //Sets lead prop in preferences & settings {}'s. 
-  const [recommendations, setRecommendations] = useState([]) 
-  //SetsRecommendations [] (= recommended climbers) based on preferences {}. 
-  const [days, setDays] = useState([]) 
-  //Setsdays "active user" wants to climb based on daysOfWeek []. daysOfWeeks gets modified in Preferences & Settings forms
+  const [userId, setUserId] = useState(1)
+  const [profile, setProfile] = useState({})
+  const [days, setDays] = useState([])
   const [location, setLocation] = useState("London")
   const [certifications, setCert] = useState([])
-  //setsLocation "active user" profile.
+  const [recommendations, setRecommendations] = useState([]) 
+//SetsRecommendations [] (= recommended climbers) based on preferences {}.
+  
+  const [isSelected, setSelected] = useState(false) 
   const navigate = useNavigate() 
 
 //"active user" default preferences. Sets user matching criteria. 
 //NB - cert, gender and level prop value in preferences can differ from cert, gender, level prop in Settings.
 //i.e. User can be level = intermediate, but choose to match with advanced. Idem gender and cert
+ const [preferences, setPreferences] = useState(prefTemplate)
+ const [daysOfWeek, setDaysOfWeek] = useState(daysTemplate)
+ const [climbingCert, setClimbingCert] = useState(certTemplate)
 
-const [preferences, setPreferences] = useState({
-      days: [
-        {name: "Monday", selected: false} ,
-        {name: "Tuesday", selected: false} ,
-        {name: "Wednesday", selected: false} ,
-        {name: "Thursday", selected: false} ,
-        {name: "Friday", selected: false} ,
-        {name: "Saturday", selected: false} ,
-        {name: "Sunday", selected: false}
-      ],
-      gender: [
-        {name: "Male", selected: false},
-        {name: "Female", selected: false},
-        {name: "Trans", selected: false},
-        {name: "Non-binary", selected: false},
-        ],
-      level: [
-      {name: "Advanced", selected: false},
-      {name: "Intermediate", selected: false},
-      {name: "Beginner", selected: false}
-      ],
-      cert: [
-        {name: "Lead certified", selected: false},
-        {name: "Top certified", selected: false},
-        {name: "None", selected: false}
-      ]
-      })
 
-//"active user" default days of climbing. 
-//Replicated across settings and preferences forms i.e. Users must have matching days.
- const [daysOfWeek, setDaysOfWeek] = useState(
-  [
-    {name: "Monday", selected: false} ,
-    {name: "Tuesday", selected: false} ,
-    {name: "Wednesday", selected: false} ,
-    {name: "Thursday", selected: false} ,
-    {name: "Friday", selected: false} ,
-    {name: "Saturday", selected: false} ,
-    {name: "Sunday", selected: false}
-  ])
-
-  const [climbingCert, setClimbingCert] = useState(
-    [
-      {name: "Lead certified", selected: false} ,
-      {name: "Rope certified", selected: false} ,
-      {name: "None", selected: false}
-    ])
-
-  const [profile, setProfile] = useState([])
-  const [userId, setUserId] = useState(1)
-  
-  let dayNames = days.filter((d) => d.selected == true).map((d) => d.day)
-  console.log(dayNames)
-
-  let levelNames = preferences.level.filter((l) => l.selected == true).map((l) => l.name)
-  console.log(levelNames)
-  
-  let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) => g.name)
-  console.log(genderNames)
+let dayNames = days.filter((d) => d.selected == true).map((d) => d.day)
+//console.log(dayNames)
+let levelNames = preferences.level.filter((l) => l.selected == true).map((l) => l.name)
+//console.log(levelNames)
+let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) => g.name)
+//console.log(genderNames)
 
 
   const getDBProfile = async () => {
@@ -95,10 +49,10 @@ const [preferences, setPreferences] = useState({
       let id = userId
       let results = await fetch(`/profile/${id}`);
       let user = await results.json();
-      console.log(user[0])
+      //console.log(user[0])
       //if db query successful > fetched user get pushed into profile []
       let userInfo = user[0]
-      console.log(userInfo)
+      //console.log(userInfo)
       setProfile(userInfo)
       console.log("profile", profile)
       }
@@ -112,11 +66,27 @@ const [preferences, setPreferences] = useState({
       let id = userId
       let results = await fetch(`/days/${id}`);
       let userDays = await results.json();
-      console.log(userDays[0])
+      //console.log(userDays[0])
       //if db query successful > fetched days get pushed into days []
-      console.log(userDays)
+      //console.log(userDays)
       setDays(userDays)
-      console.log("days", userDays)
+      console.log("days", days)
+      }
+    catch (error) {
+    console.log(error)
+    } 
+  };
+
+  const getDBCert = async () => {
+    try {
+      let id = userId
+      let results = await fetch(`/cert/${id}`);
+      let userCert = await results.json();
+      //console.log(userCert[0])
+      //if db query successful > fetched cert get pushed into certifications []
+      //console.log(userCert)
+      setCert(userCert)
+      console.log("cert", certifications)
       }
     catch (error) {
     console.log(error)
@@ -141,10 +111,10 @@ const [preferences, setPreferences] = useState({
         setLocation(response.city.name)
       })
        .catch(err => console.error(err));
-  
   }
 
-//Fetches users from db based on level, gender, lead props in preferences {}, days [] & location
+//Fetches users from db based on level, gender, cert props in preferences {}, days [] & location
+//NB - still need to add cert
   const getRecommendations = async () => {
     try {
       let results = await fetch("/recommend", {
@@ -154,10 +124,10 @@ const [preferences, setPreferences] = useState({
         },
         body: JSON.stringify({ location, dayNames, levelNames, genderNames}) 
       });
-      let users = await results.json();
-      console.log(users)
+      let matchedUsers = await results.json();
+      //console.log(users)
       //if db query successful > fetched users get pushed into recommendations []
-      setRecommendations(users)
+      setRecommendations(matchedUsers)
       console.log("recommendations", recommendations)
       }
     catch (error) {
@@ -167,8 +137,9 @@ const [preferences, setPreferences] = useState({
 
  
   let userObj = {
-    userId, setUserId, profile, 
-    getDBProfile, setProfile, 
+    userId, setUserId, 
+    profile, setProfile,
+    getDBProfile,  
     location, setLocation,
     days, setDays, 
     daysOfWeek, setDaysOfWeek,
@@ -183,6 +154,7 @@ const [preferences, setPreferences] = useState({
   useEffect(() => {
     getDBProfile()
     getDBDays()
+    getDBCert()
     setPreferences((state) => ({
         ...state}
         ));
@@ -199,75 +171,26 @@ const [preferences, setPreferences] = useState({
     <NavBar/>
    
     <UserContext.Provider value={userObj}>
+
     <Routes>
-      <Route path="/"
-        element={
-        <Home/>}>
-      </Route>
-
+      <Route path="/" element={<Home/>}/>
       <Route path="/login" element={<DashBoard/>} />
+      <Route path="/setup" element={<SetUp/>} />
 
-      <Route path="/setup" element={<SetUp
-      days={days}
-      setDays={setDays}
-      setSelected={setSelected}
-      navigate={navigate}
-      daysOfWeek={daysOfWeek}
-      location={location}
-      setLocation={setLocation}
-      />} />
-
-      <Route path="/settings" 
-        element={
-        <Settings
-        days={days}
-        setDays={setDays}
-        setSelected={setSelected}
-        navigate={navigate}
-        daysOfWeek={daysOfWeek}
-        location={location}
-        setLocation={setLocation}
-        />
-        }>
-      </Route>
-
-        <Route path="/preferences" 
-        element={
-        <Preferences
-        preferences={preferences}
-        setPreferences={setPreferences}
-        setDays={setDays}
-        setSelected={setSelected}
-        navigate={navigate}
-        getRecommendations={getRecommendations}
-        daysOfWeek={daysOfWeek}
-        location={location}
-        setLocation={setLocation}
-        />
-        }>
-        </Route>
+      <Route path="/settings" element={<Settings/>}/>
+      <Route path="/preferences" element={<Preferences/>}/>
+   
   
-        <Route path="/profile"
-         element={
-         <Profile
-        getRecommendations={getRecommendations}
-        location={location}
-        navigate={navigate}/>
-        }>
-       </Route>
-
-      <Route path="/matches" 
-        element={
-        <Matches
-        recommendations={recommendations}/>
-        }>
-      </Route>
-
+      <Route path="/profile" element={<Profile/>}/>
+      <Route path="/matches" element={<Matches/>}/>
+    
      </Routes>
+
      </UserContext.Provider>
      
      
-     <footer className="p-2 text-white text-left">
+      <footer className="p-2 text-white text-left">
+      <p> </p>
       <p className="p-2 font-italic"> CodeOp Project 2023 </p>
      </footer>
      </div>

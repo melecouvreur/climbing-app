@@ -165,6 +165,7 @@ router.put("/days/:id", async function(req, res, next) {
   }
 })
 
+//remove later
 router.delete("/days/:id", async function(req, res, next) {
   let id = req.params.id
   const {daysToDelete} = req.body
@@ -226,7 +227,7 @@ router.put("/cert/:id", async function(req, res, next) {
   //let queryList = "('" + days.join("','") + "')"
   try {
     for (let c of certifications) {
-    let type = c.name
+    let type = c.type
     let selected = c.selected
     await db(`UPDATE certifications SET selected = ${selected} 
     WHERE uID = ${id} AND type = "${type}";`)
@@ -240,7 +241,6 @@ router.put("/cert/:id", async function(req, res, next) {
     res.status(500).send(err);
   }
 })
-
 
 /* POST username, password, email to register new user */
 router.post("/register", async (req, res) => {

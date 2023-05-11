@@ -3,9 +3,9 @@ import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function SetUp( {location, setLocation, daysOfWeek, navigate, settings, setSettings, days, setDays, setSelected}) {
+function SetUp() {
 
-let {profile, getDBProfile, setProfile, userId, climbingCert, certifications, setCert} = useContext(UserContext)
+let {profile, getDBProfile, setProfile, userId, climbingCert, certifications, setCert, location, setLocation, days, setDays, daysOfWeek, setSelected} = useContext(UserContext)
 
 //updates props in 'settings {}'
 const handleInputChange = (event) => {
@@ -30,16 +30,16 @@ const handleInputChange = (event) => {
   // NB - pushes value of name (string) in 'days []' only. 
   const handleDaysChange = (d) => {
     setSelected(d.selected = !d.selected)
-    console.log(daysOfWeek)
-    console.log(d.selected)
+    //console.log(daysOfWeek)
+    //console.log(d.selected)
     setDays(daysOfWeek)
     console.log("days", days)
   }
 
   const handleCertChange = (c) => {
     setSelected(c.selected = !c.selected)
-    console.log(climbingCert)
-    console.log(c.selected)
+    //console.log(climbingCert)
+    //console.log(c.selected)
     setCert(climbingCert)
     console.log("certifications", certifications)
   }

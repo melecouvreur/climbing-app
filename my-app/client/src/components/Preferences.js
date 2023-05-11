@@ -3,9 +3,9 @@ import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function Preferences( {preferences, setPreferences, getRecommendations }) {
+function Preferences() {
 
-  let {location, setLocation, navigate, daysOfWeek, setDaysOfWeek, days, setDays, setSelected, climbingCert, setClimbingCert, certifications, setCert} = useContext(UserContext)
+  let {location, setLocation, navigate, setSelected, preferences, setPreferences, getRecommendations} = useContext(UserContext)
 
 //Updates props in 'preferences {}'
   const handlePrefChange = (e) => {

@@ -1,27 +1,10 @@
-"TABLE creation commands - NB: Not needed if you ran npm migrate"
-DROP TABLE IF EXISTS user_info;
-
-CREATE TABLE user_info (
-uID INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-firstname VARCHAR(40) NOT NULL,
-lastname VARCHAR(40) NOT NULL,
-username VARCHAR(40),
-email VARCHAR(40),
-pronouns VARCHAR(40),
-avatar VARCHAR(5000),
-bio VARCHAR(5000),
-location VARCHAR(500),
-level VARCHAR(200),
-top TINYINT(1),
-gender VARCHAR(50)
-);
 
 "TABLE population commands. 
 Copy & paste commands directly in mySQL to poplate table" 
 
 INSERT INTO user_info
 (firstname, lastname, username, pronouns, avatar,
-bio, location, level, top, gender)
+bio, location, level, cert, gender)
 VALUES 
 ("Neen", "Sever", "NeenS", "They/Him", "https://www.pdx.edu/recreation/sites/g/files/znldhr2076/files/styles/event_detail_455x325_/public/2022-09/Queer%20Climb%20%281%29.jpg?h=0089d55f&itok=RYe4cuKZ",
 "No to v5 sharks","London", "Intermediate", 1, "Trans"), 

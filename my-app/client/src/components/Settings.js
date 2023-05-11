@@ -5,7 +5,7 @@ import "../App.css"
 
 function Settings() {
 
-let {profile, setProfile, userId, location, setLocation, navigate, daysOfWeek, days, setDays, setSelected, settings, setSettings, climbingCert, certifications, setCert} = useContext(UserContext)
+let {profile, setProfile, userId, location, setLocation, navigate, days, setDays, setSelected, certifications, setCert} = useContext(UserContext)
 
 //updates profile
 const handleInputChange = (event) => {
@@ -24,26 +24,23 @@ const handleLocationChange = (e) => {
   e.preventDefault();
     }
 
-//Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
-//pushes "checked/undchecked days" in 'days []' via setDays()
-//'days []' => obj.req for updateDBProfile & getRecommendations function
-// NB - pushes value of name (string) and selected (boolean)  in 'days []' 
+//Toggles checked/unchecked prop of selected days fetched from db
+//pushes updated "checked/undchecked days" in 'days []' via setDays()
+//'days []' => obj.req for updateDBDays
+// NB - pushes value of name (string) and selected (boolean) in 'days []' 
 const handleDaysChange = (d) => {
   setSelected(d.selected = !d.selected)
   console.log(d.selected)
-  //setDays(daysOfWeek)
   setDays((state) => [...state])
   console.log("days", days, d.day, d.selected)
 }
 
 const handleCertChange = (c) => {
   setSelected(c.selected = !c.selected)
-  console.log(climbingCert)
   console.log(c.selected)
-  setCert(climbingCert)
-  console.log("certifications", certifications)
+  setCert((state) => [...state])
+  console.log("certifications", certifications, c.type, c.selected)
 }
-
 
 const updateDBProfile = async () => {
   try {
@@ -58,10 +55,9 @@ const updateDBProfile = async () => {
         firstname: profile.firstname,
         lastname: profile.lastname,
         email: profile.email,
-        location, days, 
+        location, 
         level: profile.level, 
         gender: profile.gender, 
-        certifications,
         pronouns: profile.pronouns, 
         avatar: profile.avatar,
         bio: profile.bio
@@ -293,16 +289,17 @@ const handleSubmit = (e) => {
           </div>
         */}
             
-            {climbingCert.map(c => (
-            <div className="form-group col-md-4 px-2">
-            <label> {c.name} </label>
+            {certifications.map(c => (
+            <div
+            key={c.cID}
+            className="form-group col-md-4 px-2">
+            <label> {c.type} </label>
             <input
-            key={c.name}
             type="checkbox" 
             className="m-1 control-input list-group-item flex-fill"
             name="cert"
-            value={c.name}
-            checked={c.checked}
+            value={c.type}
+            checked={c.selected}
             placeholder="Set certifications"
             onChange={() => handleCertChange(c)}
               >
@@ -334,7 +331,7 @@ const handleSubmit = (e) => {
             <input
             type="checkbox"
             name="days"
-            value={d.name}
+            value={d.day}
             checked={d.selected}
             className="m-1 control-input list-group-item flex-fill"
             onChange={() => handleDaysChange(d)}/>

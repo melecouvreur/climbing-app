@@ -3,33 +3,10 @@ import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function Profile( {location, navigate, getRecommendations}) {
+function Profile() {
 
-let {profile, getDBProfile, setProfile} = useContext(UserContext)
+let {profile, getRecommendations, navigate, location} = useContext(UserContext)
 
-/*
-const getProfile = async () => {
-  try {
-    let results = await fetch("/profile");
-    let user = await results.json();
-    console.log(user[0])
-    //if db query successful > fetched user get pushed into profile []
-    let userInfo = user[0]
-    console.log(userInfo)
-    //setProfile(userInfo)
-    setProfile((userInfo) => ({...userInfo}))
-    console.log(profile.firstname)
-    }
-  catch (error) {
-    console.log(error)
-  } 
-};
-*/
-
-useEffect(() => {
-  getDBProfile()
-  console.log(profile)
-}, []) 
 
 //Fetches recommended climbers from db and sets 'recommendations []'
 //Switches to myMatches view where user sees recommendations 
