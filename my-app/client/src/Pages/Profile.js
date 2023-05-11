@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from "react";
+import {React} from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
@@ -6,7 +6,6 @@ import "../App.css"
 function Profile() {
 
 let {profile, getRecommendations, navigate, location} = useContext(UserContext)
-
 
 //Fetches recommended climbers from db and sets 'recommendations []'
 //Switches to myMatches view where user sees recommendations 

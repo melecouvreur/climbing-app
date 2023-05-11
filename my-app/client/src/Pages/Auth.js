@@ -1,23 +1,19 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 
-function Login() {
+function Auth() {
   
-  //const [userId, setUserId] = useState(0)
   const [isRegistered, setIsRegistered] = useState(false)
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
-    firstname: "",
-    lastname: "",
+    email: "",
   });
 
  const [message, setMessage] = useState("");
- const navigate = useNavigate();
 
- let {userId, setUserId} = useContext(UserContext);
+ let {userId, setUserId, navigate} = useContext(UserContext);
 
  const changeId = (newId) => {
   setUserId(newId)
@@ -53,7 +49,7 @@ function Login() {
       console.log(data.message)
       //Sets registered status to true once successful & directs user to login
       changeRegistered()
-      //navigate("/")
+      navigate("private/onboarding")
       }
      }
      catch (err) {
@@ -80,15 +76,10 @@ function Login() {
       //if crededentials correct, stores token & directs user to "/private" page (=protected home page)
       localStorage.setItem("token", data.token, "id", data.user_id)
       userId = data.user_id
-      console.log(userId)
       setUserId(userId)
-      //changeId(data.user_id) //for multi-user login. WIP!
-      //Attempt to update userId from <UserContext.Provider>
-      //Seems to be updating id on Auth (with delay) but not in UserLibraryView comp.
-      console.log(userId)
-      //navigate("/private") 
+      //console.log(userId)
+      navigate("/private/home") 
       console.log(data.message, data.token, data.user_id)
-      console.log(userId)
       } 
      }
      catch (err) {
@@ -98,7 +89,7 @@ function Login() {
 
 
   return (
-    <div className="App d-flex p-4 justify-content-center text-left">
+    <div className="d-flex p-4 justify-content-center text-left">
       {!isRegistered ? 
       (
       <div className="align-self-center">
@@ -115,24 +106,6 @@ function Login() {
           className="form-control mb-2"
         />
 
-<label className="p-2"> Lastname </label>
-        <input
-          value={credentials.lastname}
-          onChange={handleChange}
-          name="lastname"
-          type="text"
-          className="form-control mb-2"
-        />
-
-<label className="p-2"> Firstname </label>
-        <input
-          value={credentials.firstname}
-          onChange={handleChange}
-          name="firstname"
-          type="text"
-          className="form-control mb-2"
-        />
-       
        <label className="p-2"> Email </label>
        <input
           value={credentials.email}
@@ -151,12 +124,12 @@ function Login() {
           className="form-control mb-2 p-2"
         />
         <button className="p-2 m-2 btn btn-primary" onClick={register}>
-          Register
+        Register
         </button>
         </div>
 
         <div className="bg-light pt-3">
-        <h6 className="p-2"> Already have an account? </h6>
+        <h6 className="p-2">Already have an account? </h6>
         <button 
         className="pt-2 btn btn-primary ml-2"
         onClick={changeRegistered} >
@@ -166,9 +139,9 @@ function Login() {
     
       </div> ) : 
       (
-      <div className="align-self-center p-4">
+      <div className="align-self-center">
 
-        <div className="bg-warning px-5 p-2">
+      <div className="bg-warning px-5 p-2">
       <h3 className="p-3"> Sign-in </h3>
    
         <label className="p-2"> Username </label>
@@ -192,7 +165,7 @@ function Login() {
         </button>
         </div>
      
-        <p className="pt-2"> {message }</p>
+        <p className="p-2"> {message}</p>
 
         <p className="p-2"> Don't have an account? </p>
         <button 
@@ -208,4 +181,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Auth;

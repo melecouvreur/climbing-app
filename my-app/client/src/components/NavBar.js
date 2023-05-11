@@ -13,7 +13,7 @@ let {getRecommendations,navigate} = useContext(UserContext)
 const logout = () => {
     localStorage.removeItem("token")
     //setIsLoggedIn(false)
-    navigate("/login")
+    navigate("/")
     console.log("logged out")
   };
 
@@ -24,12 +24,12 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
         <div className="flex-row">
        
         <div>
-        <NavLink to="/">
+        <NavLink to="home">
         <img
         className="nav-logo m-2" 
         src={logo}
         alt="logo"
-        onClick={() => navigate("/")}/> 
+        onClick={() => navigate("/home")}/> 
         </NavLink>
         </div>
       
@@ -37,7 +37,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
         
         <div className="align-self-start">
            <NavLink 
-            to="/settings"
+            to="settings"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }>
            <span className="nav-item material-symbols-outlined m-2 p-1 icon">
@@ -46,14 +46,14 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
     
         <div className="align-self-center">
             <NavLink 
-            to="/preferences"
+            to="preferences"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }
             ><button
             className="text-white btn m-1">
             myPreferences</button></NavLink>
     
-            <NavLink to="/profile"
+            <NavLink to="profile"
              className={({isActive}) => 
              isActive ? activeClassName : undefined }
              ><button
@@ -61,7 +61,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
             myProfile </button></NavLink>
     
            {/*Switches to different view AND fetches new recommendations*/}
-            <NavLink to="/matches"
+            <NavLink to="matches"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }
             ><button
@@ -70,7 +70,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
             myMatches </button></NavLink>
         </div>
     
-        <NavLink to="/login"
+        <NavLink to="/"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }
             ><button
@@ -81,7 +81,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
     
            <div className="align-self-right">
             <NavLink 
-            to="/"
+            to="home"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }>
            <span className="material-symbols-outlined m-2 p-1 icon">

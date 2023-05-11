@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
@@ -28,27 +28,6 @@ const handleLocationChange = (e) => {
   setLocation(e.target.value);
   e.preventDefault();
     }
-
-//Toggles checked/unchecked prop of selected days in 'daysOfWeek []'
-//pushes "checked days" in 'days []' via setDays()
-//'days []' => obj.req for getRecommendations function
-// NB - pushes value of name (string) in 'days []' only. 
-/*
-const handleDaysChange = (d) => {
-  setSelected(d.selected = !d.selected)
-  console.log(daysOfWeek, d.name, d.selected)
-  setDaysOfWeek((state) => [...state])
-  console.log("days", daysOfWeek)
-}
-
-const handleCertChange = (c) => {
-  setSelected(c.selected = !c.selected)
-  console.log(climbingCert, c.name, c.selected)
-  console.log(c.selected)
-  setClimbingCert((state) => [...state])
-  console.log("certifications", climbingCert)
-}
-*/
 
 const handleSubmit = (e) => {
   e.preventDefault();

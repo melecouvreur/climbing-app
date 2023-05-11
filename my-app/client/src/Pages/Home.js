@@ -19,8 +19,6 @@ return (
         "Get matched with a belay partner" </p>
        </div>
 
-
-
        </div>
   )
 }

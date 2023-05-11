@@ -1,11 +1,11 @@
-import {React, useEffect, useState} from "react";
+import {React} from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function SetUp() {
+function OnBoarding() {
 
-let {profile, getDBProfile, setProfile, userId, climbingCert, certifications, setCert, location, setLocation, days, setDays, daysOfWeek, setSelected} = useContext(UserContext)
+let {profile, setProfile, userId, climbingCert, certifications, setCert, location, setLocation, days, setDays, daysOfWeek, setSelected, navigate } = useContext(UserContext)
 
 //updates props in 'settings {}'
 const handleInputChange = (event) => {
@@ -54,8 +54,6 @@ const setDBProfile = async () => {
         },
         body: JSON.stringify({ 
           username: profile.username, 
-          firstname: profile.firstname,
-          lastname: profile.lastname,
           email: profile.email,
           location,
           level: profile.level, 
@@ -109,55 +107,22 @@ const setDBProfile = async () => {
     } 
   };
 
-useEffect(() => {
-  getDBProfile()
-  console.log(profile)
-}, []) 
-
 
 const handleSubmit = (e) => {
     e.preventDefault();
     //setDBProfile()
-    //setDBDays()
-    setDBCert()
-    //navigate("/profile")
+    setDBDays()
+    //setDBCert()
+    navigate("/private/profile")
   }
 
-  return (
+return (
 
 <div className="bg-1 p-4 d-flex justify-content-center text-left">
-    <p>{profile.username}</p>
     <form 
     onSubmit={handleSubmit}
     className="p-3 s-form align-self-center"
     >
-
-    <div className="form-row px-2">
-        <div className="form-group col-md-6 px-2">
-            <label> First name </label>
-            <input
-              type="text"
-              name="firstname"
-              value={profile.firstname}
-              placeholder="Type first name"
-              className="form-control"
-              onChange={(e) => handleInputChange(e)}
-            />
-        </div>
-          
-        <div className="form-group col-md-6">
-            <label> Last name </label>
-            <input
-              type="text"
-              name="lastname"
-              value={profile.lastname}
-              //value={settings.lastName}
-              placeholder="Type last name"
-              className="form-control"
-              onChange={(e) => handleInputChange(e)}
-            />
-        </div>
-    </div>
     
     <div className="form-row px-2">
        <div className="form-group col-md-6 px-2">
@@ -166,7 +131,6 @@ const handleSubmit = (e) => {
               type="text"
               name="username"
               value={profile.username}
-              //value={settings.userName}
               placeholder="Type user name"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -179,7 +143,6 @@ const handleSubmit = (e) => {
               type="email"
               name="email"
               value={profile.email}
-              //value={settings.email}
               placeholder="Type email"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -248,7 +211,6 @@ const handleSubmit = (e) => {
               type="text"
               name="gender"
               value={profile.gender}
-              //value={settings.gender}
               placeholder="Set level"
               onChange={(e) => handleInputChange(e)}
               >
@@ -260,10 +222,11 @@ const handleSubmit = (e) => {
             </div>
 
            {climbingCert.map(c => (
-            <div className="form-group col-md-4 px-2">
+            <div
+            key={c.name}
+            className="form-group col-md-4 px-2">
             <label> {c.name} </label>
             <input
-            key={c.name}
             type="checkbox" 
             className="m-1 control-input list-group-item flex-fill"
             name="cert"
@@ -321,4 +284,4 @@ const handleSubmit = (e) => {
   );
 }
 
-export default SetUp;
+export default OnBoarding;

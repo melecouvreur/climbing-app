@@ -3,13 +3,13 @@ import React, {useState, useEffect} from "react";
 import prefTemplate from "./Data/prefTemplate"
 import daysTemplate from "./Data/daysTemplate";
 import certTemplate from "./Data/certTemplate";
+import PrivateRoute from "./Components/PrivateRoute";
 import Home from "./Pages/Home"
-import NavBar from "./Components/NavBar"
-import DashBoard from "./Pages/DashBoard";
+import Splash from "./Pages/Splash";
 import Settings from "./Components/Settings"
 import Matches from "./Pages/Matches"
 import Profile from "./Pages/Profile";
-import SetUp from "./Components/SetUp";
+//import OnBoarding from "./Components/OnBoarding";
 import Preferences from "./Components/Preferences";
 import { UserContext } from "./Context/userContext";
 import './App.css';
@@ -162,38 +162,37 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     //Matched based on default values preferences {}, days [] & location.
     //getLocation() // sets "active user" geolocation when first loading
     //navigate("/") //nagivates to homescreen when first loading.
-  }, []) 
-
+  }, [userId]) 
+//need to change to it fetches new data onces forms submitted
   
   return (
 
     <div className="main container-fluid text-center">
-    <NavBar/>
    
     <UserContext.Provider value={userObj}>
 
     <Routes>
-      <Route path="/" element={<Home/>}/>
-      <Route path="/login" element={<DashBoard/>} />
-      <Route path="/setup" element={<SetUp/>} />
+    <Route path="/" element={<Splash/>} />
 
-      <Route path="/settings" element={<Settings/>}/>
-      <Route path="/preferences" element={<Preferences/>}/>
+    <Route path="/private" element={<PrivateRoute/> }>
+    <Route path="home" element={<Home/>}/>
+  
+    <Route path="onboarding" element={<OnBoarding/>} />
+
+    <Route path="settings" element={<Settings/>}/>
+    <Route path="preferences" element={<Preferences/>}/>
    
   
-      <Route path="/profile" element={<Profile/>}/>
-      <Route path="/matches" element={<Matches/>}/>
+      <Route path="profile" element={<Profile/>}/>
+      <Route path="matches" element={<Matches/>}/>
+    </Route>
     
-     </Routes>
+    </Routes>
 
      </UserContext.Provider>
      
      
-      <footer className="p-2 text-white text-left">
-      <p> </p>
-      <p className="p-2 font-italic"> CodeOp Project 2023 </p>
-     </footer>
-     </div>
+    </div>
   )
 }
 

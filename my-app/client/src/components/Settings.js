@@ -52,8 +52,6 @@ const updateDBProfile = async () => {
       },
       body: JSON.stringify({ 
         username: profile.username, 
-        firstname: profile.firstname,
-        lastname: profile.lastname,
         email: profile.email,
         location, 
         level: profile.level, 
@@ -151,32 +149,6 @@ const handleSubmit = (e) => {
     onSubmit={handleSubmit}
     className="p-3 s-form align-self-center"
     >
-
-    <div className="form-row px-2">
-        <div className="form-group col-md-6 px-2">
-            <label> First name </label>
-            <input
-              type="text"
-              name="firstname"
-              value={profile.firstname}
-              placeholder="Type first name"
-              className="form-control"
-              onChange={(e) => handleInputChange(e)}
-            />
-        </div>
-          
-        <div className="form-group col-md-6">
-            <label> Last name </label>
-            <input
-              type="text"
-              name="lastname"
-              value={profile.lastname}
-              placeholder="Type last name"
-              className="form-control"
-              onChange={(e) => handleInputChange(e)}
-            />
-        </div>
-    </div>
     
     <div className="form-row px-2">
        <div className="form-group col-md-6 px-2">

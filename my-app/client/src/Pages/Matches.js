@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
-//import Box from "./Box"
 import "../App.css"
 import { ToastContainer, toast } from 'react-toastify'; // imports toastify to create pop-up messages
 import 'react-toastify/dist/ReactToastify.css';
