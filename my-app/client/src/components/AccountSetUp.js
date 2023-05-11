@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function OnBoarding() {
+function AccountSetUp() {
 
 let {profile, setProfile, userId, climbingCert, certifications, setCert, location, setLocation, days, setDays, daysOfWeek, setSelected, navigate } = useContext(UserContext)
 
@@ -284,4 +284,4 @@ return (
   );
 }
 
-export default OnBoarding;
+export default AccountSetUp;

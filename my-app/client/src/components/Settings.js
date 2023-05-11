@@ -5,7 +5,7 @@ import "../App.css"
 
 function Settings() {
 
-let {profile, setProfile, userId, location, setLocation, navigate, days, setDays, setSelected, certifications, setCert} = useContext(UserContext)
+let {profile, setProfile, getDBProfile, getDBDays, getDBCert, userId, location, setLocation, navigate, days, setDays, setSelected, certifications, setCert} = useContext(UserContext)
 
 //updates profile
 const handleInputChange = (event) => {
@@ -129,7 +129,7 @@ const deleteDays = async (userId, daysToDelete) => {
   }
 };
 
-const handleSubmit = (e) => {
+const handleSettingSubmit = (e) => {
   e.preventDefault();
   updateDBProfile()
   console.log(profile)
@@ -140,13 +140,22 @@ const handleSubmit = (e) => {
   //getRecommendations()
   //navigate("/profile")
 }
+
+useEffect(() => {
+  getDBProfile()
+  getDBDays()
+  getDBCert()
+  //Matched based on default values preferences {}, days [] & location.
+  //getLocation() // sets "active user" geolocation when first loading
+  //navigate("/") //nagivates to homescreen when first loading.
+}, [handleSettingSubmit]) 
  
 
   return (
 
   <div className="bg-1 p-4 d-flex justify-content-center text-left">
     <form 
-    onSubmit={handleSubmit}
+    onSubmit={handleSettingSubmit}
     className="p-3 s-form align-self-center"
     >
     

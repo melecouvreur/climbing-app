@@ -9,7 +9,7 @@ import Splash from "./Pages/Splash";
 import Settings from "./Components/Settings"
 import Matches from "./Pages/Matches"
 import Profile from "./Pages/Profile";
-//import OnBoarding from "./Components/OnBoarding";
+import AccountSetUp from "./Components/AccountSetUp";
 import Preferences from "./Components/Preferences";
 import { UserContext } from "./Context/userContext";
 import './App.css';
@@ -139,7 +139,7 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
   let userObj = {
     userId, setUserId, 
     profile, setProfile,
-    getDBProfile,  
+    getDBProfile, getDBCert, getDBDays,
     location, setLocation,
     days, setDays, 
     daysOfWeek, setDaysOfWeek,
@@ -177,7 +177,7 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     <Route path="/private" element={<PrivateRoute/> }>
     <Route path="home" element={<Home/>}/>
   
-    <Route path="onboarding" element={<OnBoarding/>} />
+    <Route path="accountsetup" element={<AccountSetUp/>} />
 
     <Route path="settings" element={<Settings/>}/>
     <Route path="preferences" element={<Preferences/>}/>
