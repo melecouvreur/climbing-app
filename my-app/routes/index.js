@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const db = require("../model/helper");
 const jwt = require("jsonwebtoken")
-//const ensureUserLoggedIn = require("../guards/ensureUserLoggedIn")
+const ensureUserLoggedIn = require("../guards/ensureUserLoggedIn")
 //const ensureUserExists = require("../guards/ensureUserExists")
 const bcrypt = require("bcrypt");
 const saltRounds = 7;
@@ -41,11 +41,10 @@ router.get("/profile/:id", async function(req, res, next) {
 /*POST user info*/
 router.post("/profile/:id", async function(req, res, next) {
   let id = req.params.id
-  const {firstname, lastname, username, email, pronouns, avatar, bio, location, level, gender} = req.body
+  const {username, email, pronouns, avatar, bio, location, level, gender} = req.body
   try {
     await db(
-     `UPDATE users SET firstname = ${firstname},
-      lastname = ${lastname}, email = ${email}, 
+     `UPDATE users SET email = ${email}, 
       pronouns = "${pronouns}", username = ${username},
       avatar = "${avatar}", bio = "${bio}",
       location = "${location}", level = "${level}", 
@@ -63,11 +62,10 @@ router.post("/profile/:id", async function(req, res, next) {
 /*EDIT user info*/
 router.put("/profile/:id", async function(req, res, next) {
   let id = req.params.id
-  const {username, firstname, lastname, email, pronouns, avatar, bio, location, level, gender} = req.body
+  const {username, email, pronouns, avatar, bio, location, level, gender} = req.body
   try {
     await db(
      `UPDATE users SET username = "${username}",
-      firstname = "${firstname}", lastname = "${lastname}", 
       email = "${email}", pronouns = "${pronouns}", 
       avatar = "${avatar}", bio = "${bio}",
       location = "${location}", level = "${level}",
@@ -91,9 +89,8 @@ router.post("/recommend", async function(req, res, next) {
       let genderList = "('" + genderNames.join("','") + "')"
             try {
               let results = await db(`SELECT 
-              DISTINCT users.firstname, users.lastname, 
-              users.username, users.bio, users.pronouns, 
-              users.avatar, users.location, users.level, 
+              DISTINCT users.username, users.bio, 
+              users.pronouns, users.avatar, users.location, users.level, 
               users.email, users.uID
               FROM users 
               LEFT JOIN days ON users.uID = days.uID 
@@ -129,7 +126,7 @@ router.post("/days/:id", async function(req, res, next) {
   //let queryList = "('" + days.join("','") + "')"
   try {
     for (let d of days) {
-    let name = d.day
+    let name = d.name
     let selected = d.selected
     await db(`INSERT INTO days (uID, day, selected) VALUES (${id},"${name}", ${selected});`)
     }
@@ -244,12 +241,12 @@ router.put("/cert/:id", async function(req, res, next) {
 
 /* POST username, password, email to register new user */
 router.post("/register", async (req, res) => {
-  const { username, email, password, firstname, lastname } = req.body;
+  const { username, email, password } = req.body;
   const hashedPWD = await bcrypt.hash(password, saltRounds)
   try {
     await db(
-    `INSERT into users (username, firstname, lastname, email, password) 
-     VALUES ("${username}","${firstname}","${lastname}", "${email}", "${hashedPWD}")`);
+    `INSERT into users (username, email, password) 
+     VALUES ("${username}", "${email}", "${hashedPWD}")`);
     res.status(200).send({message: "Registration successful"})
   } catch (err) {
     res.status(400).send({ message: err.message });
@@ -273,7 +270,7 @@ router.post("/login", async (req, res) => {
 
     if (!correctPassword) throw new Error("Incorrect password");
       //if pw patches create token
-    const token = jwt.sign({ user_id: user.uID }, supersecret); 
+    const token = jwt.sign({ user_id: user.uID, user_name: user.firstname }, supersecret); 
       //jwt method, takes param user_id as payload and supersecret key .env
       //send token and user id to user
     console.log(token)
@@ -286,6 +283,14 @@ router.post("/login", async (req, res) => {
     res.status(400).send({ message: err.message });
   }
 });
+
+//Private route for logged in users only
+router.get("/private", ensureUserLoggedIn, (req, res) => {
+  let id = req.user_id
+  let name = req.user_name
+  res.status(200).send({
+  message: "here is your protected data", id, name })
+})
 
 
 module.exports = router;

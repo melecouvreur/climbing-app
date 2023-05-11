@@ -1,8 +1,6 @@
 DROP TABLE IF EXISTS users;
               CREATE TABLE users (
               uID INTEGER NOT NULL AUTO_INCREMENT,
-              firstname VARCHAR(40) NOT NULL,
-              lastname VARCHAR(40) NOT NULL,
               email VARCHAR(40) NOT NULL,
               password VARCHAR(2000) NOT NULL,
               username VARCHAR(40),
