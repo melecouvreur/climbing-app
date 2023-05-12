@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 
 function Auth() {
   
   const [isRegistered, setIsRegistered] = useState(false)
-  const [credentials, setCredentials] = useState({
+
+  /*const [credentials, setCredentials] = useState({
     username: "",
     password: "",
     email: "",
-  });
+  });*/
 
  const [message, setMessage] = useState("");
 
- let {userId, setUserId, navigate} = useContext(UserContext);
+ let {userId, setUserId, navigate, login, getDBCert, getDBDays, getDBProfile, setPreferences, getRecommendations, credentials, setCredentials} = useContext(UserContext);
 
  const changeId = (newId) => {
   setUserId(newId)
  }
-
   //Toggles between login / register view & funct
   const changeRegistered = () => {
     setIsRegistered(isRegistered === true ? false : true)
@@ -49,6 +49,7 @@ function Auth() {
       console.log(data.message)
       //Sets registered status to true once successful & directs user to login
       changeRegistered()
+      console.log(userId)
       navigate("/")
       }
      }
@@ -57,6 +58,7 @@ function Auth() {
     }
   };
 
+  /*
   //if isRegistered = true, login view and func will appear
   const login = async () => {
     try {
@@ -77,7 +79,8 @@ function Auth() {
       localStorage.setItem("token", data.token, "id", data.user_id)
       userId = data.user_id
       setUserId(userId)
-      //console.log(userId)
+      console.log(userId)
+      setIsLoggedIn(true)
       navigate("/private/home") 
       console.log(data.message, data.token, data.user_id)
       } 
@@ -87,7 +90,21 @@ function Auth() {
     }
   };
 
-
+  useEffect(() => {
+    getDBProfile()
+    console.log(profile)
+    getDBDays()
+    getDBCert()
+    setPreferences((state) => ({
+        ...state}
+        ));
+    getRecommendations() //Makes sure myMatches is not empty when first loading. 
+    //Matched based on default values preferences {}, days [] & location.
+    //getLocation() // sets "active user" geolocation when first loading
+    //navigate("/") //nagivates to homescreen when first loading.
+  }, [isLoggenIn]) 
+//need to change to it fetches new data onces forms submitted
+*/
   return (
     <div className="d-flex p-4 justify-content-center text-left">
       {!isRegistered ? 

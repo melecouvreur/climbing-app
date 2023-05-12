@@ -6,19 +6,12 @@ import logo from "../Images/logo.png"
 import "../App.css"
 
 //re-usable component replicated across pages nested in PrivateRoute
-function NavOptionTwo() {
+function NavOptionTwo(props) {
 
 let location = useLocation()
-let {getRecommendations, navigate} = useContext(UserContext)
+let {navigate, logout} = useContext(UserContext)
 
-const logout = () => {
-    localStorage.removeItem("token")
-    //setIsLoggedIn(false)
-    navigate("/")
-    console.log("logged out")
-  };
-
-let activeClassName = "btn btn-sm btn-warning"
+let activeClassName = props.activeClassName
 
 const [isLoggedIn, setIsLoggedIn] = useState(true)
 

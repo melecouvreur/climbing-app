@@ -13,27 +13,20 @@ function Navbar() {
 let location = useLocation()
 const [navBar, setNavBar] = useState()
 
-let {getRecommendations,navigate} = useContext(UserContext)
+let {getRecommendations,navigate, logout} = useContext(UserContext)
 
-const logout = () => {
-    localStorage.removeItem("token")
-    //setIsLoggedIn(false)
-    navigate("/")
-    console.log("logged out")
-  };
 
 let activeClassName = "btn btn-sm btn-warning"
 
-const [isLoggedIn, setIsLoggedIn] = useState(true)
 
+const [isLoggedIn, setIsLoggedIn] = useState(true)
 
 useEffect(() => {
     if (location.pathname === "/private/setup") {
-      setNavBar(<NavOptionTwo />);
+      setNavBar(<NavOptionTwo/>);
     }
-
     else {
-      setNavBar(<NavOptionOne />);
+      setNavBar(<NavOptionOne/>);
     }
   }, [location.pathname]);
 

@@ -18,7 +18,26 @@ import { Routes, Route, useNavigate} from "react-router-dom";
 function App() {
 
   const [userId, setUserId] = useState(1)
-  const [profile, setProfile] = useState({})
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [profile, setProfile] = useState({
+      username: "",
+      email: "",
+      level: "", 
+      gender: "",
+      pronouns: "", 
+      avatar: "",
+      bio: "",
+  })
+
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+    email: "",
+  });
+
+  
+  const [message, setMessage] = useState("");
+
   const [days, setDays] = useState([])
   const [location, setLocation] = useState("London")
   const [certifications, setCert] = useState([])
@@ -43,6 +62,52 @@ let levelNames = preferences.level.filter((l) => l.selected == true).map((l) => 
 let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) => g.name)
 //console.log(genderNames)
 
+const changeId = (newId) => {
+  setUserId(newId)
+}
+
+  //if isRegistered = true, login view and func will appear
+  const login = async () => {
+    try {
+        let options = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(credentials),
+          };
+      const result = await fetch("/login", options);
+      const data  = await result.json();
+      if (!result.ok) {
+      //Shows error message if credentials wrong/unrecognized
+      setMessage(data.message);
+      //console.log(data.message)
+      }
+      else {
+      //if crededentials correct, stores token & directs user to "/private" page (=protected home page)
+      localStorage.setItem("token", data.token, "id", data.user_id)
+      let userId = data.user_id
+      let token = data.token
+      changeId(userId)
+      //setUserId(userId)
+      console.log(userId)
+      console.log(token)
+      setIsLoggedIn(true)
+      navigate("/private/home") 
+      console.log(data.message, data.token, data.user_id)
+      } 
+     }
+     catch (err) {
+      console.log(err)
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token")
+    setUserId(0)
+    //setIsLoggedIn(false)
+    navigate("/")
+    console.log("logged out")
+  };
+  
 
   const getDBProfile = async () => {
     try {
@@ -135,6 +200,7 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     } 
   };
 
+
  
   let userObj = {
     userId, setUserId, 
@@ -148,9 +214,12 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     climbingCert, setClimbingCert,
     preferences, setPreferences,
     recommendations, getRecommendations,
-    navigate
+    navigate,
+    login, logout,
+    credentials, setCredentials
     }
 
+    
   useEffect(() => {
     getDBProfile()
     getDBDays()
@@ -162,7 +231,7 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     //Matched based on default values preferences {}, days [] & location.
     //getLocation() // sets "active user" geolocation when first loading
     //navigate("/") //nagivates to homescreen when first loading.
-  }, [userId]) 
+  },[userId]) 
 //need to change to it fetches new data onces forms submitted
   
   return (

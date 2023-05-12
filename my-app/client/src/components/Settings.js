@@ -142,13 +142,13 @@ const handleSettingSubmit = (e) => {
 }
 
 useEffect(() => {
-  getDBProfile()
-  getDBDays()
-  getDBCert()
+  //getDBProfile()
+  //getDBDays()
+  //getDBCert()
   //Matched based on default values preferences {}, days [] & location.
   //getLocation() // sets "active user" geolocation when first loading
   //navigate("/") //nagivates to homescreen when first loading.
-}, [navigate]) 
+}, []) 
  
 
   return (

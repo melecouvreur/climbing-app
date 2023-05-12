@@ -270,12 +270,12 @@ router.post("/login", async (req, res) => {
 
     if (!correctPassword) throw new Error("Incorrect password");
       //if pw patches create token
-    const token = jwt.sign({ user_id: user.uID, user_name: user.username }, supersecret); 
+    const token = jwt.sign({ user_id: user.uID}, supersecret); 
       //jwt method, takes param user_id as payload and supersecret key .env
       //send token and user id to user
     console.log(token)
 
-    res.send({ message: "Login successful, here is your token and id", token, user_id });
+    res.send({ message: "Login successful, here is your token and id", token, user_id});
     } else {
       throw new Error("User does not exist");
     }
@@ -287,9 +287,8 @@ router.post("/login", async (req, res) => {
 //Private route for logged in users only
 router.get("/private", ensureUserLoggedIn, (req, res) => {
   let id = req.user_id
-  let name = req.user_name
   res.status(200).send({
-  message: "here is your protected data", id, name })
+  message: "here is your protected data", id})
 })
 
 
