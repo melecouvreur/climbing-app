@@ -49,7 +49,7 @@ function Auth() {
       console.log(data.message)
       //Sets registered status to true once successful & directs user to login
       changeRegistered()
-      navigate("private/acountsetup")
+      navigate("/")
       }
      }
      catch (err) {

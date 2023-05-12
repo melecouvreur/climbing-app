@@ -138,7 +138,7 @@ const handleSettingSubmit = (e) => {
   updateDBCert()
   console.log(certifications)
   //getRecommendations()
-  //navigate("/profile")
+  navigate("/private/profile")
 }
 
 useEffect(() => {
@@ -148,7 +148,7 @@ useEffect(() => {
   //Matched based on default values preferences {}, days [] & location.
   //getLocation() // sets "active user" geolocation when first loading
   //navigate("/") //nagivates to homescreen when first loading.
-}, [handleSettingSubmit]) 
+}, [navigate]) 
  
 
   return (
@@ -256,6 +256,23 @@ useEffect(() => {
             </select>
             </div>
 
+            <div className="form-group col-md-4 px-2">
+          <label> Pronouns </label>
+            <select 
+              className="form-control"
+              id="pronouns"
+              type="text"
+              name="pronouns"
+              value={profile.pronouns}
+              placeholder="Set pronouns"
+              onChange={(e) => handleInputChange(e)}
+              >
+              <option>She/Her</option>
+              <option>He/Him</option>
+              <option>They/Them</option>
+            </select>
+            </div>
+
           {/*
           <div className="form-group col-md-4 px-2">
             <label> Lead certified </label>
@@ -288,6 +305,8 @@ useEffect(() => {
             </div> ))}
 
         </div>
+
+       
   
         <div className="form-row px-2">
           <div className="form-group col-md-12 px-2">

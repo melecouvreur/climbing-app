@@ -39,7 +39,7 @@ const requestData = async () => {
           else {
           console.log(data.message);
           setIsLoggedIn(true)
-          console.log("logged-in user:" , data.id, data.name)
+          console.log("logged-in user:" , data.id, data.username)
         }
     
         } catch (error) {

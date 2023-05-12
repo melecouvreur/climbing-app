@@ -221,6 +221,23 @@ return (
             </select>
             </div>
 
+            <div className="form-group col-md-4 px-2">
+          <label> Pronouns </label>
+            <select 
+              className="form-control"
+              id="pronouns"
+              type="text"
+              name="pronouns"
+              value={profile.pronouns}
+              placeholder="Set pronouns"
+              onChange={(e) => handleInputChange(e)}
+              >
+              <option>She/Her</option>
+              <option>He/Him</option>
+              <option>They/Them</option>
+            </select>
+            </div>
+
            {climbingCert.map(c => (
             <div
             key={c.name}

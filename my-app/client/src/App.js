@@ -175,14 +175,13 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     <Route path="/" element={<Splash/>} />
 
     <Route path="/private" element={<PrivateRoute/> }>
-    <Route path="home" element={<Home/>}/>
+      <Route path="home" element={<Home/>}/>
   
-    <Route path="accountsetup" element={<AccountSetUp/>} />
+      <Route path="accountsetup" element={<AccountSetUp/>} />
 
-    <Route path="settings" element={<Settings/>}/>
-    <Route path="preferences" element={<Preferences/>}/>
+      <Route path="settings" element={<Settings/>}/>
+      <Route path="preferences" element={<Preferences/>}/>
    
-  
       <Route path="profile" element={<Profile/>}/>
       <Route path="matches" element={<Matches/>}/>
     </Route>

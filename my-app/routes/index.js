@@ -270,7 +270,7 @@ router.post("/login", async (req, res) => {
 
     if (!correctPassword) throw new Error("Incorrect password");
       //if pw patches create token
-    const token = jwt.sign({ user_id: user.uID, user_name: user.firstname }, supersecret); 
+    const token = jwt.sign({ user_id: user.uID, user_name: user.username }, supersecret); 
       //jwt method, takes param user_id as payload and supersecret key .env
       //send token and user id to user
     console.log(token)
