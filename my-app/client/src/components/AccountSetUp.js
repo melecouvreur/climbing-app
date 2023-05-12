@@ -1,11 +1,22 @@
-import {React} from "react";
+import {React, useState} from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
+import StepOne from "./StepOne";
+import StepTwo from "./StepTwo";
+import StepThree from "./StepThree";
+import StepFour from "./StepFour";
 import "../App.css"
 
 function AccountSetUp() {
 
-let {profile, setProfile, userId, climbingCert, certifications, setCert, location, setLocation, days, setDays, daysOfWeek, setSelected, navigate } = useContext(UserContext)
+const [currentStep, setCurrentStep] = useState(1)
+let {profile, setProfile, userId, climbingCert, certifications, setCert, location, setLocation, days, setDays, daysOfWeek, setSelected, navigate} = useContext(UserContext)
+
+
+const handleStepChange = () => {
+  setCurrentStep((currentStep) => (currentStep + 1))
+  console.log(currentStep)
+}
 
 //updates props in 'settings {}'
 const handleInputChange = (event) => {
@@ -109,16 +120,32 @@ const setDBProfile = async () => {
 
 
 const handleSubmit = (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     //setDBProfile()
-    setDBDays()
+    //setDBDays()
     //setDBCert()
-    navigate("/private/profile")
+    handleStepChange()
+    setTimeout(() => {
+      navigate("/private/profile");
+    }, 5000);  
   }
 
 return (
 
 <div className="bg-1 p-4 d-flex justify-content-center text-left">
+
+<div>
+      {currentStep === 1 && <StepOne onSubmit={handleStepChange} handleInputChangeCB={handleInputChange} handleLocationChangeCB={handleLocationChange} />}
+      {currentStep === 2 && <StepTwo onSubmit={handleStepChange} handleInputChangeCB={handleInputChange}/>}
+      {currentStep === 3 && <StepThree onSubmit={handleStepChange} handleDaysChangeCB={handleDaysChange}/>}
+      {currentStep === 4 && <StepFour onSubmit={handleSubmit} handleCertChangeCB={handleCertChange}/>}
+      {currentStep === 5 && (
+        <div>
+        <h3>Account created successfully!</h3>
+        </div>
+      )}
+    </div>
+
     <form 
     onSubmit={handleSubmit}
     className="p-3 s-form align-self-center"
@@ -293,8 +320,6 @@ return (
             <button className="btn btn-m btn-warning">Submit
             </button>
           </div>
-
-     
       </form>
 
     </div>
