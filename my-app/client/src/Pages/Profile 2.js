@@ -1,10 +1,14 @@
-import React from "react";
+import {React} from "react";
+import { useContext } from "react";
+import { UserContext } from "../Context/userContext";
 import "../App.css"
 
-function Profile( {location, navigate, settings, getRecommendations}) {
+function Profile() {
+
+let {profile, getRecommendations, navigate, location} = useContext(UserContext)
 
 //Fetches recommended climbers from db and sets 'recommendations []'
-//Switches to myMatches vuew where user sees recommendations 
+//Switches to myMatches view where user sees recommendations 
 const findPartners = () => {
     getRecommendations()
     navigate("/matches")
@@ -20,7 +24,8 @@ const findPartners = () => {
     <div className="user text-center">
      <div className="profile">
       <img 
-        src={settings.img} 
+       //fix image local storage
+        src={profile.avatar} 
         alt="profile_avatar"
         className="rounded-circle" 
         width="100"/>
@@ -28,8 +33,8 @@ const findPartners = () => {
    </div>
 
   <div className="mt-5 text-center">
-   <h4 className="p-2 mb-0"> {settings.userName} </h4>
-   <span className="d-block mb-2"> {settings.pronouns}</span>
+   <h4 className="p-2 mb-0"> {profile.username} </h4>
+   <span className="d-block mb-2"> {profile.pronouns}</span>
 
    <button 
    className="btn btn-warning btn-sm follow"
@@ -38,7 +43,7 @@ const findPartners = () => {
    </button>
 
    <div className="d-flex justify-content-between align-items-center mt-4 px-4">
-       <span className="bio col-12 text-center">{settings.bio}
+       <span className="bio col-12 text-center">{profile.bio}
       </span>
    </div>
 
@@ -51,7 +56,7 @@ const findPartners = () => {
 
      <div className="stats">
        <h6 className="mb-0"> Level </h6>
-       <span> {settings.level} 
+       <span> {profile.level} 
        </span>
      </div>
     

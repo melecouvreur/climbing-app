@@ -1,10 +1,13 @@
 import React, {useState} from "react";
-//import Box from "./Box"
+import { useContext } from "react";
+import { UserContext } from "../Context/userContext";
 import "../App.css"
 import { ToastContainer, toast } from 'react-toastify'; // imports toastify to create pop-up messages
 import 'react-toastify/dist/ReactToastify.css';
 
-function List( {recommendations}) {
+function Matches() {
+
+let {recommendations} = useContext(UserContext)
 
 const [featured, setFeatured] = useState({}) //not finished
 
@@ -94,16 +97,9 @@ If empty shows default message*/}
 
       )}
 </div>
-      
-      {/*not finished. Probably remove as not necessary functionality
-      {isView === "Featured" && (
-      <Box
-       featured={featured}/>
-       )}
-      */}
 
     </div>
   );
 }
 
-export default List;
+export default Matches;

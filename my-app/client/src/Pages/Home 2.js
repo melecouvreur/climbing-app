@@ -1,6 +1,6 @@
 import React from "react";
 import "../App.css"
-import logo from "../images/logo.png"
+import logo from "../Images/logo.png"
 function Home() {
 
 return (
@@ -18,8 +18,6 @@ return (
         <p className="display-4 strapline font-italic"> 
         "Get matched with a belay partner" </p>
        </div>
-
-
 
        </div>
   )
