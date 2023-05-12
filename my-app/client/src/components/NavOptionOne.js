@@ -1,18 +1,14 @@
-import {React, useState, useEffect} from "react";
+import {React, useState} from "react";
 import { NavLink, useLocation} from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import logo from "../Images/logo.png"
 import "../App.css"
-import NavOptionOne from "./NavOptionOne";
-import NavOptionTwo from "./NavOptionTwo";
 
 //re-usable component replicated across pages nested in PrivateRoute
-function Navbar() {
+function NavOptionOne() {
 
 let location = useLocation()
-const [navBar, setNavBar] = useState()
-
 let {getRecommendations,navigate} = useContext(UserContext)
 
 const logout = () => {
@@ -26,22 +22,10 @@ let activeClassName = "btn btn-sm btn-warning"
 
 const [isLoggedIn, setIsLoggedIn] = useState(true)
 
-
-useEffect(() => {
-    if (location.pathname === "/private/setup") {
-      setNavBar(<NavOptionTwo />);
-    }
-
-    else {
-      setNavBar(<NavOptionOne />);
-    }
-  }, [location.pathname]);
-
     return (
         <div className="flex-row">
-        <div> {navBar} </div>
-        </div>
-        /*
+       
+        <div>
         <NavLink to="home">
         <img
         className="nav-logo m-2" 
@@ -78,7 +62,7 @@ useEffect(() => {
             className="text-white btn m-1" >
             myProfile </button></NavLink>
     
-       
+           {/*Switches to different view AND fetches new recommendations*/}
             <NavLink to="matches"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }
@@ -106,9 +90,10 @@ useEffect(() => {
            home</span></NavLink>
            </div>
         </nav>
-        </div>*/
+    
+        </div>
         
     )
 }
 
-export default Navbar;
+export default NavOptionOne;

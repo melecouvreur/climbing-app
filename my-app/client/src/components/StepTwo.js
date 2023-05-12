@@ -20,6 +20,24 @@ function StepTwo(props) {
 
     <form onSubmit={handleStepTwoSubmit}>
 
+   
+    <div className="form-group col-md-4 px-2">
+         <label> What level do you climb? </label>
+           <select 
+            className="form-control"
+            id="level"
+            type="text"
+            name="level"
+            value={profile.level}
+            placeholder="Set level"
+            onChange={(e) => props.handleInputChangeCB(e)}
+            >
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+          </select>
+          </div>
+
         <button className="btn btn-m btn-warning">Submit
         </button>
         </form>

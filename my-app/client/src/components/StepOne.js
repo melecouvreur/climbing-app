@@ -15,7 +15,38 @@ function StepOne(props) {
   return (
     <div className="justify-content">
 
-        <h2> Step 1 </h2>
+        <h2> More about you </h2>
+        <h5> This will help us generate the best match </h5>
+
+        <form onSubmit={handleStepOneSubmit}>
+
+    <div className="form-row px-2">
+          <div className="form-group col-md-12 px-2">
+            <label> Bio </label>
+            <input
+              type="text"
+              name="bio"
+              value={profile.bio}
+              placeholder="Type bio"
+              className="form-control p-4"
+              onChange={(e) => props.handleInputChangeCB(e)}
+            />
+         </div>
+      </div>
+
+      <div className="form-row px-2">
+         <div className="form-group col-md-6 px-2">
+            <label> Profile Photo </label>
+            <input
+              type="text"
+              name="avatar"
+              value={profile.avatar}
+              placeholder="https://example.com/users/"
+              className="form-control"
+              onChange={(e) => props.handleInputChangeCB(e)}
+            />
+        </div>
+    </div>
 
         <div className="form-group col-md-4 px-2">
           <label> Gender </label>
@@ -63,7 +94,6 @@ function StepOne(props) {
             />
          </div>
 
-        <form onSubmit={handleStepOneSubmit}>
 
         <button className="btn btn-m btn-warning">Submit
         </button>

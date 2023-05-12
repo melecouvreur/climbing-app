@@ -1,7 +1,7 @@
 import {React, useEffect, useState} from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./NavBar";
-//import { useContext } from 'react'; 
+//import {useContext } from 'react'; 
 //import {UserContext}  from './UserContext'
 
 function PrivateRoute() {
@@ -50,7 +50,7 @@ const requestData = async () => {
 return (
         <div> {!isLoggenIn ? 
         (<h2 className="d-flex p-4 justify-content-center align-self-center pt-5"> {message} </h2>)
-        :  (<> <Navbar/> <Outlet/>  </>) } 
+        :  (<> <Navbar/> <Outlet/> </>) } 
         </div>
     )
 }

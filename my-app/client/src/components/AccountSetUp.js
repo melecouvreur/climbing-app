@@ -18,7 +18,6 @@ const handleStepChange = () => {
   console.log(currentStep)
 }
 
-//updates props in 'settings {}'
 const handleInputChange = (event) => {
     const value = event.target.value;
     const name = event.target.name;
@@ -118,7 +117,6 @@ const setDBProfile = async () => {
     } 
   };
 
-
 const handleSubmit = (e) => {
     //e.preventDefault();
     //setDBProfile()
@@ -146,7 +144,7 @@ return (
       )}
     </div>
 
-    <form 
+    {/*<form 
     onSubmit={handleSubmit}
     className="p-3 s-form align-self-center"
     >
@@ -200,7 +198,7 @@ return (
             className="form-control"
             onChange={(e) => handleInputChange(e)}
           />
-          </div>*/}
+          </div>
 
           <div className="form-group col-md-6 px-2">
             <label> Location </label>
@@ -321,6 +319,7 @@ return (
             </button>
           </div>
       </form>
+          */}
 
     </div>
   );
