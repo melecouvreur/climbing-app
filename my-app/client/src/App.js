@@ -12,13 +12,15 @@ import Profile from "./Pages/Profile";
 import AccountSetUp from "./Components/AccountSetUp";
 import Preferences from "./Components/Preferences";
 import { UserContext } from "./Context/userContext";
+import { AuthContext } from "./Context/AuthContext";
+import useProvideAuth from "./Hooks/useProvideAuth";
 import './App.css';
 import { Routes, Route, useNavigate} from "react-router-dom";
 
 function App() {
 
-  const [userId, setUserId] = useState(1)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userId, setUserId] = useState(0)
+  //const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [profile, setProfile] = useState({
       username: "",
       email: "",
@@ -35,7 +37,6 @@ function App() {
     email: "",
   });
 
-  
   const [message, setMessage] = useState("");
 
   const [days, setDays] = useState([])
@@ -43,7 +44,6 @@ function App() {
   const [certifications, setCert] = useState([])
   const [recommendations, setRecommendations] = useState([]) 
 //SetsRecommendations [] (= recommended climbers) based on preferences {}.
-  
   const [isSelected, setSelected] = useState(false) 
   const navigate = useNavigate() 
 
@@ -62,44 +62,6 @@ let levelNames = preferences.level.filter((l) => l.selected == true).map((l) => 
 let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) => g.name)
 //console.log(genderNames)
 
-const changeId = (newId) => {
-  setUserId(newId)
-}
-
-  //if isRegistered = true, login view and func will appear
-  const login = async () => {
-    try {
-        let options = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(credentials),
-          };
-      const result = await fetch("/login", options);
-      const data  = await result.json();
-      if (!result.ok) {
-      //Shows error message if credentials wrong/unrecognized
-      setMessage(data.message);
-      //console.log(data.message)
-      }
-      else {
-      //if crededentials correct, stores token & directs user to "/private" page (=protected home page)
-      localStorage.setItem("token", data.token, "id", data.user_id)
-      let userId = data.user_id
-      let token = data.token
-      changeId(userId)
-      //setUserId(userId)
-      console.log(userId)
-      console.log(token)
-      setIsLoggedIn(true)
-      navigate("/private/home") 
-      console.log(data.message, data.token, data.user_id)
-      } 
-     }
-     catch (err) {
-      console.log(err)
-    }
-  };
-
   const logout = () => {
     localStorage.removeItem("token")
     setUserId(0)
@@ -114,12 +76,12 @@ const changeId = (newId) => {
       let id = userId
       let results = await fetch(`/profile/${id}`);
       let user = await results.json();
-      //console.log(user[0])
+      console.log(user[0])
       //if db query successful > fetched user get pushed into profile []
       let userInfo = user[0]
       //console.log(userInfo)
       setProfile(userInfo)
-      console.log("profile", profile)
+      console.log("profile", profile.username)
       }
     catch (error) {
       console.log(error)
@@ -201,7 +163,45 @@ const changeId = (newId) => {
   };
 
 
- 
+const changeId = (newId) => {
+  setUserId(newId)
+}
+
+/*
+  //if isRegistered = true, login view and func will appear
+  const login = async () => {
+    try {
+        let options = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(credentials),
+          };
+      const result = await fetch("/login", options);
+      const data  = await result.json();
+      if (!result.ok) {
+      //Shows error message if credentials wrong/unrecognized
+      setMessage(data.message);
+      console.log(data.message)
+      }
+      else {
+      //if crededentials correct, stores token & directs user to "/private" page (=protected home page)
+      localStorage.setItem("token", data.token)
+      let userId = data.user_id
+      let token = data.token
+      console.log("data", data, "token", token, "id", userId)
+      setUserId(userId)
+      setIsLoggedIn(true)
+      //console.log(profile.username)
+      navigate("/private/home") 
+      console.log(data.message)
+      } 
+     }
+     catch (err) {
+      console.log(err)
+    }
+  };
+*/
+
   let userObj = {
     userId, setUserId, 
     profile, setProfile,
@@ -215,15 +215,17 @@ const changeId = (newId) => {
     preferences, setPreferences,
     recommendations, getRecommendations,
     navigate,
-    login, logout,
+    logout,
     credentials, setCredentials
     }
-
-    
+  
+  const auth = useProvideAuth();
+  
   useEffect(() => {
-    getDBProfile()
-    getDBDays()
-    getDBCert()
+    //getDBProfile()
+    //getDBDays()
+    //getDBCert()
+   // setProfile((...state) => ({...state}))
     setPreferences((state) => ({
         ...state}
         ));
@@ -231,19 +233,21 @@ const changeId = (newId) => {
     //Matched based on default values preferences {}, days [] & location.
     //getLocation() // sets "active user" geolocation when first loading
     //navigate("/") //nagivates to homescreen when first loading.
-  },[userId]) 
+  },[]) 
+  
 //need to change to it fetches new data onces forms submitted
   
   return (
 
     <div className="main container-fluid text-center">
-   
+    
+    <AuthContext.Provider value={auth}>
     <UserContext.Provider value={userObj}>
 
     <Routes>
     <Route path="/" element={<Splash/>} />
 
-    <Route path="/private" element={<PrivateRoute/> }>
+      <Route path="/private" element={<PrivateRoute/> }>
       <Route path="home" element={<Home/>}/>
   
       <Route path="setup" element={<AccountSetUp/>} />
@@ -253,11 +257,12 @@ const changeId = (newId) => {
    
       <Route path="profile" element={<Profile/>}/>
       <Route path="matches" element={<Matches/>}/>
-    </Route>
-    
+      </Route>
+  
     </Routes>
 
      </UserContext.Provider>
+     </AuthContext.Provider>
      
      
     </div>

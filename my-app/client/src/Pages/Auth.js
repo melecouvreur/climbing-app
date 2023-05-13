@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
+import { AuthContext } from "../Context/AuthContext";
 
 function Auth() {
   
@@ -14,7 +15,8 @@ function Auth() {
 
  const [message, setMessage] = useState("");
 
- let {userId, setUserId, navigate, login, getDBCert, getDBDays, getDBProfile, setPreferences, getRecommendations, credentials, setCredentials} = useContext(UserContext);
+ let {userId, setUserId, navigate, getDBCert, getDBDays, getDBProfile, setPreferences, getRecommendations, credentials, setCredentials} = useContext(UserContext);
+ const auth = useContext(AuthContext);
 
  const changeId = (newId) => {
   setUserId(newId)
@@ -57,6 +59,16 @@ function Auth() {
       console.log(err.message)
     }
   };
+
+  const login = async () => {
+    try {
+      await auth.login(credentials);
+      navigate("/private/home");
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
 
   /*
   //if isRegistered = true, login view and func will appear

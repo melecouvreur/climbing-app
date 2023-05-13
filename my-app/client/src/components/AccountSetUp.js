@@ -121,8 +121,8 @@ const handleSubmit = (e) => {
     //e.preventDefault();
     setDBProfile((...state) => [...state])
     console.log(userId, profile)
-    setDBDays()
-    setDBCert()
+    //setDBDays()
+    //setDBCert()
     handleStepChange()
     setTimeout(() => {
       navigate("/private/profile");

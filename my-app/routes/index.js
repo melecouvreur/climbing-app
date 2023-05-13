@@ -22,11 +22,29 @@ router.get("/users", function(req, res, next) {
     })
     .catch(err => res.status(500).send(err));
 });
+
+
+/*GET user by uID
+router.get("/profile", ensureUserLoggedIn, async function(req, res, next) {
+  try {
+    let id = req.user_id
+    let results = await db(
+      `SELECT * FROM users where uID = ${id} 
+       ORDER BY uID ASC;`
+    );
+    res.status(200).send(results.data);
+    console.log(results.data)
+  } catch (err) {
+    res.status(500).send(err);
+  } 
+}); 
+*/
  
 /*GET user by uID*/
 router.get("/profile/:id", async function(req, res, next) {
   try {
     let id = req.params.id
+    //let id = req.user_id
     let results = await db(
       `SELECT * FROM users where uID = ${id} 
        ORDER BY uID ASC;`
@@ -264,15 +282,16 @@ router.post("/login", async (req, res) => {
     //if user found, compare pw
     if (user) {
     const user_id = user.uID;
-    console.log(user_id)
+    //console.log(user_id)
     const correctPassword = await bcrypt.compare(password, user.password); 
-      // compare pw req body to db pw. returns boolean. bcrypt method
+    // compare pw req body to db pw. returns boolean. bcrypt method
 
     if (!correctPassword) throw new Error("Incorrect password");
-      //if pw patches create token
-    const token = jwt.sign({ user_id: user.uID}, supersecret); 
-      //jwt method, takes param user_id as payload and supersecret key .env
-      //send token and user id to user
+    //if pw patches create token
+    const token = jwt.sign({ user_id: user.uID}, supersecret);
+    delete user.password 
+    //jwt method, takes param user_id as payload and supersecret key .env
+    //send token and user id to user
     console.log(token)
 
     res.send({ message: "Login successful, here is your token and id", token, user_id});
@@ -284,12 +303,32 @@ router.post("/login", async (req, res) => {
   }
 });
 
+/*
 //Private route for logged in users only
 router.get("/private", ensureUserLoggedIn, (req, res) => {
   let id = req.user_id
+  let username = req.user_name
   res.status(200).send({
-  message: "here is your protected data", id})
+  message: "here is your protected data", id, username})
 })
+*/
+
+/*********  PRIVATE ROUTE FOR LOGGED IN USERS ONLY *********/
+router.get("/private", ensureUserLoggedIn, async (req, res) => {
+  try {
+    //select pet info for user with req.user_id that we got from token
+    const results = await db(
+    `SELECT * FROM users WHERE uID = "${req.user_id}"`
+    );
+    res.status(200).send({
+      message: "Here is the PRIVATE data for user " + req.user_id,
+      user: results.data
+    });
+  } catch (err) {
+
+  }
+
+});
 
 
 module.exports = router;

@@ -26,7 +26,7 @@ function StepOne(props) {
             <input
               type="text"
               name="bio"
-              value={profile.bio}
+              value={profile.bio || ""}
               placeholder="Type bio"
               className="form-control p-4"
               onChange={(e) => props.handleInputChangeCB(e)}
@@ -40,7 +40,7 @@ function StepOne(props) {
             <input
               type="text"
               name="avatar"
-              value={profile.avatar}
+              value={profile.avatar || ""}
               placeholder="https://example.com/users/"
               className="form-control"
               onChange={(e) => props.handleInputChangeCB(e)}
@@ -55,7 +55,7 @@ function StepOne(props) {
               id="gender"
               type="text"
               name="gender"
-              value={profile.gender}
+              value={profile.gender || ""}
               placeholder="Set level"
               onChange={(e) => props.handleInputChangeCB(e)}
               >
@@ -73,7 +73,7 @@ function StepOne(props) {
               id="pronouns"
               type="text"
               name="pronouns"
-              value={profile.pronouns}
+              value={profile.pronouns || ""}
               placeholder="Set pronouns"
               onChange={(e) => props.handleInputChangeCB(e)}
               >

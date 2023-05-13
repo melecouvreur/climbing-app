@@ -191,7 +191,7 @@ useEffect(() => {
             <input
               type="text"
               name="avatar"
-              value={profile.avatar}
+              value={profile.avatar || ""}
               placeholder="https://example.com/users/"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
