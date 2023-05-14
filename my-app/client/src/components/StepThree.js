@@ -4,7 +4,7 @@ import { UserContext } from "../Context/userContext";
 
 function StepThree(props) {
    
-    let {profile, setProfile, userId, climbingCert, certifications, setCert, location, setLocation, days, setDays, daysOfWeek, setSelected} = useContext(UserContext)
+    let {daysOfWeek} = useContext(UserContext)
 
      function handleStepThreeSubmit(e) {
         e.preventDefault();

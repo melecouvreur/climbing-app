@@ -5,7 +5,7 @@ import "../App.css"
 
 function Settings() {
 
-let {profile, setProfile, getDBProfile, getDBDays, getDBCert, userId, location, setLocation, navigate, days, setDays, setSelected, certifications, setCert} = useContext(UserContext)
+let {profile, setProfile, location, setLocation, navigate, days, setDays, setSelected, certifications, setCert} = useContext(UserContext)
 
 //updates profile
 const handleInputChange = (event) => {
@@ -42,103 +42,98 @@ const handleCertChange = (c) => {
   console.log("certifications", certifications, c.type, c.selected)
 }
 
-const updateDBProfile = async () => {
+const updateUserInfo = async () => {
   try {
-    let id = userId
-    let results = await fetch(`/profile/${id}`, {
-      method: "PUT",
+    const response = await fetch('/profile', {
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({ 
         username: profile.username, 
         email: profile.email,
-        location, 
+        location,
         level: profile.level, 
-        gender: profile.gender, 
+        gender: profile.gender,
         pronouns: profile.pronouns, 
         avatar: profile.avatar,
         bio: profile.bio
-      }) 
-    });
-    let updatedProfile = await results.json();
-    console.log("updatedProfile", updatedProfile)
-    }
-    catch (error) {
-    console.log(error)
-  } 
-};
-
-const updateDBDays = async () => {
-  try {
-    let id = userId
-    let results = await fetch(`/days/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ days }) 
-    });
-    let updatedDays = await results.json();
-    console.log("updatedDays", updatedDays)
-    }
-    catch (error) {
-    console.log(error)
-  } 
-};
-
-const updateDBCert = async () => {
-  try {
-    let id = userId
-    let results = await fetch(`/cert/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ certifications }) 
-    });
-    let updatedCert = await results.json();
-    console.log("updatedCert", updatedCert)
-    }
-    catch (error) {
-    console.log(error)
-  } 
-};
-
-
-const deleteDays = async (userId, daysToDelete) => {
-  try {
-    const response = await fetch(`/days/${userId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ daysToDelete })
+      }),
     });
 
-    if (response.status === 204) {
-      console.log("Days deleted successfully");
-    } else if (response.ok) {
-      const deletedDays = await response.json();
-      console.log(deletedDays);
+    if (response.ok) {
+      const { data } = await response.json();
+      console.log(data)
+      setProfile(data);
+      console.log("updateProfile", profile);
     } else {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error('Request failed');
     }
   } catch (error) {
     console.log(error);
   }
 };
 
+const updateUserDays = async () => {
+  try {
+    const response = await fetch('/days', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({ days }),
+    });
+
+    if (response.ok) {
+      const { data } = await response.json();
+      console.log(data)
+      setDays(data);
+      console.log("updateddays", days);
+    } else {
+      throw new Error('Request failed');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateUserCert = async () => {
+  try {
+    const response = await fetch('/cert', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({ certifications }),
+    });
+
+    if (response.ok) {
+      const { data } = await response.json();
+      console.log(data)
+      setCert(data);
+      console.log("updatedCert", certifications);
+    } else {
+      throw new Error('Request failed');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 const handleSettingSubmit = (e) => {
   e.preventDefault();
-  updateDBProfile()
+  updateUserInfo()
   console.log(profile)
-  updateDBDays()
+  updateUserDays()
   console.log(days)
-  updateDBCert()
+  updateUserCert()
   console.log(certifications)
   //getRecommendations()
-  navigate("/private/profile")
+  navigate("/profile")
 }
 
 useEffect(() => {
@@ -306,8 +301,6 @@ useEffect(() => {
 
         </div>
 
-       
-  
         <div className="form-row px-2">
           <div className="form-group col-md-12 px-2">
             <label> Bio </label>

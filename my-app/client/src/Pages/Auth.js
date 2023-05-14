@@ -63,12 +63,12 @@ function Auth() {
   const login = async () => {
     try {
       await auth.login(credentials);
-      navigate("/private/home");
+      console.log(auth.currentUser)
+      navigate("/private");
     } catch (err) {
       console.log(err.message);
     }
   };
-
 
   /*
   //if isRegistered = true, login view and func will appear

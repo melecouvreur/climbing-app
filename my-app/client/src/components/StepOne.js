@@ -55,7 +55,7 @@ function StepOne(props) {
               id="gender"
               type="text"
               name="gender"
-              value={profile.gender || ""}
+              value={profile.gender}
               placeholder="Set level"
               onChange={(e) => props.handleInputChangeCB(e)}
               >
@@ -73,7 +73,7 @@ function StepOne(props) {
               id="pronouns"
               type="text"
               name="pronouns"
-              value={profile.pronouns || ""}
+              value={profile.pronouns}
               placeholder="Set pronouns"
               onChange={(e) => props.handleInputChangeCB(e)}
               >

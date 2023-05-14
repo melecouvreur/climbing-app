@@ -24,7 +24,7 @@ router.get("/users", function(req, res, next) {
 });
 
 
-/*GET user by uID
+/*GET user by uID*/
 router.get("/profile", ensureUserLoggedIn, async function(req, res, next) {
   try {
     let id = req.user_id
@@ -38,9 +38,9 @@ router.get("/profile", ensureUserLoggedIn, async function(req, res, next) {
     res.status(500).send(err);
   } 
 }); 
-*/
+
  
-/*GET user by uID*/
+/*GET user by uID
 router.get("/profile/:id", async function(req, res, next) {
   try {
     let id = req.params.id
@@ -57,16 +57,16 @@ router.get("/profile/:id", async function(req, res, next) {
 });    
 
 /*POST user info*/
-router.post("/profile/:id", async function(req, res, next) {
-  let id = req.params.id
+router.post("/profile", ensureUserLoggedIn, async function(req, res, next) {
+  //let id = req.params.id
   const {username, email, pronouns, avatar, bio, location, level, gender} = req.body
   try {
     await db(
-     `UPDATE users SET email = ${email}, 
-      pronouns = "${pronouns}", username = ${username},
+     `UPDATE users SET email = "${email}", 
+      pronouns = "${pronouns}", username = "${username}",
       avatar = "${avatar}", bio = "${bio}",
       location = "${location}", level = "${level}", 
-      gender = "${gender}" WHERE uID = ${id};`
+      gender = "${gender}" WHERE uID = ${req.user_id};`
     )
     let results = await db(
       `SELECT * FROM users ORDER BY uID ASC;`
@@ -78,8 +78,8 @@ router.post("/profile/:id", async function(req, res, next) {
 })
 
 /*EDIT user info*/
-router.put("/profile/:id", async function(req, res, next) {
-  let id = req.params.id
+router.put("/profile", ensureUserLoggedIn, async function(req, res, next) {
+  //let id = req.params.id
   const {username, email, pronouns, avatar, bio, location, level, gender} = req.body
   try {
     await db(
@@ -87,7 +87,7 @@ router.put("/profile/:id", async function(req, res, next) {
       email = "${email}", pronouns = "${pronouns}", 
       avatar = "${avatar}", bio = "${bio}",
       location = "${location}", level = "${level}",
-      gender = "${gender}" WHERE uID = ${id};`
+      gender = "${gender}" WHERE uID = ${req.user_id};`
     )
     let results = await db(
       `SELECT * FROM users ORDER BY uID ASC;`
@@ -123,11 +123,11 @@ router.post("/recommend", async function(req, res, next) {
           })
 
 /*GET days by uID*/
-router.get("/days/:id", async function(req, res, next) {
+router.get("/days", ensureUserLoggedIn, async function(req, res, next) {
   try {
-    let id = req.params.id
+    //let id = req.params.id
     let results = await db(
-      `SELECT * FROM days where uID = ${id} 
+      `SELECT * FROM days where uID = ${req.user_id} 
        ORDER BY uID ASC;`
     );
     res.status(200).send(results.data);
@@ -138,18 +138,18 @@ router.get("/days/:id", async function(req, res, next) {
 });  
       
 /*POST climbing days of user*/
-router.post("/days/:id", async function(req, res, next) {
-  let id = req.params.id
+router.post("/days", ensureUserLoggedIn, async function(req, res, next) {
+  //let id = req.params.id
   const {days} = req.body
   //let queryList = "('" + days.join("','") + "')"
   try {
     for (let d of days) {
     let name = d.name
     let selected = d.selected
-    await db(`INSERT INTO days (uID, day, selected) VALUES (${id},"${name}", ${selected});`)
+    await db(`INSERT INTO days (uID, day, selected) VALUES (${req.user_id},"${name}", ${selected});`)
     }
     let results = await db(
-      `SELECT * FROM days WHERE uID = ${id} ORDER BY uID ASC;`
+      `SELECT * FROM days WHERE uID = ${req.user_id} ORDER BY uID ASC;`
     );
     res.status(200).send(results.data);
   } 
@@ -159,8 +159,8 @@ router.post("/days/:id", async function(req, res, next) {
 })
 
 /*PUT climbing days for user*/
-router.put("/days/:id", async function(req, res, next) {
-  let id = req.params.id
+router.put("/days", ensureUserLoggedIn, async function(req, res, next) {
+  //let id = req.params.id
   const {days} = req.body
   //let queryList = "('" + days.join("','") + "')"
   try {
@@ -168,10 +168,10 @@ router.put("/days/:id", async function(req, res, next) {
     let name = d.day
     let selected = d.selected
     await db(`UPDATE days SET selected = ${selected} 
-    WHERE uID = ${id} AND day = "${name}";`)
+    WHERE uID = ${req.user_id} AND day = "${name}";`)
     }
     let results = await db(
-      `SELECT * FROM days WHERE uID = ${id} ORDER BY uID ASC;`
+      `SELECT * FROM days WHERE uID = ${req.user_id} ORDER BY uID ASC;`
     );
     res.status(200).send(results.data);
   } 
@@ -200,11 +200,11 @@ router.delete("/days/:id", async function(req, res, next) {
 })
 
 /*GET cert by uID*/
-router.get("/cert/:id", async function(req, res, next) {
+router.get("/cert", ensureUserLoggedIn, async function(req, res, next) {
   try {
-    let id = req.params.id
+    //let id = req.params.id
     let results = await db(
-      `SELECT * FROM certifications where uID = ${id} 
+      `SELECT * FROM certifications where uID = ${req.user_id} 
        ORDER BY uID ASC;`
     );
     res.status(200).send(results.data);
@@ -215,18 +215,18 @@ router.get("/cert/:id", async function(req, res, next) {
 });  
       
 /*POST climbing cert of user*/
-router.post("/cert/:id", async function(req, res, next) {
-  let id = req.params.id
+router.post("/cert", ensureUserLoggedIn, async function(req, res, next) {
+  //let id = req.params.id
   const {certifications} = req.body
   //let queryList = "('" + days.join("','") + "')"
   try {
     for (let c of certifications) {
     let type = c.name
     let selected = c.selected
-    await db(`INSERT INTO certifications (uID, type, selected) VALUES (${id},"${type}", ${selected});`)
+    await db(`INSERT INTO certifications (uID, type, selected) VALUES (${req.user_id},"${type}", ${selected});`)
     }
     let results = await db(
-      `SELECT * FROM certifications WHERE uID = ${id} ORDER BY uID ASC;`
+      `SELECT * FROM certifications WHERE uID = ${req.user_id} ORDER BY uID ASC;`
     );
     res.status(200).send(results.data);
   } 
@@ -236,8 +236,8 @@ router.post("/cert/:id", async function(req, res, next) {
 })
 
 /*PUT climbing cert for user*/
-router.put("/cert/:id", async function(req, res, next) {
-  let id = req.params.id
+router.put("/cert", ensureUserLoggedIn, async function(req, res, next) {
+  //let id = req.params.id
   const {certifications} = req.body
   //let queryList = "('" + days.join("','") + "')"
   try {
@@ -245,10 +245,10 @@ router.put("/cert/:id", async function(req, res, next) {
     let type = c.type
     let selected = c.selected
     await db(`UPDATE certifications SET selected = ${selected} 
-    WHERE uID = ${id} AND type = "${type}";`)
+    WHERE uID = ${req.user_id} AND type = "${type}";`)
     }
     let results = await db(
-      `SELECT * FROM certifications WHERE uID = ${id} ORDER BY uID ASC;`
+      `SELECT * FROM certifications WHERE uID = ${req.user_id} ORDER BY uID ASC;`
     );
     res.status(200).send(results.data);
   } 
@@ -282,7 +282,7 @@ router.post("/login", async (req, res) => {
     //if user found, compare pw
     if (user) {
     const user_id = user.uID;
-    //console.log(user_id)
+    console.log(user_id)
     const correctPassword = await bcrypt.compare(password, user.password); 
     // compare pw req body to db pw. returns boolean. bcrypt method
 
@@ -292,9 +292,8 @@ router.post("/login", async (req, res) => {
     delete user.password 
     //jwt method, takes param user_id as payload and supersecret key .env
     //send token and user id to user
-    console.log(token)
 
-    res.send({ message: "Login successful, here is your token and id", token, user_id});
+    res.send({ message: "Login successful, here is your token and id", token, user});
     } else {
       throw new Error("User does not exist");
     }
@@ -322,7 +321,7 @@ router.get("/private", ensureUserLoggedIn, async (req, res) => {
     );
     res.status(200).send({
       message: "Here is the PRIVATE data for user " + req.user_id,
-      user: results.data
+      data: results.data
     });
   } catch (err) {
 

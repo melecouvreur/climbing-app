@@ -10,7 +10,7 @@ import "../App.css"
 function AccountSetUp() {
 
 const [currentStep, setCurrentStep] = useState(1)
-let {profile, setProfile, userId, climbingCert, certifications, setCert, location, setLocation, days, setDays, daysOfWeek, setSelected, navigate} = useContext(UserContext)
+let {profile, setProfile, climbingCert, certifications, setCert, location, setLocation, days, setDays, daysOfWeek, setSelected, navigate} = useContext(UserContext)
 
 
 const handleStepChange = () => {
@@ -54,6 +54,40 @@ const handleInputChange = (event) => {
     console.log("certifications", certifications)
   }
 
+  const addNewUserInfo = async () => {
+    try {
+      const response = await fetch('/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ 
+          username: profile.username, 
+          email: profile.email,
+          location,
+          level: profile.level, 
+          gender: profile.gender,
+          pronouns: profile.pronouns, 
+          avatar: profile.avatar,
+          bio: profile.bio
+        }),
+      });
+  
+      if (response.ok) {
+        const { data } = await response.json();
+        //setProfile(data);
+        console.log(data[0]);
+      } else {
+        throw new Error('Request failed');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+
+/*
 const setDBProfile = async () => {
     try {
       let id = userId
@@ -80,7 +114,55 @@ const setDBProfile = async () => {
       console.log(error)
     } 
   };
+*/
+const addNewUserDays = async () => {
+  try {
+    const response = await fetch('/days', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({ days }),
+    });
 
+    if (response.ok) {
+      const { data } = await response.json();
+      //setDays(data);
+      console.log(data);
+    } else {
+      throw new Error('Request failed');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addNewUserCert = async () => {
+  try {
+    const response = await fetch('/cert', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({ certifications }),
+    });
+
+    if (response.ok) {
+      const { data } = await response.json();
+      //setCert(data);
+      console.log(data);
+    } else {
+      throw new Error('Request failed');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+/*
   const setDBDays = async () => {
     try {
       let id = userId
@@ -116,16 +198,19 @@ const setDBProfile = async () => {
       console.log(error)
     } 
   };
-
+*/
 const handleSubmit = (e) => {
-    //e.preventDefault();
-    setDBProfile((...state) => [...state])
-    console.log(userId, profile)
+    e.preventDefault();
+    addNewUserInfo()
+    addNewUserDays()
+    addNewUserCert()
+    //setDBProfile((...state) => [...state])
+    //console.log(userId, profile)
     //setDBDays()
     //setDBCert()
     handleStepChange()
     setTimeout(() => {
-      navigate("/private/profile");
+    navigate("/profile");
     }, 5000);  
   }
 

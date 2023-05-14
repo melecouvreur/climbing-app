@@ -2,6 +2,7 @@ import {React, useState, useEffect} from "react";
 import { NavLink, useLocation} from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
+import useProvideAuth from "../Hooks/useProvideAuth";
 import logo from "../Images/logo.png"
 import "../App.css"
 import NavOptionOne from "./NavOptionOne";
@@ -14,7 +15,7 @@ let location = useLocation()
 const [navBar, setNavBar] = useState()
 
 let {getRecommendations,navigate, logout} = useContext(UserContext)
-
+const auth = useProvideAuth();
 
 let activeClassName = "btn btn-sm btn-warning"
 

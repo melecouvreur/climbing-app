@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate} from "react-router-dom";
 //import axios from "axios";
 
 // this is a custom hook that provides a reactive state to know if the user is authenticated or not
@@ -8,7 +9,7 @@ function useProvideAuth() {
 
 const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 const [currentUser, setCurrentUser] = useState({name: "you", email: "you@something.com"});
-
+const navigate = useNavigate() 
   //FIXME: useEffect to load user data every time page reloads (also needs a GET /user route on backend)
 
   /*
@@ -41,6 +42,7 @@ const [currentUser, setCurrentUser] = useState({name: "you", email: "you@somethi
         localStorage.setItem('token', token);
         setIsLoggedIn(true);
         setCurrentUser(user);
+        console.log("userdata from login", user)
       } else {
         const { message } = await response.json();
         throw message;
@@ -54,6 +56,7 @@ const [currentUser, setCurrentUser] = useState({name: "you", email: "you@somethi
     localStorage.removeItem("token");
     setIsLoggedIn(null);
     setCurrentUser({});
+    //nagivate("/")
   };
 
   return {

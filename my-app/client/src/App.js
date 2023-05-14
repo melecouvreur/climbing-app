@@ -4,11 +4,13 @@ import prefTemplate from "./Data/prefTemplate"
 import daysTemplate from "./Data/daysTemplate";
 import certTemplate from "./Data/certTemplate";
 import PrivateRoute from "./Components/PrivateRoute";
+import PrivateRouteNew from "./Components/PrivateRouteNew";
 import Home from "./Pages/Home"
 import Splash from "./Pages/Splash";
 import Settings from "./Components/Settings"
 import Matches from "./Pages/Matches"
 import Profile from "./Pages/Profile";
+import NavBar from "./Components/NavBar";
 import AccountSetUp from "./Components/AccountSetUp";
 import Preferences from "./Components/Preferences";
 import { UserContext } from "./Context/userContext";
@@ -62,6 +64,7 @@ let levelNames = preferences.level.filter((l) => l.selected == true).map((l) => 
 let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) => g.name)
 //console.log(genderNames)
 
+/*
   const logout = () => {
     localStorage.removeItem("token")
     setUserId(0)
@@ -69,41 +72,78 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     navigate("/")
     console.log("logged out")
   };
+  */
+
+  const getProfile = async () => {
+    let options = {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      const response = await fetch("/profile", options);
+  
+      if (response.ok) {
+        const data = await response.json();
+        setProfile(data[0]);
+        console.log(data[0]);
+        console.log("getProfile", profile)
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getDays = async () => {
+    let options = {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      const response = await fetch("/days", options);
+  
+      if (response.ok) {
+        const data = await response.json();
+        setDays(data);
+        console.log(data);
+        console.log("getDays", days)
+        
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCert = async () => {
+    let options = {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      const response = await fetch("/cert", options);
+  
+      if (response.ok) {
+        const data = await response.json();
+        setCert(data);
+        console.log(data);
+        console.log("getCert", certifications)
+        
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   
 
-  const getDBProfile = async () => {
-    try {
-      let id = userId
-      let results = await fetch(`/profile/${id}`);
-      let user = await results.json();
-      console.log(user[0])
-      //if db query successful > fetched user get pushed into profile []
-      let userInfo = user[0]
-      //console.log(userInfo)
-      setProfile(userInfo)
-      console.log("profile", profile.username)
-      }
-    catch (error) {
-      console.log(error)
-    } 
-  };
-
-  const getDBDays = async () => {
-    try {
-      let id = userId
-      let results = await fetch(`/days/${id}`);
-      let userDays = await results.json();
-      //console.log(userDays[0])
-      //if db query successful > fetched days get pushed into days []
-      //console.log(userDays)
-      setDays(userDays)
-      console.log("days", days)
-      }
-    catch (error) {
-    console.log(error)
-    } 
-  };
-
+  /*
   const getDBCert = async () => {
     try {
       let id = userId
@@ -119,7 +159,8 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     console.log(error)
     } 
   };
-  
+  */
+
 //Fetches and setsLocation of "active user" using external API.
 //Replicated across settings and preferences forms i.e. Users must have matching location.
   const getLocation = () => {
@@ -162,50 +203,8 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     } 
   };
 
-
-const changeId = (newId) => {
-  setUserId(newId)
-}
-
-/*
-  //if isRegistered = true, login view and func will appear
-  const login = async () => {
-    try {
-        let options = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(credentials),
-          };
-      const result = await fetch("/login", options);
-      const data  = await result.json();
-      if (!result.ok) {
-      //Shows error message if credentials wrong/unrecognized
-      setMessage(data.message);
-      console.log(data.message)
-      }
-      else {
-      //if crededentials correct, stores token & directs user to "/private" page (=protected home page)
-      localStorage.setItem("token", data.token)
-      let userId = data.user_id
-      let token = data.token
-      console.log("data", data, "token", token, "id", userId)
-      setUserId(userId)
-      setIsLoggedIn(true)
-      //console.log(profile.username)
-      navigate("/private/home") 
-      console.log(data.message)
-      } 
-     }
-     catch (err) {
-      console.log(err)
-    }
-  };
-*/
-
-  let userObj = {
-    userId, setUserId, 
+  let userObj = { 
     profile, setProfile,
-    getDBProfile, getDBCert, getDBDays,
     location, setLocation,
     days, setDays, 
     daysOfWeek, setDaysOfWeek,
@@ -215,17 +214,15 @@ const changeId = (newId) => {
     preferences, setPreferences,
     recommendations, getRecommendations,
     navigate,
-    logout,
     credentials, setCredentials
     }
   
   const auth = useProvideAuth();
   
   useEffect(() => {
-    //getDBProfile()
-    //getDBDays()
-    //getDBCert()
-   // setProfile((...state) => ({...state}))
+    getProfile()
+    getDays()
+    getCert()
     setPreferences((state) => ({
         ...state}
         ));
@@ -243,11 +240,14 @@ const changeId = (newId) => {
     
     <AuthContext.Provider value={auth}>
     <UserContext.Provider value={userObj}>
-
+    <NavBar/>
     <Routes>
+
+   
     <Route path="/" element={<Splash/>} />
 
-      <Route path="/private" element={<PrivateRoute/> }>
+      <Route path="/private" element={<PrivateRouteNew>  <NavBar/> <Home/> </PrivateRouteNew> }/>
+    
       <Route path="home" element={<Home/>}/>
   
       <Route path="setup" element={<AccountSetUp/>} />
@@ -257,7 +257,7 @@ const changeId = (newId) => {
    
       <Route path="profile" element={<Profile/>}/>
       <Route path="matches" element={<Matches/>}/>
-      </Route>
+  
   
     </Routes>
 
