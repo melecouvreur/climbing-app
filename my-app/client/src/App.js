@@ -21,7 +21,7 @@ import { Routes, Route, useNavigate} from "react-router-dom";
 
 function App() {
 
-  const [userId, setUserId] = useState(0)
+  //const [userId, setUserId] = useState(0)
   //const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [profile, setProfile] = useState({
       username: "",
@@ -33,13 +33,12 @@ function App() {
       bio: "",
   })
 
+  //move to authhook together with register()
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
     email: "",
   });
-
-  const [message, setMessage] = useState("");
 
   const [days, setDays] = useState([])
   const [location, setLocation] = useState("London")
@@ -49,9 +48,8 @@ function App() {
   const [isSelected, setSelected] = useState(false) 
   const navigate = useNavigate() 
 
-//"active user" default preferences. Sets user matching criteria. 
-//NB - cert, gender and level prop value in preferences can differ from cert, gender, level prop in Settings.
-//i.e. User can be level = intermediate, but choose to match with advanced. Idem gender and cert
+//Sets user matching criteria. days, cert, gender and level in preferences can differ from cert, gender, level, days in Settings/Db
+//i.e. User can be level = intermediate, but choose to match with advanced. Idem gender, cert and days
  const [preferences, setPreferences] = useState(prefTemplate)
  const [daysOfWeek, setDaysOfWeek] = useState(daysTemplate)
  const [climbingCert, setClimbingCert] = useState(certTemplate)
@@ -63,16 +61,6 @@ let levelNames = preferences.level.filter((l) => l.selected == true).map((l) => 
 //console.log(levelNames)
 let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) => g.name)
 //console.log(genderNames)
-
-/*
-  const logout = () => {
-    localStorage.removeItem("token")
-    setUserId(0)
-    //setIsLoggedIn(false)
-    navigate("/")
-    console.log("logged out")
-  };
-  */
 
   const getProfile = async () => {
     let options = {
@@ -143,24 +131,6 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
   };
   
 
-  /*
-  const getDBCert = async () => {
-    try {
-      let id = userId
-      let results = await fetch(`/cert/${id}`);
-      let userCert = await results.json();
-      //console.log(userCert[0])
-      //if db query successful > fetched cert get pushed into certifications []
-      //console.log(userCert)
-      setCert(userCert)
-      console.log("cert", certifications)
-      }
-    catch (error) {
-    console.log(error)
-    } 
-  };
-  */
-
 //Fetches and setsLocation of "active user" using external API.
 //Replicated across settings and preferences forms i.e. Users must have matching location.
   const getLocation = () => {
@@ -227,13 +197,11 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
         ...state}
         ));
     getRecommendations() //Makes sure myMatches is not empty when first loading. 
-    //Matched based on default values preferences {}, days [] & location.
     //getLocation() // sets "active user" geolocation when first loading
-    //navigate("/") //nagivates to homescreen when first loading.
+    //navigate("/")
   },[]) 
   
-//need to change to it fetches new data onces forms submitted
-  
+//need to sort out privateroute and conditional navbar
   return (
 
     <div className="main container-fluid text-center">
@@ -246,7 +214,7 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
    
     <Route path="/" element={<Splash/>} />
 
-      <Route path="/private" element={<PrivateRouteNew>  <NavBar/> <Home/> </PrivateRouteNew> }/>
+      <Route path="/private" element={<PrivateRouteNew> <NavBar/> </PrivateRouteNew> }/>
     
       <Route path="home" element={<Home/>}/>
   

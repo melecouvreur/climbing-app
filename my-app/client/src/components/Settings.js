@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from "react";
+import {React} from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
@@ -7,7 +7,7 @@ function Settings() {
 
 let {profile, setProfile, location, setLocation, navigate, days, setDays, setSelected, certifications, setCert} = useContext(UserContext)
 
-//updates profile
+//updates profile {} => Obj.req for updateUserInfo()
 const handleInputChange = (event) => {
   const value = event.target.value;
   const name = event.target.name;
@@ -24,10 +24,10 @@ const handleLocationChange = (e) => {
   e.preventDefault();
     }
 
-//Toggles checked/unchecked prop of selected days fetched from db
-//pushes updated "checked/undchecked days" in 'days []' via setDays()
-//'days []' => obj.req for updateDBDays
-// NB - pushes value of name (string) and selected (boolean) in 'days []' 
+//Toggles checked/unchecked prop of selected days/cert fetched from db
+//pushes updated "checked/undchecked days" in 'days/cert []' via setDays()/setCert()
+//'days []'/ cert [] => obj.req for updateUsersDays/updateUserCert()
+// NB - pushes value of name (string) and selected (boolean) in 'days/cert []' 
 const handleDaysChange = (d) => {
   setSelected(d.selected = !d.selected)
   console.log(d.selected)
@@ -64,8 +64,8 @@ const updateUserInfo = async () => {
 
     if (response.ok) {
       const { data } = await response.json();
-      console.log(data)
-      setProfile(data);
+      console.log(data[0])
+      setProfile(data[0]);
       console.log("updateProfile", profile);
     } else {
       throw new Error('Request failed');
@@ -89,7 +89,7 @@ const updateUserDays = async () => {
     if (response.ok) {
       const { data } = await response.json();
       console.log(data)
-      setDays(data);
+      //setDays(data);
       console.log("updateddays", days);
     } else {
       throw new Error('Request failed');
@@ -113,7 +113,7 @@ const updateUserCert = async () => {
     if (response.ok) {
       const { data } = await response.json();
       console.log(data)
-      setCert(data);
+      //setCert(data);
       console.log("updatedCert", certifications);
     } else {
       throw new Error('Request failed');
@@ -135,16 +135,6 @@ const handleSettingSubmit = (e) => {
   //getRecommendations()
   navigate("/profile")
 }
-
-useEffect(() => {
-  //getDBProfile()
-  //getDBDays()
-  //getDBCert()
-  //Matched based on default values preferences {}, days [] & location.
-  //getLocation() // sets "active user" geolocation when first loading
-  //navigate("/") //nagivates to homescreen when first loading.
-}, []) 
- 
 
   return (
 
@@ -267,20 +257,6 @@ useEffect(() => {
               <option>They/Them</option>
             </select>
             </div>
-
-          {/*
-          <div className="form-group col-md-4 px-2">
-            <label> Lead certified </label>
-            <input 
-            type="checkbox" 
-            className="form-row form-check-input mx-3" 
-            name="lead"
-            value={settings.lead}
-            checked={settings.lead === true}
-            onChange={() => setLead(settings.lead)}
-            />
-          </div>
-        */}
             
             {certifications.map(c => (
             <div
