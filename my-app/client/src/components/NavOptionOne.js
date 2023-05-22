@@ -1,19 +1,18 @@
-import {React, useState} from "react";
-import { NavLink, useLocation} from "react-router-dom";
+import {React} from "react";
+import { NavLink} from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import logo from "../Images/logo.png"
+import useProvideAuth from "../Hooks/useProvideAuth";
 import "../App.css"
 
 //re-usable component replicated across pages nested in PrivateRoute
 function NavOptionOne(props) {
 
-let location = useLocation()
-let {getRecommendations,navigate, logout} = useContext(UserContext)
+let {getRecommendations,navigate} = useContext(UserContext)
+const auth = useProvideAuth();
 
 let activeClassName = props.activeClassName
-
-const [isLoggedIn, setIsLoggedIn] = useState(true)
 
     return (
         <div className="flex-row">
@@ -69,7 +68,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(true)
             className={({isActive}) => 
             isActive ? activeClassName : undefined }
             ><button
-            onClick={() => logout()} 
+            onClick={() => auth.logout()} 
             className="text-white btn m-1">
             logOut </button></NavLink>
        

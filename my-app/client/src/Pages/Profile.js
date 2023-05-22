@@ -25,7 +25,7 @@ const findPartners = () => {
      <div className="profile">
       <img 
        //fix image local storage
-        src={profile.avatar} 
+        src={profile.avatar || ""} 
         alt="profile_avatar"
         className="rounded-circle" 
         width="100"/>

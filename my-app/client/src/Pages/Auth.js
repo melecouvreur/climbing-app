@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
+import { AuthContext } from "../Context/AuthContext";
 
 function Auth() {
   
@@ -14,11 +15,9 @@ function Auth() {
 
  const [message, setMessage] = useState("");
 
- let {userId, setUserId, navigate, login, getDBCert, getDBDays, getDBProfile, setPreferences, getRecommendations, credentials, setCredentials} = useContext(UserContext);
+ let {userId, navigate, getDBCert, getDBDays, getDBProfile, setPreferences, getRecommendations, credentials, setCredentials} = useContext(UserContext);
+ const auth = useContext(AuthContext);
 
- const changeId = (newId) => {
-  setUserId(newId)
- }
   //Toggles between login / register view & funct
   const changeRegistered = () => {
     setIsRegistered(isRegistered === true ? false : true)
@@ -58,53 +57,17 @@ function Auth() {
     }
   };
 
-  /*
-  //if isRegistered = true, login view and func will appear
+  //Takes login as prop from hook.
+  //change name as confusing
   const login = async () => {
     try {
-        let options = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(credentials),
-          };
-      const result = await fetch("/login", options);
-      const data  = await result.json();
-      if (!result.ok) {
-      //Shows error message if credentials wrong/unrecognized
-      setMessage(data.message);
-      //console.log(data.message)
-      }
-      else {
-      //if crededentials correct, stores token & directs user to "/private" page (=protected home page)
-      localStorage.setItem("token", data.token, "id", data.user_id)
-      userId = data.user_id
-      setUserId(userId)
-      console.log(userId)
-      setIsLoggedIn(true)
-      navigate("/private/home") 
-      console.log(data.message, data.token, data.user_id)
-      } 
-     }
-     catch (err) {
-      console.log(err)
+      await auth.login(credentials);
+      console.log(auth.currentUser)
+      navigate("/private");
+    } catch (err) {
+      console.log(err.message);
     }
   };
-
-  useEffect(() => {
-    getDBProfile()
-    console.log(profile)
-    getDBDays()
-    getDBCert()
-    setPreferences((state) => ({
-        ...state}
-        ));
-    getRecommendations() //Makes sure myMatches is not empty when first loading. 
-    //Matched based on default values preferences {}, days [] & location.
-    //getLocation() // sets "active user" geolocation when first loading
-    //navigate("/") //nagivates to homescreen when first loading.
-  }, [isLoggenIn]) 
-//need to change to it fetches new data onces forms submitted
-*/
   return (
     <div className="d-flex p-4 justify-content-center text-left">
       {!isRegistered ? 

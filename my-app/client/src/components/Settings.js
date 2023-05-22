@@ -1,13 +1,13 @@
-import {React, useState, useEffect} from "react";
+import {React} from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
 import "../App.css"
 
 function Settings() {
 
-let {profile, setProfile, getDBProfile, getDBDays, getDBCert, userId, location, setLocation, navigate, days, setDays, setSelected, certifications, setCert} = useContext(UserContext)
+let {profile, setProfile, location, setLocation, navigate, days, setDays, setSelected, certifications, setCert} = useContext(UserContext)
 
-//updates profile
+//updates profile {} => Obj.req for updateUserInfo()
 const handleInputChange = (event) => {
   const value = event.target.value;
   const name = event.target.name;
@@ -24,10 +24,10 @@ const handleLocationChange = (e) => {
   e.preventDefault();
     }
 
-//Toggles checked/unchecked prop of selected days fetched from db
-//pushes updated "checked/undchecked days" in 'days []' via setDays()
-//'days []' => obj.req for updateDBDays
-// NB - pushes value of name (string) and selected (boolean) in 'days []' 
+//Toggles checked/unchecked prop of selected days/cert fetched from db
+//pushes updated "checked/undchecked days" in 'days/cert []' via setDays()/setCert()
+//'days []'/ cert [] => obj.req for updateUsersDays/updateUserCert()
+// NB - pushes value of name (string) and selected (boolean) in 'days/cert []' 
 const handleDaysChange = (d) => {
   setSelected(d.selected = !d.selected)
   console.log(d.selected)
@@ -42,114 +42,99 @@ const handleCertChange = (c) => {
   console.log("certifications", certifications, c.type, c.selected)
 }
 
-const updateDBProfile = async () => {
+const updateUserInfo = async () => {
   try {
-    let id = userId
-    let results = await fetch(`/profile/${id}`, {
-      method: "PUT",
+    const response = await fetch('/profile', {
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify({ 
         username: profile.username, 
         email: profile.email,
-        location, 
+        location,
         level: profile.level, 
-        gender: profile.gender, 
+        gender: profile.gender,
         pronouns: profile.pronouns, 
         avatar: profile.avatar,
         bio: profile.bio
-      }) 
-    });
-    let updatedProfile = await results.json();
-    console.log("updatedProfile", updatedProfile)
-    }
-    catch (error) {
-    console.log(error)
-  } 
-};
-
-const updateDBDays = async () => {
-  try {
-    let id = userId
-    let results = await fetch(`/days/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ days }) 
-    });
-    let updatedDays = await results.json();
-    console.log("updatedDays", updatedDays)
-    }
-    catch (error) {
-    console.log(error)
-  } 
-};
-
-const updateDBCert = async () => {
-  try {
-    let id = userId
-    let results = await fetch(`/cert/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ certifications }) 
-    });
-    let updatedCert = await results.json();
-    console.log("updatedCert", updatedCert)
-    }
-    catch (error) {
-    console.log(error)
-  } 
-};
-
-
-const deleteDays = async (userId, daysToDelete) => {
-  try {
-    const response = await fetch(`/days/${userId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ daysToDelete })
+      }),
     });
 
-    if (response.status === 204) {
-      console.log("Days deleted successfully");
-    } else if (response.ok) {
-      const deletedDays = await response.json();
-      console.log(deletedDays);
+    if (response.ok) {
+      const { data } = await response.json();
+      console.log(data[0])
+      setProfile(data[0]);
+      console.log("updateProfile", profile);
     } else {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error('Request failed');
     }
   } catch (error) {
     console.log(error);
   }
 };
 
+const updateUserDays = async () => {
+  try {
+    const response = await fetch('/days', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({ days }),
+    });
+
+    if (response.ok) {
+      const { data } = await response.json();
+      console.log(data)
+      //setDays(data);
+      console.log("updateddays", days);
+    } else {
+      throw new Error('Request failed');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateUserCert = async () => {
+  try {
+    const response = await fetch('/cert', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify({ certifications }),
+    });
+
+    if (response.ok) {
+      const { data } = await response.json();
+      console.log(data)
+      //setCert(data);
+      console.log("updatedCert", certifications);
+    } else {
+      throw new Error('Request failed');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
 const handleSettingSubmit = (e) => {
   e.preventDefault();
-  updateDBProfile()
+  updateUserInfo()
   console.log(profile)
-  updateDBDays()
+  updateUserDays()
   console.log(days)
-  updateDBCert()
+  updateUserCert()
   console.log(certifications)
   //getRecommendations()
-  navigate("/private/profile")
+  navigate("/profile")
 }
-
-useEffect(() => {
-  //getDBProfile()
-  //getDBDays()
-  //getDBCert()
-  //Matched based on default values preferences {}, days [] & location.
-  //getLocation() // sets "active user" geolocation when first loading
-  //navigate("/") //nagivates to homescreen when first loading.
-}, []) 
- 
 
   return (
 
@@ -191,7 +176,7 @@ useEffect(() => {
             <input
               type="text"
               name="avatar"
-              value={profile.avatar}
+              value={profile.avatar || ""}
               placeholder="https://example.com/users/"
               className="form-control"
               onChange={(e) => handleInputChange(e)}
@@ -272,20 +257,6 @@ useEffect(() => {
               <option>They/Them</option>
             </select>
             </div>
-
-          {/*
-          <div className="form-group col-md-4 px-2">
-            <label> Lead certified </label>
-            <input 
-            type="checkbox" 
-            className="form-row form-check-input mx-3" 
-            name="lead"
-            value={settings.lead}
-            checked={settings.lead === true}
-            onChange={() => setLead(settings.lead)}
-            />
-          </div>
-        */}
             
             {certifications.map(c => (
             <div
@@ -306,8 +277,6 @@ useEffect(() => {
 
         </div>
 
-       
-  
         <div className="form-row px-2">
           <div className="form-group col-md-12 px-2">
             <label> Bio </label>

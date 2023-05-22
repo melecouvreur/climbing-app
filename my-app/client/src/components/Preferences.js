@@ -5,7 +5,7 @@ import "../App.css"
 
 function Preferences() {
 
-  let {location, setLocation, navigate, setSelected, preferences, setPreferences, getRecommendations} = useContext(UserContext)
+let {location, setLocation, navigate, setSelected, preferences, setPreferences, getRecommendations} = useContext(UserContext)
 
 //Updates props in 'preferences {}'
   const handlePrefChange = (e) => {

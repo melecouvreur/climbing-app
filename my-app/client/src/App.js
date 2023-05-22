@@ -4,21 +4,25 @@ import prefTemplate from "./Data/prefTemplate"
 import daysTemplate from "./Data/daysTemplate";
 import certTemplate from "./Data/certTemplate";
 import PrivateRoute from "./Components/PrivateRoute";
+import PrivateRouteNew from "./Components/PrivateRouteNew";
 import Home from "./Pages/Home"
 import Splash from "./Pages/Splash";
 import Settings from "./Components/Settings"
 import Matches from "./Pages/Matches"
 import Profile from "./Pages/Profile";
+import NavBar from "./Components/NavBar";
 import AccountSetUp from "./Components/AccountSetUp";
 import Preferences from "./Components/Preferences";
 import { UserContext } from "./Context/userContext";
+import { AuthContext } from "./Context/AuthContext";
+import useProvideAuth from "./Hooks/useProvideAuth";
 import './App.css';
 import { Routes, Route, useNavigate} from "react-router-dom";
 
 function App() {
 
-  const [userId, setUserId] = useState(1)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  //const [userId, setUserId] = useState(0)
+  //const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [profile, setProfile] = useState({
       username: "",
       email: "",
@@ -29,27 +33,23 @@ function App() {
       bio: "",
   })
 
+  //move to authhook together with register()
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
     email: "",
   });
 
-  
-  const [message, setMessage] = useState("");
-
   const [days, setDays] = useState([])
   const [location, setLocation] = useState("London")
   const [certifications, setCert] = useState([])
   const [recommendations, setRecommendations] = useState([]) 
 //SetsRecommendations [] (= recommended climbers) based on preferences {}.
-  
   const [isSelected, setSelected] = useState(false) 
   const navigate = useNavigate() 
 
-//"active user" default preferences. Sets user matching criteria. 
-//NB - cert, gender and level prop value in preferences can differ from cert, gender, level prop in Settings.
-//i.e. User can be level = intermediate, but choose to match with advanced. Idem gender and cert
+//Sets user matching criteria. days, cert, gender and level in preferences can differ from cert, gender, level, days in Settings/Db
+//i.e. User can be level = intermediate, but choose to match with advanced. Idem gender, cert and days
  const [preferences, setPreferences] = useState(prefTemplate)
  const [daysOfWeek, setDaysOfWeek] = useState(daysTemplate)
  const [climbingCert, setClimbingCert] = useState(certTemplate)
@@ -62,102 +62,75 @@ let levelNames = preferences.level.filter((l) => l.selected == true).map((l) => 
 let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) => g.name)
 //console.log(genderNames)
 
-const changeId = (newId) => {
-  setUserId(newId)
-}
-
-  //if isRegistered = true, login view and func will appear
-  const login = async () => {
+  const getProfile = async () => {
+    let options = {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
     try {
-        let options = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(credentials),
-          };
-      const result = await fetch("/login", options);
-      const data  = await result.json();
-      if (!result.ok) {
-      //Shows error message if credentials wrong/unrecognized
-      setMessage(data.message);
-      //console.log(data.message)
+      const response = await fetch("/profile", options);
+  
+      if (response.ok) {
+        const data = await response.json();
+        setProfile(data[0]);
+        console.log(data[0]);
+        console.log("getProfile", profile)
+      } else {
+        throw new Error("Request failed");
       }
-      else {
-      //if crededentials correct, stores token & directs user to "/private" page (=protected home page)
-      localStorage.setItem("token", data.token, "id", data.user_id)
-      let userId = data.user_id
-      let token = data.token
-      changeId(userId)
-      //setUserId(userId)
-      console.log(userId)
-      console.log(token)
-      setIsLoggedIn(true)
-      navigate("/private/home") 
-      console.log(data.message, data.token, data.user_id)
-      } 
-     }
-     catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("token")
-    setUserId(0)
-    //setIsLoggedIn(false)
-    navigate("/")
-    console.log("logged out")
+  const getDays = async () => {
+    let options = {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      const response = await fetch("/days", options);
+  
+      if (response.ok) {
+        const data = await response.json();
+        setDays(data);
+        console.log(data);
+        console.log("getDays", days)
+        
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCert = async () => {
+    let options = {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    try {
+      const response = await fetch("/cert", options);
+  
+      if (response.ok) {
+        const data = await response.json();
+        setCert(data);
+        console.log(data);
+        console.log("getCert", certifications)
+        
+      } else {
+        throw new Error("Request failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   
 
-  const getDBProfile = async () => {
-    try {
-      let id = userId
-      let results = await fetch(`/profile/${id}`);
-      let user = await results.json();
-      //console.log(user[0])
-      //if db query successful > fetched user get pushed into profile []
-      let userInfo = user[0]
-      //console.log(userInfo)
-      setProfile(userInfo)
-      console.log("profile", profile)
-      }
-    catch (error) {
-      console.log(error)
-    } 
-  };
-
-  const getDBDays = async () => {
-    try {
-      let id = userId
-      let results = await fetch(`/days/${id}`);
-      let userDays = await results.json();
-      //console.log(userDays[0])
-      //if db query successful > fetched days get pushed into days []
-      //console.log(userDays)
-      setDays(userDays)
-      console.log("days", days)
-      }
-    catch (error) {
-    console.log(error)
-    } 
-  };
-
-  const getDBCert = async () => {
-    try {
-      let id = userId
-      let results = await fetch(`/cert/${id}`);
-      let userCert = await results.json();
-      //console.log(userCert[0])
-      //if db query successful > fetched cert get pushed into certifications []
-      //console.log(userCert)
-      setCert(userCert)
-      console.log("cert", certifications)
-      }
-    catch (error) {
-    console.log(error)
-    } 
-  };
-  
 //Fetches and setsLocation of "active user" using external API.
 //Replicated across settings and preferences forms i.e. Users must have matching location.
   const getLocation = () => {
@@ -200,12 +173,8 @@ const changeId = (newId) => {
     } 
   };
 
-
- 
-  let userObj = {
-    userId, setUserId, 
+  let userObj = { 
     profile, setProfile,
-    getDBProfile, getDBCert, getDBDays,
     location, setLocation,
     days, setDays, 
     daysOfWeek, setDaysOfWeek,
@@ -215,35 +184,38 @@ const changeId = (newId) => {
     preferences, setPreferences,
     recommendations, getRecommendations,
     navigate,
-    login, logout,
     credentials, setCredentials
     }
-
-    
+  
+  const auth = useProvideAuth();
+  
   useEffect(() => {
-    getDBProfile()
-    getDBDays()
-    getDBCert()
+    getProfile()
+    getDays()
+    getCert()
     setPreferences((state) => ({
         ...state}
         ));
     getRecommendations() //Makes sure myMatches is not empty when first loading. 
-    //Matched based on default values preferences {}, days [] & location.
     //getLocation() // sets "active user" geolocation when first loading
-    //navigate("/") //nagivates to homescreen when first loading.
-  },[userId]) 
-//need to change to it fetches new data onces forms submitted
+    //navigate("/")
+  },[]) 
   
+//need to sort out privateroute and conditional navbar
   return (
 
     <div className="main container-fluid text-center">
-   
+    
+    <AuthContext.Provider value={auth}>
     <UserContext.Provider value={userObj}>
-
+    <NavBar/>
     <Routes>
+
+   
     <Route path="/" element={<Splash/>} />
 
-    <Route path="/private" element={<PrivateRoute/> }>
+      <Route path="/private" element={<PrivateRouteNew> <NavBar/> </PrivateRouteNew> }/>
+    
       <Route path="home" element={<Home/>}/>
   
       <Route path="setup" element={<AccountSetUp/>} />
@@ -253,11 +225,12 @@ const changeId = (newId) => {
    
       <Route path="profile" element={<Profile/>}/>
       <Route path="matches" element={<Matches/>}/>
-    </Route>
-    
+  
+  
     </Routes>
 
      </UserContext.Provider>
+     </AuthContext.Provider>
      
      
     </div>
