@@ -139,7 +139,7 @@ const handleSubmit = (e) => {
     addNewUserCert()
     handleStepChange()
     setTimeout(() => {
-    navigate("/profile");
+    navigate("private/profile");
     }, 5000);  
   }
 

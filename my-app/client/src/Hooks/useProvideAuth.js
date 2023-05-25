@@ -9,7 +9,48 @@ function useProvideAuth() {
 
 const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 const [currentUser, setCurrentUser] = useState({name: "you", email: "you@something.com"});
+const [isRegistered, setIsRegistered] = useState(false)
+const [isSetUp, setSetUp] = useState(false)
+const [message, setMessage] = useState("");
+
+const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+    email: "",
+  })
+
 const navigate = useNavigate() 
+
+//if isRegistered = false register view & func will appear
+const register = async () => {
+    try {
+        let options = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(credentials),
+          };
+      const result = await fetch("/register", options);
+      const data  = await result.json();
+      if (!result.ok) {
+      setMessage(data.error);
+      console.log(data.message) 
+     } 
+      else {
+      console.log(data.message)
+      //Sets registered status to true once successful & directs user to login
+      setIsRegistered(true)
+      setSetUp(false)
+      console.log(isSetUp)
+      
+      }
+     }
+     catch (err) {
+      console.log(err.message)
+    }
+  };
+
+
+
 //FIXME: useEffect to load user data every time page reloads (also needs a GET /user route on backend)
 
   /*//Axios syntax
@@ -42,7 +83,8 @@ const navigate = useNavigate()
         localStorage.setItem('token', token);
         setIsLoggedIn(true);
         setCurrentUser(user);
-        navigate("/private/home");
+        isSetUp === false ? navigate("private/setup") : navigate("private/home")
+        //navigate("/private/home");
         console.log("userdata from login", user)
       } else {
         const { message } = await response.json();
@@ -63,8 +105,16 @@ const navigate = useNavigate()
   return {
     isLoggedIn,
     login,
+    register,
     logout,
-    currentUser
+    currentUser,
+    credentials,
+    setCredentials,
+    message,
+    isSetUp,
+    setSetUp,
+    isRegistered,
+    setIsRegistered,
   };
 }
 

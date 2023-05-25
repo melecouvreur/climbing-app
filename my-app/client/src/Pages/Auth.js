@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useContext } from "react";
-import { UserContext } from "../Context/userContext";
 import { AuthContext } from "../Context/AuthContext";
+import { useNavigate} from "react-router-dom";
 
 function Auth() {
   
@@ -13,24 +13,24 @@ function Auth() {
   })
 
  const [message, setMessage] = useState("");
+ const navigate = useNavigate() 
 
- let {userId, navigate} = useContext(UserContext);
  const auth = useContext(AuthContext);
 
   //Toggles between login / register view & funct
   const changeRegistered = () => {
-    setIsRegistered(isRegistered === true ? false : true)
-    console.log(isRegistered)
+    auth.setIsRegistered(auth.isRegistered === true ? false : true)
+    console.log(auth.isRegistered)
   }
 
   //Sets credentials for login() and register() 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCredentials({ ...credentials, [name]: value });
+    auth.setCredentials({ ...auth.credentials, [name]: value });
   }; 
 
   //if isRegistered = false register view & func will appear
-  const register = async () => {
+  /*const register = async () => {
     try {
         let options = {
             method: "POST",
@@ -47,7 +47,8 @@ function Auth() {
       console.log(data.message)
       //Sets registered status to true once successful & directs user to login
       changeRegistered()
-      console.log(userId)
+      setSetUp(true)
+      console.log(isSetUp)
       navigate("private/setup")
       }
      }
@@ -55,24 +56,10 @@ function Auth() {
       console.log(err.message)
     }
   };
-
-  //Takes login as prop from hook.
-  //change name as confusing
-
-  /*const login = async () => {
-    try {
-      await auth.login(credentials);
-      console.log(auth.currentUser)
-      navigate("/private/home");
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
 */
-
   return (
     <div className="d-flex p-4 justify-content-center text-left">
-      {!isRegistered ? 
+      {!auth.isRegistered ? 
       (
       <div className="align-self-center">
         <div className="bg-warning px-5 p-2">
@@ -81,7 +68,7 @@ function Auth() {
        
         <label className="p-2"> Username </label>
         <input
-          value={credentials.username}
+          value={auth.credentials.username}
           onChange={handleChange}
           name="username"
           type="text"
@@ -90,7 +77,7 @@ function Auth() {
 
        <label className="p-2"> Email </label>
        <input
-          value={credentials.email}
+          value={auth.credentials.email}
           onChange={handleChange}
           name="email"
           type="email"
@@ -99,13 +86,13 @@ function Auth() {
 
         <label className="p-2"> Password </label>
         <input
-          value={credentials.password}
+          value={auth.credentials.password}
           onChange={handleChange}
           name="password"
           type="password"
           className="form-control mb-2 p-2"
         />
-        <button className="p-2 m-2 btn btn-primary" onClick={register}>
+        <button className="p-2 m-2 btn btn-primary" onClick={() => auth.register(auth.credentials)}>
         Register
         </button>
         </div>
@@ -128,7 +115,7 @@ function Auth() {
    
         <label className="p-2"> Username </label>
         <input
-          value={credentials.username}
+          value={auth.credentials.username}
           onChange={handleChange}
           name="username"
           type="text"
@@ -136,18 +123,18 @@ function Auth() {
         />
          <label className="p-2"> Password </label>
         <input
-          value={credentials.password}
+          value={auth.credentials.password}
           onChange={handleChange}
           name="password"
           type="password"
           className="form-control mb-3 p-2"
         />
-         <button className="pt-2 btn btn-primary mb-2 ml-2" onClick={() => auth.login(credentials)}>
+         <button className="pt-2 btn btn-primary mb-2 ml-2" onClick={() => auth.login(auth.credentials)}>
           Log in
         </button>
         </div>
      
-        <p className="p-2"> {message}</p>
+        <p className="p-2"> {auth.message}</p>
 
         <p className="p-2"> Don't have an account? </p>
         <button 

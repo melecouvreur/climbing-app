@@ -1,13 +1,17 @@
 import React from "react";
 import { useContext } from "react";
 import { UserContext } from "../Context/userContext";
+import { AuthContext } from "../Context/AuthContext";
 
 function StepFour(props) {
 
 let {climbingCert} = useContext(UserContext)
- 
+const auth = useContext(AuthContext);
+
     function handleStepFourSubmit(e) {
         e.preventDefault();
+        auth.setSetUp(true)
+        console.log(auth.isSetUp)
         props.onSubmit()
         console.log("Step Four completed");
       }

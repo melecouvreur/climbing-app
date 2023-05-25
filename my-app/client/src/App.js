@@ -20,8 +20,6 @@ import { Routes, Route, useNavigate} from "react-router-dom";
 
 function App() {
 
-  //const [userId, setUserId] = useState(0)
-  //const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [profile, setProfile] = useState({
       username: "",
       email: "",
@@ -31,23 +29,22 @@ function App() {
       avatar: "",
       bio: "",
   })
-
   const [days, setDays] = useState([])
   const [location, setLocation] = useState("London")
   const [certifications, setCert] = useState([])
   const [recommendations, setRecommendations] = useState([]) 
-//SetsRecommendations [] (= recommended climbers) based on preferences {}.
-  const [isSelected, setSelected] = useState(false) 
-  const navigate = useNavigate() 
-
-//Sets user matching criteria. days, cert, gender and level in preferences can differ from cert, gender, level, days in Settings/Db
-//i.e. User can be level = intermediate, but choose to match with advanced. Idem gender, cert and days
+  const [isSelected, setSelected] = useState(false)
+  
+ //Sets user matching criteria. days, cert, gender and level in preferences can differ from cert, gender, level, days in Settings/Db
+ //i.e. User can be level = intermediate, but choose to match with advanced. Idem gender, cert and days
  const [preferences, setPreferences] = useState(prefTemplate)
  const [daysOfWeek, setDaysOfWeek] = useState(daysTemplate)
  const [climbingCert, setClimbingCert] = useState(certTemplate)
 
 
-let dayNames = days.filter((d) => d.selected == true).map((d) => d.day)
+ const navigate = useNavigate() 
+
+ let dayNames = days.filter((d) => d.selected == true).map((d) => d.day)
 //console.log(dayNames)
 let levelNames = preferences.level.filter((l) => l.selected == true).map((l) => l.name)
 //console.log(levelNames)
