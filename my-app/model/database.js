@@ -53,7 +53,7 @@ con.connect(function(err) {
               
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table creation `user_info` and 'days' was successful!");
+    console.log("Table creation `users`, 'days' and 'certifications' was successful!");
 
     console.log("Closing...");
   });
