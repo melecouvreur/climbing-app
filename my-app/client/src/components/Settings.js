@@ -133,7 +133,7 @@ const handleSettingSubmit = (e) => {
   updateUserCert()
   console.log(certifications)
   //getRecommendations()
-  navigate("/profile")
+  navigate("/private/profile")
 }
 
   return (

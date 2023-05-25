@@ -32,7 +32,7 @@ const handleLocationChange = (e) => {
 const handleSubmit = (e) => {
   e.preventDefault();
   getRecommendations()
-  navigate("/matches")
+  navigate("private/matches")
 }
 
   return (
