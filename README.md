@@ -43,12 +43,9 @@ You can find a live version of phase 1 [here](https://climbingapp.herokuapp.com/
 
 ### **Technologies**
 
-<div>
-<img src="https://user-images.githubusercontent.com/112541602/232573123-dff2da70-5fc5-4eab-8f55-7c68d8f39d43.svg" data-canonical-src="https://user-images.githubusercontent.com/112541602/232573123-dff2da70-5fc5-4eab-8f55-7c68d8f39d43.svg" width="100" height="100" />
-<img src="https://user-images.githubusercontent.com/112541602/232573207-ee03e4c9-8cce-4920-a836-7f623effe1e5.svg" data-canonical-src="https://user-images.githubusercontent.com/112541602/232573207-ee03e4c9-8cce-4920-a836-7f623effe1e5.svg" width="100" height="100" />
-<img src="https://user-images.githubusercontent.com/112541602/232573216-bb1b3fb5-a672-4294-b46b-fab6d355e690.svg" data-canonical-src="https://user-images.githubusercontent.com/112541602/232573216-bb1b3fb5-a672-4294-b46b-fab6d355e690.svg" width="100" height="100" />
-<img src="https://user-images.githubusercontent.com/112541602/232575770-ad11233c-5d12-4119-84c3-9c0eb7b6fb24.svg" data-canonical-src="https://user-images.githubusercontent.com/112541602/232575770-ad11233c-5d12-4119-84c3-9c0eb7b6fb24.svg" width="100" height="100" />
-</div> 
+<h3 align="left">Languages and Tools:</h3>
+<p align="left"> <a href="https://getbootstrap.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/bootstrap/bootstrap-plain-wordmark.svg" alt="bootstrap" width="40" height="40"/> </a> <a href="https://expressjs.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/express/express-original-wordmark.svg" alt="express" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> <a href="https://www.mysql.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/> </a> <a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="40" height="40"/> </a> <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> </a> </p>
+
 
 ### Database Info
 
