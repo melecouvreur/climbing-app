@@ -6,16 +6,15 @@ import { AuthContext } from "../Context/AuthContext";
 function Auth() {
   
   const [isRegistered, setIsRegistered] = useState(false)
-
-  /*const [credentials, setCredentials] = useState({
+  const [credentials, setCredentials] = useState({
     username: "",
     password: "",
     email: "",
-  });*/
+  })
 
  const [message, setMessage] = useState("");
 
- let {userId, navigate, credentials, setCredentials} = useContext(UserContext);
+ let {userId, navigate} = useContext(UserContext);
  const auth = useContext(AuthContext);
 
   //Toggles between login / register view & funct
@@ -49,7 +48,7 @@ function Auth() {
       //Sets registered status to true once successful & directs user to login
       changeRegistered()
       console.log(userId)
-      navigate("/setup")
+      navigate("private/setup")
       }
      }
      catch (err) {

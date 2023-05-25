@@ -32,13 +32,6 @@ function App() {
       bio: "",
   })
 
-  //move to authhook together with register()
-  const [credentials, setCredentials] = useState({
-    username: "",
-    password: "",
-    email: "",
-  });
-
   const [days, setDays] = useState([])
   const [location, setLocation] = useState("London")
   const [certifications, setCert] = useState([])
@@ -183,7 +176,6 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     preferences, setPreferences,
     recommendations, getRecommendations,
     navigate,
-    credentials, setCredentials
     }
   
   const auth = useProvideAuth();
