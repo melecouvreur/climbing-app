@@ -30,10 +30,3 @@ DROP TABLE IF EXISTS days;
               selected BOOLEAN NOT NULL,
               PRIMARY KEY (cID),
               FOREIGN KEY (uID) REFERENCES users(uID) ON DELETE CASCADE);
-
-         
-         INSERT INTO users 
-      (firstname, lastname, username, email, pronouns, avatar, bio, location, level, cert, gender) 
-       VALUES ("Mele","","melecouvreur","${email}","${pronouns}","${avatar}","${bio}","${location}",
-       "${level}","${cert}", "${gender}") WHERE uID = ${id};`
-    )

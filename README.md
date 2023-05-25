@@ -28,10 +28,12 @@ BelayMe connects climbers based on their level, location, gender and schedule.
 
 You can find a live version of phase 1 [here](https://climbingapp.herokuapp.com/)
 
-### **Future features**
+### **Features Phase 2 (WIP)**
 
 - Account authentication & verification
-- User can select multiple levels and genders in preferences
+ User's match preferences are updated independently from User Profile i.e. The User can climb Mon, Tues, Wed, Sat (as set in User Profile), but choose to match with climbers who climb only on Mon.
+- User can select multiple levels, genders and type of certifications when settings preferences
+### **Future Features**
 - User can specify time of day  (i.e. morning, lunch, afternoon, evening) in preferences
 - User can add pre-defined interest categories/tags to profile
 - User can send/accept contact request
@@ -54,81 +56,45 @@ You can find a live version of phase 1 [here](https://climbingapp.herokuapp.com/
 - MySQL
 - RAPID API - IP Geo Location
 
-### API Routes
-
-#### Route 1
-
-- URL: "/users"
-- METHOD: GET
-- Description: Gets all users
-- Req Body: N/A
-- Res Obj: {uID: integer, firstname: string, lastname: string, email: string,
-username: string, pronouns: string, avatar: url, bio: string, location: string, top: Boolean, lead: Boolean, level: string}
-
-#### Route 2
-
-- URL: "/users/:id"
-- METHOD: GET
-- Description: Gets user info by id
-- Req Body: N/A
-- Res Obj: {uID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
-
-#### Route 3
-
-- URL: "/users"
-- METHOD: POST
-- Description: Adds new user to db
-- Req Body {username: string, pronouns: string, avatar: url, bio: string,  location: string, tope: Boolean, lead: boolean, level: string, gender: string}
-- Res Obj: {ID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
-
-#### Route 4
-
-- URL: "/users/:id"
-- METHOD: PUT
-- Description: Edits user info in db
-- Req Body {username: string, pronouns: string, avatar: url, bio: string, location: string, top: Boolean, lead: boolean, level: string, gender: string}
-- Res Obj: {uID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
-
-#### Route 5
-
-- URL: "/users/recommend"
-- METHOD: POST
-- Description: Gets recommended users based on matching criteria in Req Body
-- Req Body: {location, top, lead, level, days, gender }
-- Res Obj: {uID: integer, firstname: string, lastname: string, email: string, username: string, pronouns: string, avatar: url, bio: string,  location: string, top: Boolean, lead: Boolean, level: string, gender: string}
-
-#### Route 6
-
-- URL: "/users/days"
-- METHOD: POST
-- Description: Adds days a user climbs to db
-- Req Body: {uID, day}
-- Res Obj: {uID: number, dID: number, day: string}
-
 ### Database Info
 
-DATABASE 'users' > TABLES 'user_info' & 'days'
+DATABASE 'climbingapp'
+TABLES 
+- 'certfications'
+- 'users'
+- 'days'
 
-TABLE 'user_info'
+```
+TABLE users
+uID INTEGER NOT NULL AUTO_INCREMENT,
+              email VARCHAR(40) NOT NULL,
+              password VARCHAR(2000) NOT NULL,
+              username VARCHAR(40),
+              pronouns VARCHAR(40),
+              avatar VARCHAR(5000),
+              bio VARCHAR(5000),
+              location VARCHAR(500),
+              level VARCHAR(200),
+              gender VARCHAR(50),
+              PRIMARY KEY (uID),
+              UNIQUE KEY unique_username (username))
 
-- uID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
-- firstname VARCHAR() NOT NULL; String
-- lastname VARCHAR() NOT NULL; String
-- email VARCHAR() String
-- username VARCHAR() String
-- pronouns VARCHAR() String
-- avatar VARCHAR(); String
-- bio VARCHAR(); String
-- location VARCHAR() String
-- top BINARY(); Boolean
-- level VARCHAR(); String
-- gender VARCHAR(); String
+TABLE days
+dID INTEGER NOT NULL AUTO_INCREMENT,
+              uID INTEGER NOT NULL,
+              day VARCHAR(20) NOT NULL,
+              selected BOOLEAN NOT NULL,
+              PRIMARY KEY (dID),
+              FOREIGN KEY (uID) REFERENCES users(uID) ON DELETE CASCADE)
 
-TABLE 'days'
-
-- dID INT NOT NULL PRIMARY KEY AUTO_INCREMENT; Number
-- uID INT NOT NULL FOREIGN KEY; Number ----- REFERENCES user_info.UID
-- day VARCHAR(20); String
+TABLE certifications
+cID INTEGER NOT NULL AUTO_INCREMENT,
+              uID INTEGER NOT NULL,
+              type VARCHAR(20) NOT NULL,
+              selected BOOLEAN NOT NULL,
+              PRIMARY KEY (cID),
+              FOREIGN KEY (uID) REFERENCES users(uID) ON DELETE CASCADE);
+```
 
 ## **Setup Instructions**
 
@@ -146,13 +112,13 @@ TABLE 'days'
 ```
   DB_HOST=localhost
   DB_USER=root
-  DB_NAME=users
+  DB_NAME=climbingapp
   DB_PASS=YOURPASSWORD
 ```
 
-- Run `npm run migrate` in the `my-app` folder in a new terminal window. This will create the 'user_info' and 'days' tables in your database and populate with fake user info.**
+- Run `npm run migrate` in the `my-app` folder in a new terminal window. This will create the 'users', 'days' and 'certifications' tables in your database.
 
-**If npm run migrate doesn't work, seperate instructions are in days.sql and user_info.sql to set-up tables directly via MySQL interface.
+**If npm run migrate doesn't work, seperate instructions are in commands.sql to set-up tables directly via MySQL interface.
 
 ### External API Prep
 
