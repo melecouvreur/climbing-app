@@ -10,9 +10,9 @@ function useProvideAuth() {
 const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 const [currentUser, setCurrentUser] = useState({name: "you", email: "you@something.com"});
 const navigate = useNavigate() 
-  //FIXME: useEffect to load user data every time page reloads (also needs a GET /user route on backend)
+//FIXME: useEffect to load user data every time page reloads (also needs a GET /user route on backend)
 
-  /*
+  /*//Axios syntax
   const login = async (user) => {
     try {
       const { data } = await axios.post("/login", user);
@@ -26,7 +26,7 @@ const navigate = useNavigate()
     }
   };
 */
-  
+
   const login = async (user) => {
     try {
       const response = await fetch('/login', {
@@ -42,6 +42,7 @@ const navigate = useNavigate()
         localStorage.setItem('token', token);
         setIsLoggedIn(true);
         setCurrentUser(user);
+        navigate("/private/home");
         console.log("userdata from login", user)
       } else {
         const { message } = await response.json();
@@ -56,7 +57,7 @@ const navigate = useNavigate()
     localStorage.removeItem("token");
     setIsLoggedIn(null);
     setCurrentUser({});
-    //nagivate("/")
+    navigate("/")
   };
 
   return {

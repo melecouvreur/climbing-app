@@ -18,12 +18,12 @@ let activeClassName = props.activeClassName
         <div className="flex-row">
        
         <div>
-        <NavLink to="home">
+        <NavLink to="private/home">
         <img
         className="nav-logo m-2" 
         src={logo}
         alt="logo"
-        onClick={() => navigate("/home")}/> 
+        onClick={() => navigate("private/home")}/> 
         </NavLink>
         </div>
       

@@ -4,7 +4,7 @@ import "../App.css"
 import NavOptionOne from "./NavOptionOne";
 import NavOptionTwo from "./NavOptionTwo";
 
-//re-usable component replicated across pages nested in PrivateRoute
+//re-usable component
 function Navbar() {
 
 let location = useLocation()

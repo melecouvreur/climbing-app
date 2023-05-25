@@ -200,32 +200,28 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     //navigate("/")
   },[]) 
   
-//need to sort out privateroute and conditional navbar
+//TO DO - Move navbar, ensure setup page is only rendered once
   return (
 
     <div className="main container-fluid text-center">
     
     <AuthContext.Provider value={auth}>
     <UserContext.Provider value={userObj}>
-    <NavBar/>
-    <Routes>
+     <NavBar/>
 
-   
+     <Routes>
       <Route path="/" element={<Splash/>} />
 
       <Route path="/private" element={<PrivateRoute/>}>
     
-      <Route path="home" element={<Home/>}/>
-  
-      <Route path="setup" element={<AccountSetUp/>} />
+        <Route path="home" element={<Home/>}/>
+        <Route path="setup" element={<AccountSetUp/>} />
+        <Route path="settings" element={<Settings/>}/>
+        <Route path="preferences" element={<Preferences/>}/>
+        <Route path="profile" element={<Profile/>}/>
+        <Route path="matches" element={<Matches/>}/>
 
-      <Route path="settings" element={<Settings/>}/>
-      <Route path="preferences" element={<Preferences/>}/>
-   
-      <Route path="profile" element={<Profile/>}/>
-      <Route path="matches" element={<Matches/>}/>
-
-      </Route>
+    </Route>
   
     </Routes>
 

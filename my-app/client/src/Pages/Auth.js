@@ -15,7 +15,7 @@ function Auth() {
 
  const [message, setMessage] = useState("");
 
- let {userId, navigate, getDBCert, getDBDays, getDBProfile, setPreferences, getRecommendations, credentials, setCredentials} = useContext(UserContext);
+ let {userId, navigate, credentials, setCredentials} = useContext(UserContext);
  const auth = useContext(AuthContext);
 
   //Toggles between login / register view & funct
@@ -49,7 +49,7 @@ function Auth() {
       //Sets registered status to true once successful & directs user to login
       changeRegistered()
       console.log(userId)
-      navigate("/")
+      navigate("/setup")
       }
      }
      catch (err) {
@@ -59,15 +59,18 @@ function Auth() {
 
   //Takes login as prop from hook.
   //change name as confusing
-  const login = async () => {
+
+  /*const login = async () => {
     try {
       await auth.login(credentials);
       console.log(auth.currentUser)
-      navigate("/home");
+      navigate("/private/home");
     } catch (err) {
       console.log(err.message);
     }
   };
+*/
+
   return (
     <div className="d-flex p-4 justify-content-center text-left">
       {!isRegistered ? 
@@ -140,7 +143,7 @@ function Auth() {
           type="password"
           className="form-control mb-3 p-2"
         />
-         <button className="pt-2 btn btn-primary mb-2 ml-2" onClick={login}>
+         <button className="pt-2 btn btn-primary mb-2 ml-2" onClick={() => auth.login(credentials)}>
           Log in
         </button>
         </div>

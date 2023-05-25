@@ -18,12 +18,12 @@ let activeClassName = props.activeClassName
         <div className="flex-row">
        
         <div>
-        <NavLink to="home">
+        <NavLink to="private/home">
         <img
         className="nav-logo m-2" 
         src={logo}
         alt="logo"
-        onClick={() => navigate("/home")}/> 
+        onClick={() => navigate("private/home")}/> 
         </NavLink>
         </div>
       
@@ -31,7 +31,7 @@ let activeClassName = props.activeClassName
         
         <div className="align-self-start">
            <NavLink 
-            to="settings"
+            to="private/settings"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }>
            <span className="nav-item material-symbols-outlined m-2 p-1 icon">
@@ -40,14 +40,14 @@ let activeClassName = props.activeClassName
     
         <div className="align-self-center">
             <NavLink 
-            to="preferences"
+            to="private/preferences"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }
             ><button
             className="text-white btn m-1">
             myPreferences</button></NavLink>
     
-            <NavLink to="profile"
+            <NavLink to="private/profile"
              className={({isActive}) => 
              isActive ? activeClassName : undefined }
              ><button
@@ -55,7 +55,7 @@ let activeClassName = props.activeClassName
             myProfile </button></NavLink>
     
            {/*Switches to different view AND fetches new recommendations*/}
-            <NavLink to="matches"
+            <NavLink to="private/matches"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }
             ><button
@@ -75,7 +75,7 @@ let activeClassName = props.activeClassName
     
            <div className="align-self-right">
             <NavLink 
-            to="home"
+            to="private/home"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }>
            <span className="material-symbols-outlined m-2 p-1 icon">
