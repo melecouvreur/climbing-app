@@ -1,5 +1,3 @@
-# Code-Op MVP
-
 ![This is an image](./my-app/client/src/images/logo.png)
 
 ## Project Description
@@ -49,12 +47,12 @@ You can find a live version of phase 1 [here](https://climbingapp.herokuapp.com/
 
 ### **Technologies**
 
-- React
-- Express
-- Node.js (v16.14.2)
-- Bootstrap
-- MySQL
-- RAPID API - IP Geo Location
+<div>
+<img src="https://user-images.githubusercontent.com/112541602/232573123-dff2da70-5fc5-4eab-8f55-7c68d8f39d43.svg" data-canonical-src="https://user-images.githubusercontent.com/112541602/232573123-dff2da70-5fc5-4eab-8f55-7c68d8f39d43.svg" width="100" height="100" />
+<img src="https://user-images.githubusercontent.com/112541602/232573207-ee03e4c9-8cce-4920-a836-7f623effe1e5.svg" data-canonical-src="https://user-images.githubusercontent.com/112541602/232573207-ee03e4c9-8cce-4920-a836-7f623effe1e5.svg" width="100" height="100" />
+<img src="https://user-images.githubusercontent.com/112541602/232573216-bb1b3fb5-a672-4294-b46b-fab6d355e690.svg" data-canonical-src="https://user-images.githubusercontent.com/112541602/232573216-bb1b3fb5-a672-4294-b46b-fab6d355e690.svg" width="100" height="100" />
+<img src="https://user-images.githubusercontent.com/112541602/232575770-ad11233c-5d12-4119-84c3-9c0eb7b6fb24.svg" data-canonical-src="https://user-images.githubusercontent.com/112541602/232575770-ad11233c-5d12-4119-84c3-9c0eb7b6fb24.svg" width="100" height="100" />
+</div> 
 
 ### Database Info
 
