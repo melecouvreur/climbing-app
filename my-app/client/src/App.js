@@ -4,7 +4,6 @@ import prefTemplate from "./Data/prefTemplate"
 import daysTemplate from "./Data/daysTemplate";
 import certTemplate from "./Data/certTemplate";
 import PrivateRoute from "./Components/PrivateRoute";
-import PrivateRouteNew from "./Components/PrivateRouteNew";
 import Home from "./Pages/Home"
 import Splash from "./Pages/Splash";
 import Settings from "./Components/Settings"
@@ -212,9 +211,9 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     <Routes>
 
    
-    <Route path="/" element={<Splash/>} />
+      <Route path="/" element={<Splash/>} />
 
-      <Route path="/private" element={<PrivateRouteNew> <NavBar/> </PrivateRouteNew> }/>
+      <Route path="/private" element={<PrivateRoute/>}>
     
       <Route path="home" element={<Home/>}/>
   
@@ -225,7 +224,8 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
    
       <Route path="profile" element={<Profile/>}/>
       <Route path="matches" element={<Matches/>}/>
-  
+
+      </Route>
   
     </Routes>
 

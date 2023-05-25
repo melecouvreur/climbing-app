@@ -63,7 +63,7 @@ function Auth() {
     try {
       await auth.login(credentials);
       console.log(auth.currentUser)
-      navigate("/private");
+      navigate("/home");
     } catch (err) {
       console.log(err.message);
     }
