@@ -10,10 +10,6 @@ Climbers struggle finding consistent belay partners.
 
 BelayMe connects climbers based on their level, location, gender and schedule.
 
-## **Userflow**
-
-![This is an image](/userflow.png)
-
 ### **Features Phase 1**
 
 - User can set-up/edit personal profile
@@ -103,9 +99,9 @@ cID INTEGER NOT NULL AUTO_INCREMENT,
 
 ### Database Prep
 
-- Access the MySQL interface in terminal by running `mysql -u root -p`
+- Access the MySQL interface in terminal by running `mysql -u root -p` and enter your password.
 - Create a new database called users: `create database users`
-- Add a `.env` file to the climbing-app folder of this repo containing MySQL authentication information:
+- Add a `.env` file to the `my-app` folder of this repo containing your MySQL authentication information:
 
 ```
   DB_HOST=localhost
