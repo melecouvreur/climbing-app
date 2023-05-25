@@ -23,13 +23,11 @@ router.get("/users", function(req, res, next) {
     .catch(err => res.status(500).send(err));
 });
 
-
 /*GET user by uID*/
 router.get("/profile", ensureUserLoggedIn, async function(req, res, next) {
   try {
-    let id = req.user_id
     let results = await db(
-      `SELECT * FROM users where uID = ${id} 
+      `SELECT * FROM users where uID = ${req.user.id} 
        ORDER BY uID ASC;`
     );
     res.status(200).send(results.data);
@@ -39,26 +37,8 @@ router.get("/profile", ensureUserLoggedIn, async function(req, res, next) {
   } 
 }); 
 
- 
-/*GET user by uID
-router.get("/profile/:id", async function(req, res, next) {
-  try {
-    let id = req.params.id
-    //let id = req.user_id
-    let results = await db(
-      `SELECT * FROM users where uID = ${id} 
-       ORDER BY uID ASC;`
-    );
-    res.status(200).send(results.data);
-    console.log(results.data)
-  } catch (err) {
-    res.status(500).send(err);
-  } 
-});    
-
 /*POST user info*/
 router.post("/profile", ensureUserLoggedIn, async function(req, res, next) {
-  //let id = req.params.id
   const {username, email, pronouns, avatar, bio, location, level, gender} = req.body
   try {
     await db(
@@ -77,9 +57,8 @@ router.post("/profile", ensureUserLoggedIn, async function(req, res, next) {
   }
 })
 
-/*EDIT user info*/
+/*PUT user info*/
 router.put("/profile", ensureUserLoggedIn, async function(req, res, next) {
-  //let id = req.params.id
   const {username, email, pronouns, avatar, bio, location, level, gender} = req.body
   try {
     await db(
@@ -122,10 +101,9 @@ router.post("/recommend", async function(req, res, next) {
             } 
           })
 
-/*GET days by uID*/
+/*GET days of user*/
 router.get("/days", ensureUserLoggedIn, async function(req, res, next) {
   try {
-    //let id = req.params.id
     let results = await db(
       `SELECT * FROM days where uID = ${req.user_id} 
        ORDER BY uID ASC;`
@@ -137,11 +115,9 @@ router.get("/days", ensureUserLoggedIn, async function(req, res, next) {
   } 
 });  
       
-/*POST climbing days of user*/
+/*POST days of user*/
 router.post("/days", ensureUserLoggedIn, async function(req, res, next) {
-  //let id = req.params.id
   const {days} = req.body
-  //let queryList = "('" + days.join("','") + "')"
   try {
     for (let d of days) {
     let name = d.name
@@ -158,9 +134,8 @@ router.post("/days", ensureUserLoggedIn, async function(req, res, next) {
   }
 })
 
-/*PUT climbing days for user*/
+/*PUT days of user*/
 router.put("/days", ensureUserLoggedIn, async function(req, res, next) {
-  //let id = req.params.id
   const {days} = req.body
   //let queryList = "('" + days.join("','") + "')"
   try {
@@ -180,29 +155,9 @@ router.put("/days", ensureUserLoggedIn, async function(req, res, next) {
   }
 })
 
-//remove later
-router.delete("/days/:id", async function(req, res, next) {
-  let id = req.params.id
-  const {daysToDelete} = req.body
-  //let queryList = "('" + days.join("','") + "')"
-  try {
-    for (let day of daysToDelete) {
-    await db(`DELETE from days WHERE uID = ${id} AND day = "${day}";`)
-    }
-    let results = await db(
-      `SELECT * FROM days;`
-    );
-    res.status(200).send(results.data);
-  } 
-  catch (err) {
-    res.status(500).send(err);
-  }
-})
-
-/*GET cert by uID*/
+/*GET cert of user*/
 router.get("/cert", ensureUserLoggedIn, async function(req, res, next) {
   try {
-    //let id = req.params.id
     let results = await db(
       `SELECT * FROM certifications where uID = ${req.user_id} 
        ORDER BY uID ASC;`
@@ -214,11 +169,9 @@ router.get("/cert", ensureUserLoggedIn, async function(req, res, next) {
   } 
 });  
       
-/*POST climbing cert of user*/
+/*POST cert of user*/
 router.post("/cert", ensureUserLoggedIn, async function(req, res, next) {
-  //let id = req.params.id
   const {certifications} = req.body
-  //let queryList = "('" + days.join("','") + "')"
   try {
     for (let c of certifications) {
     let type = c.name
@@ -235,11 +188,9 @@ router.post("/cert", ensureUserLoggedIn, async function(req, res, next) {
   }
 })
 
-/*PUT climbing cert for user*/
+/*PUT cert of user*/
 router.put("/cert", ensureUserLoggedIn, async function(req, res, next) {
-  //let id = req.params.id
   const {certifications} = req.body
-  //let queryList = "('" + days.join("','") + "')"
   try {
     for (let c of certifications) {
     let type = c.type
@@ -302,20 +253,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
-/*
-//Private route for logged in users only
-router.get("/private", ensureUserLoggedIn, (req, res) => {
-  let id = req.user_id
-  let username = req.user_name
-  res.status(200).send({
-  message: "here is your protected data", id, username})
-})
-*/
 
 /*********  PRIVATE ROUTE FOR LOGGED IN USERS ONLY *********/
 router.get("/private", ensureUserLoggedIn, async (req, res) => {
   try {
-    //select pet info for user with req.user_id that we got from token
+    //select info for user with req.user_id that we got from token
     const results = await db(
     `SELECT * FROM users WHERE uID = "${req.user_id}"`
     );
