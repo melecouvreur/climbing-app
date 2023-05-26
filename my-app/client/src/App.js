@@ -20,6 +20,7 @@ import { Routes, Route, useNavigate} from "react-router-dom";
 
 function App() {
 
+  //Sets and updates users table in DB & displayed in Profile Page
   const [profile, setProfile] = useState({
       username: "",
       email: "",
@@ -29,18 +30,25 @@ function App() {
       avatar: "",
       bio: "",
   })
-  const [days, setDays] = useState([])
+
   const [location, setLocation] = useState("London")
-  const [certifications, setCert] = useState([])
-  const [recommendations, setRecommendations] = useState([]) 
+
+  //Sets and updates days table
+  const [days, setDays] = useState([])
+
+  //Sets and updates days table
+  const [certifications, setCert] = useState([]) 
   const [isSelected, setSelected] = useState(false)
   
- //Sets user matching criteria. days, cert, gender and level in preferences can differ from cert, gender, level, days in Settings/Db
+ //Preferences sets user matching criteria. 
+ //Days, cert, gender and level in preferences can differ from cert, gender, level, days in Settings/users stored in DB
  //i.e. User can be level = intermediate, but choose to match with advanced. Idem gender, cert and days
  const [preferences, setPreferences] = useState(prefTemplate)
  const [daysOfWeek, setDaysOfWeek] = useState(daysTemplate)
  const [climbingCert, setClimbingCert] = useState(certTemplate)
 
+ //Holds info of recommended climbers displayed in Matches Page
+ const [recommendations, setRecommendations] = useState([])
 
  const navigate = useNavigate() 
 
@@ -187,7 +195,7 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     getRecommendations() //Makes sure myMatches is not empty when first loading. 
     //getLocation() // sets "active user" geolocation when first loading
     //navigate("/")
-  },[]) 
+  },[auth.isLoggedIn]) 
   
 //TO DO - Move navbar, ensure setup page is only rendered once
   return (
@@ -196,12 +204,16 @@ let genderNames = preferences.gender.filter((g) => g.selected == true).map((g) =
     
     <AuthContext.Provider value={auth}>
     <UserContext.Provider value={userObj}>
-     <NavBar/>
 
+    <NavBar/>
+   
      <Routes>
+
+     
       <Route path="/" element={<Splash/>} />
 
-      <Route path="/private" element={<PrivateRoute/>}>
+      <Route path="/private" element={<PrivateRoute>  </PrivateRoute>}>
+       
     
         <Route path="home" element={<Home/>}/>
         <Route path="setup" element={<AccountSetUp/>} />

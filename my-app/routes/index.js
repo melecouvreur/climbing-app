@@ -37,6 +37,8 @@ router.get("/profile", ensureUserLoggedIn, async function(req, res, next) {
   } 
 }); 
 
+/*********  USER PROFILE ROUTES *********/
+
 /*POST user info*/
 router.post("/profile", ensureUserLoggedIn, async function(req, res, next) {
   const {username, email, pronouns, avatar, bio, location, level, gender} = req.body
@@ -77,6 +79,8 @@ router.put("/profile", ensureUserLoggedIn, async function(req, res, next) {
   }
 })
 
+/********* RECOMMEND ROUTE  *********/
+
 /* POST/recommends users based on matching days & location*/
 // To do - add cert as filter. Didn't want to overcomplicate and have to add more fake users.
 router.post("/recommend", async function(req, res, next) {
@@ -100,6 +104,8 @@ router.post("/recommend", async function(req, res, next) {
               res.status(500).send(err); 
             } 
           })
+
+/*********  USER DAYS ROUTES *********/
 
 /*GET days of user*/
 router.get("/days", ensureUserLoggedIn, async function(req, res, next) {
@@ -155,6 +161,8 @@ router.put("/days", ensureUserLoggedIn, async function(req, res, next) {
   }
 })
 
+/*********  USER CERTIFICATION ROUTES *********/
+
 /*GET cert of user*/
 router.get("/cert", ensureUserLoggedIn, async function(req, res, next) {
   try {
@@ -207,6 +215,8 @@ router.put("/cert", ensureUserLoggedIn, async function(req, res, next) {
     res.status(500).send(err);
   }
 })
+
+/*********  USER AUTH ROUTES *********/
 
 /* POST username, password, email to register new user */
 router.post("/register", async (req, res) => {

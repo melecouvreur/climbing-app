@@ -1,8 +1,9 @@
 import {React, useState, useEffect} from "react";
 import { useLocation} from "react-router-dom";
 import "../App.css"
-import NavOptionOne from "./NavOptionOne";
-import NavOptionTwo from "./NavOptionTwo";
+import NavFullOption from "./NavFullOption";
+import NavSetUpOption from "./NavSetUpOption";
+import NavAuthOption from "./NavAuthOption";
 
 //re-usable component
 function Navbar() {
@@ -10,12 +11,16 @@ function Navbar() {
 let location = useLocation()
 const [navBar, setNavBar] = useState()
 
+
 useEffect(() => {
-    if (location.pathname === "/setup") {
-      setNavBar(<NavOptionTwo/>);
+    if (location.pathname === "/") {
+        setNavBar(<NavAuthOption/>);
+    }
+    else if (location.pathname === "/private/setup") {
+      setNavBar(<NavSetUpOption/>);
     }
     else {
-      setNavBar(<NavOptionOne/>);
+      setNavBar(<NavFullOption/>);
     }
   }, [location.pathname]);
 

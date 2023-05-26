@@ -40,7 +40,7 @@ let activeClassName = props.activeClassName
     
            <div className="align-self-right">
             <NavLink 
-            to="home"
+            to="private/home"
             className={({isActive}) => 
             isActive ? activeClassName : undefined }>
            <span className="material-symbols-outlined m-2 p-1 icon">
